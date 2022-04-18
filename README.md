@@ -20,23 +20,24 @@ to take this incrementally and report certain progress points. The plan:
 
 - [ ] Android MQTT client. Optional: Android MQTT clients and cloud brokers' free plans come and go.
 
-- [ ] A double router setup.
-
 - [x] Resilience/robustness w.r.t. a lost Wifi connection.
 
-- [ ] Resilience/robustness w.r.t. a lost/restarting broker. Optional: mosquitto runs locally and is fairly robust.
+- [ ] Resilience/robustness w.r.t. a lost/restarting broker. Optional: mosquitto runs within LAN and is under control.
 
-- [ ] Coding the actual application. An example **mqtt_dht_sync_prod** shows broadcasting temperature and humidity with LED control, for now.
+- [ ] Coding the final application. An example **mqtt_dht_sync_prod** shows broadcasting temperature and humidity with LED control, for now.
 
 
 ## Some Photos
 
-![gThumb01](./images/esp32-ssd1306-dht22-front.jpg "ESP32 on a custom board: Front")
+![gThumb01](./images/esp32-ssd1306-dht22-front.jpg "ESP32 on a custom board: Front.")
 
-![gThumb02](./images/esp32-ssd1306-dht22-back.jpg "ESP32 on a custom board: Back")
+![gThumb02](./images/esp32-ssd1306-dht22-back.jpg "ESP32 on a custom board: Back.")
 
-![gThumb03](./images/esp32-ssd1306-dht22-gq.jpg "ESP32 in action")
+![gThumb03](./images/esp32-ssd1306-dht22-gq.jpg "ESP32 in action.")
 
+![gThumb03](./images/esp32-soil.jpg "ESP32 with the Soil Moisture Sensor.")
+
+The last one indicates the latest (April 2022) addition of the capacitive soil moisture sensor.
 
 The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it is an inexpensive (sub 10-20$) board with an ambition to perform networking. At this point in time (2022), the board's RAM is still too tiny (we are left with tens of kilobytes after MicroPython and a few basic libs), and the recovery from the lost connection is still an ongoing research, but the device is already quite usable.
 
@@ -44,7 +45,7 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
 
 - [esp32-30pin] (the 30-pin variant of DOIT DEVIT V1 ESP32-WROOM-32, not 36).
 
-- The DHT22 sensor whose data pin is connected to GPIO14.
+- DHT22 is connected to GPIO14.
 
 - LED is connected to GPIO1.
 
@@ -57,9 +58,11 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
         i2c = machine.SoftI2C(scl=pscl, sda=psda)
   ```
 
+- Capacitive Soil Moisture Sensor v1.2 is pinned to GPIO36.
+
 ## Results So Far
 
-- **minihinch**. Experiments with the dht22 sensor and SSD1306 display, adapting the codes by Peter Hinch. Both tests, sync and async work fine. 
+- **minihinch**. Experiments with DHT22 and SSD1306, adapting the codes by Peter Hinch. Both tests, sync and async work fine. 
   Networking works only half-way: The device sends the temperature and humidity data to the broker, but I am not able to set the LED value on 
   the ESP32 board remotely from the mosquitto client. Something is not right with the receiving message callback async stack, my code or the specific nightly 
   bin release I used to test the codes. Async also screws up printing in the repl, abandoning this for now. 
@@ -72,9 +75,9 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
 
 - **minisantos_prod**. Same as **minisantos_test**, except that the device reconnects after a lost connection (tested it).
 
-- **mqtt_dht_sync_test**. Same as **minisantos_test**, except that the device also measures the temperature and humidity values and sends it to the MQTT broker.
+- **mqtt_dht_sync_test**. Same as **minisantos_test**, except that the device also measures the temperature and humidity values and sends them to the MQTT broker.
 
-- **mqtt_dht_sync_prod**. Same as **minisantos_prod**, except that the device also measures the temperature and humidity values and sends it to the MQTT broker.
+- **mqtt_dht_sync_prod**. Same as **minisantos_prod**, except that the device also measures the temperature and humidity values and sends them to the MQTT broker.
 
 
 ## MicroPython
@@ -221,7 +224,7 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
   done
   ```
 
-The async codes use artificial delays of up to 20s to react robustly to the broker's messages.
+The async codes use artificial delays up to 20s to react robustly to the broker's messages.
 
 
 ## SSD1306 Display 
@@ -243,9 +246,9 @@ psda = machine.Pin(21, machine.Pin.OPEN_DRAIN)
 
 ## Some Observations, Problems
 
-- An impressive chip and open source community, but still a long way towards reliability and convenience.
+- An impressive chip with convenient MicroPython interpreter, but still a long way towards reliability.
 
-- MicroPython vs something static: I would go for static if I had a choice, but not Arduino/C++. They are all equally useless in the presence of the hardware 
+- MicroPython vs something static: I would go for static if I had a choice, but not Arduino/C++. Neither detects hardware 
  and communication errors. One may need to study additional networking tools.
 
 - Consider an example: The DHT sensor is detached from the chip's pin. Executing the line "dht_sensor.measure()" or "dht_sensor.start()" 
@@ -277,7 +280,7 @@ psda = machine.Pin(21, machine.Pin.OPEN_DRAIN)
   insufficient RAM: "MemoryError: memory allocation failed, allocating 6632 bytes" (breaks at "#import gui.fonts.arial35 as arial35").
 
 - Despite all the amazing work by Peter Hinch, I do not recommend using displays with ESP32 and the async codes. GUIs and ESP32 do not go hand in hand really: 
-  Refresh issues, limited RAM... MQTT/repl is sufficient to read any complex information. Keep the device at "low level", use it just to build 
+  Refresh issues, limited RAM... Busted/tricky async REPL printing. MQTT/repl is sufficient to read any complex information. Keep the device at "low level", use it just to build 
   the control and read/broadcast sensor measurements. Bail out to the PC space for everything else.
 
 - Reconnection after losing Wifi seems to work (!), but more testing needs to be done w.r.t. very long runs (days and months).
