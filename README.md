@@ -24,7 +24,7 @@ to take this incrementally and report certain progress points. The plan:
 
 - [ ] Resilience/robustness w.r.t. a lost/restarting broker. Optional: mosquitto runs within LAN and is under control.
 
-- [ ] Coding the final application. An example **mqtt_dht_sync_prod** shows broadcasting temperature and humidity with LED control, for now.
+- [ ] Coding the final application. An example **mqtt_dht_sync_prod** shows broadcasting temperature and air humidity with LED control, for now.
 
 
 ## Some Photos
@@ -37,7 +37,7 @@ to take this incrementally and report certain progress points. The plan:
 
 ![gThumb03](./images/esp32-soil.jpg "ESP32 with the Soil Moisture Sensor.")
 
-The last one indicates the latest (April 2022) addition of the capacitive soil moisture sensor.
+The last one indicates the latest (April 22, 2022) addition of Capacitive Soil Moisture Sensor v1.2.
 
 The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it is an inexpensive (sub 10-20$) board with an ambition to perform networking. At this point in time (2022), the board's RAM is still too tiny (we are left with tens of kilobytes after MicroPython and a few basic libs), and the recovery from the lost connection is still an ongoing research, but the device is already quite usable.
 
@@ -284,6 +284,10 @@ psda = machine.Pin(21, machine.Pin.OPEN_DRAIN)
   the control and read/broadcast sensor measurements. Bail out to the PC space for everything else.
 
 - Reconnection after losing Wifi seems to work (!), but more testing needs to be done w.r.t. very long runs (days and months).
+
+- Capacitive Soil Moisture Sensor v1.2 works, but is not that great. The voltage/ADC value range between the dry and wet soil is too small compared to the noise.
+  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. Saulius Rakauskas, 
+  the project leader and the man responsible for the hardware, has decided to make his own resistance-based soil moisture sensor based on _gypsum_. **I will add more information when it becomes available.** 
 
 - My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos.
 
