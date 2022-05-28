@@ -16,15 +16,13 @@ to take this incrementally and report certain progress points. The plan:
 
 - [x] DOIT DEVIT V1 ESP32-WROOM-32 with some extras (DHT22, SSD1306). 
 
-- [x] MQTT server/broker, (mosquitto on Ubuntu, with Remmina if needed).
+- [x] MQTT server/broker, (mosquitto on Ubuntu, with Remmina for remote control).
 
 - [ ] Android MQTT client. Optional: Android MQTT clients and cloud brokers' free plans come and go.
 
-- [x] Resilience/robustness w.r.t. a lost Wifi connection.
+- [x] Resilience/robustness w.r.t. a lost Wi-Fi connection.
 
-- [ ] Resilience/robustness w.r.t. a lost/restarting broker. Optional: mosquitto runs within LAN and is under control.
-
-- [ ] Coding the final application. An example **mqtt_dht_sync_prod** shows broadcasting temperature and air humidity with LED control, for now.
+- [ ] Coding a final application. An example **mqtt_dht_sync_prod** shows broadcasting temperature, air humidity and soil humidity with LED control, for now.
 
 
 ## Some Photos
@@ -33,11 +31,6 @@ to take this incrementally and report certain progress points. The plan:
 
 ![gThumb02](./images/esp32-ssd1306-dht22-back.jpg "ESP32 on a custom board: Back.")
 
-![gThumb03](./images/esp32-ssd1306-dht22-gq.jpg "ESP32 in action.")
-
-![gThumb03](./images/esp32-soil.jpg "ESP32 with the Soil Moisture Sensor.")
-
-The last one indicates the latest (April 22, 2022) addition of Capacitive Soil Moisture Sensor v1.2.
 
 The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it is an inexpensive (sub 10-20$) board with an ambition to perform networking. At this point in time (2022), the board's RAM is still too tiny (we are left with tens of kilobytes after MicroPython and a few basic libs), and the recovery from the lost connection is still an ongoing research, but the device is already quite usable.
 
@@ -69,15 +62,15 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
   This code might be useful for connecting the monitor SSD1306 and doing simple async stuff without interrupts which is kind of amazing, but 
   I do not recommend this path due to a tiny RAM.
 
-- **minisantos_test**. This code is adapted from [the github repo by Rui Santos][micropython-Rui-Santos], and with it I am able to control the LED on ESP32 remotely 
-  via MQTT. This proves that the network configuration parameters are correctly set. The sync/blocking way is fine, after a lost Wifi the device reboots 
+- **minisantos_test**. This code is adapted from [the github repo by Rui Santos][micropython-Rui-Santos], and with it I am able to control LED on ESP32 remotely 
+  via MQTT. This proves that the network configuration parameters are correctly set. The sync/blocking way is fine, after a lost Wifi the device stops operating and just reboots 
   into the repl (no continuous operation with reconnection, just testing everything else).
 
 - **minisantos_prod**. Same as **minisantos_test**, except that the device reconnects after a lost connection (tested it).
 
-- **mqtt_dht_sync_test**. Same as **minisantos_test**, except that the device also measures the temperature and humidity values and sends them to the MQTT broker.
+- **mqtt_dht_sync_test**. Same as **minisantos_test**, except that the device also sends the sensor values to the MQTT broker.
 
-- **mqtt_dht_sync_prod**. Same as **minisantos_prod**, except that the device also measures the temperature and humidity values and sends them to the MQTT broker.
+- **mqtt_dht_sync_prod**. Same as **minisantos_prod**, except that the device also sends the sensor values to the MQTT broker..
 
 
 ## MicroPython
@@ -126,8 +119,6 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
   ```console
   cd mqtt_dht_sync_prod
   rshell --buffer-size=30 -p /dev/ttyUSB0 -a
-  boards
-  ls /pyboard
   cp boot.py /pyboard
   cp main.py /pyboard
   cp umqttsimple.py /pyboard
@@ -145,7 +136,7 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
     ifconfig -a | grep inet
     ```
 
-    The hostname/ifconfig command will provide the local MQTT broker IP address such as '192.168.1.107' which will have to be entered in the MicroPython 
+    The hostname/ifconfig command will provide the local MQTT broker IP address assigned by the router, such as '192.168.1.107' which will have to be entered in the MicroPython 
     files manually/explicitly. 
 
 2. Open the first terminal window, upload and run the MicroPython program either in the test or production mode, as described above.
@@ -224,7 +215,7 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
   done
   ```
 
-The async codes use artificial delays up to 20s to react robustly to the broker's messages.
+The async codes use artificial delays up to 20s to react robustly to the broker's messages, in theory.
 
 
 ## SSD1306 Display 
@@ -285,13 +276,12 @@ psda = machine.Pin(21, machine.Pin.OPEN_DRAIN)
 
 - Reconnection after losing Wifi seems to work (!), but more testing needs to be done w.r.t. very long runs (days and months).
 
-- Capacitive Soil Moisture Sensor v1.2 works, but is not that great. The voltage/ADC value range between the dry and wet soil is too small compared to the noise.
-  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. Saulius Rakauskas, 
-  the project leader and the man responsible for the hardware, has decided to make his own resistance-based soil moisture sensor based on _gypsum_. **I will add more information when it becomes available.** 
+- Capacitive Soil Moisture Sensor v1.2 works, but is not that great. The voltage/ADC value range between the dry and wet soil is too small compared to the measurement noise.
+  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. Most likely the best way is to make your own electrical resistance-based soil moisture sensor by sticking wires to a cylinder of a liquid _gypsum_ and then drying it into a solid state. **I will add more information when and if it becomes available.** 
 
 - My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos.
 
-- TBC?!
+- TBC...
 
 
 ## References

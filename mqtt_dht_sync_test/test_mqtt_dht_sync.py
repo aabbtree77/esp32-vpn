@@ -9,8 +9,8 @@ import micropython
 import network
 import dht
 
-ssid = 'wifi name'
-password = 'wifi password'
+ssid = 'your wifi name'
+password = 'your wifi password'
 mqtt_server = '192.168.1.107'
 
 client_id = ubinascii.hexlify(machine.unique_id())

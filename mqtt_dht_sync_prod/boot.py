@@ -10,6 +10,7 @@ import micropython
 import network
 import dht
 
+
 ssid = 'your wifi name'
 password = 'your wifi password'
 mqtt_server = '192.168.1.107'
@@ -35,3 +36,7 @@ print(station.ifconfig())
 
 led = machine.Pin(1, machine.Pin.OUT, value=0)
 sensor = dht.DHT22(machine.Pin(14))
+
+soil = machine.ADC(machine.Pin(36))
+soil.atten(machine.ADC.ATTN_11DB) #Full range: 3.3v
+soil.width(machine.ADC.WIDTH_10BIT)

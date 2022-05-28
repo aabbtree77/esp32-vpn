@@ -2,7 +2,7 @@
 # https://github.com/RuiSantosdotme/ESP-MicroPython/tree/master/code/MQTT/Node_RED_Client
 
 
-def read_sensor():
+def read_DHT():
   temp = 1.0
   hum = 0.1
 
@@ -14,8 +14,8 @@ def read_sensor():
     temp = 99.0
     hum = 88.0
   
-  msg = b't={0:3.1f}C, h={1:3.1f}%.'.format(temp, hum)
-  return msg
+  return (temp, hum)
+
 
 
 def sub_cb(topic, msg):
@@ -50,7 +50,10 @@ while True:
   try:
     client.check_msg()
     if (time.time() - last_sensor_reading) > readings_interval:
-      msg = read_sensor()
+      temp, hum = read_DHT()
+      soil_ADC = soil.read()
+      
+      msg = b't={0:3.1f}C, h={1:3.1f}%, soil={2:4d}.'.format(temp, hum, soil_ADC)
       client.publish(topic_pub, msg)
       last_sensor_reading = time.time()
   except OSError as e:
