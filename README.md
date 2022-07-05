@@ -169,52 +169,52 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
 
 4. Open the third terminal window. Start another MQTT client to read what MicroPython broadcasts:
   
-  ```console
-  mosquitto_sub -d -h 192.168.1.107 -t "testincr"
-  Client mosq-Cza6hBSrWKTRDzhk1k sending CONNECT
-  Client mosq-Cza6hBSrWKTRDzhk1k received CONNACK (0)
-  Client mosq-Cza6hBSrWKTRDzhk1k sending SUBSCRIBE (Mid: 1, Topic: testincr, QoS: 0, Options: 0x00)
-  Client mosq-Cza6hBSrWKTRDzhk1k received SUBACK
-  Subscribed (mid: 1): 0
-  Client mosq-Cza6hBSrWKTRDzhk1k received PUBLISH (d0, q0, r0, m0, 'testincr', ... (17 bytes))
-  t=24.1C, h=26.5%.
-  Client mosq-Cza6hBSrWKTRDzhk1k received PUBLISH (d0, q0, r0, m0, 'testincr', ... (17 bytes))
-  t=24.2C, h=26.3%.
-  ...
-  ```
+    ```console
+    mosquitto_sub -d -h 192.168.1.107 -t "testincr"
+    Client mosq-Cza6hBSrWKTRDzhk1k sending CONNECT
+    Client mosq-Cza6hBSrWKTRDzhk1k received CONNACK (0)
+    Client mosq-Cza6hBSrWKTRDzhk1k sending SUBSCRIBE (Mid: 1, Topic: testincr, QoS: 0, Options: 0x00)
+    Client mosq-Cza6hBSrWKTRDzhk1k received SUBACK
+    Subscribed (mid: 1): 0
+    Client mosq-Cza6hBSrWKTRDzhk1k received PUBLISH (d0, q0, r0, m0, 'testincr', ... (17 bytes))
+    t=24.1C, h=26.5%.
+    Client mosq-Cza6hBSrWKTRDzhk1k received PUBLISH (d0, q0, r0, m0, 'testincr', ... (17 bytes))
+    t=24.2C, h=26.3%.
+    ...
+    ```
 
 5. Open the fourth terminal window. Publish the messages "on" or "off" to control the LED output:
 
-  ```console
-  mosquitto_pub -d -h 192.168.1.107 -t "output" -m "on" -q 1
-  Client mosq-o4Gn8fPBXKQnpGnixQ sending CONNECT
-  Client mosq-o4Gn8fPBXKQnpGnixQ received CONNACK (0)
-  Client mosq-o4Gn8fPBXKQnpGnixQ sending PUBLISH (d0, q1, r0, m1, 'output', ... (2 bytes))
-  Client mosq-o4Gn8fPBXKQnpGnixQ received PUBACK (Mid: 1, RC:0)
-  Client mosq-o4Gn8fPBXKQnpGnixQ sending DISCONNECT
-  mosquitto_pub -d -h 192.168.1.107 -t "output" -m "off" -q 1
-  Client mosq-sq8ZSnZedHg5RMTieT sending CONNECT
-  Client mosq-sq8ZSnZedHg5RMTieT received CONNACK (0)
-  Client mosq-sq8ZSnZedHg5RMTieT sending PUBLISH (d0, q1, r0, m1, 'output', ... (3 bytes))
-  Client mosq-sq8ZSnZedHg5RMTieT received PUBACK (Mid: 1, RC:0)
-  Client mosq-sq8ZSnZedHg5RMTieT sending DISCONNECT
+    ```console
+    mosquitto_pub -d -h 192.168.1.107 -t "output" -m "on" -q 1
+    Client mosq-o4Gn8fPBXKQnpGnixQ sending CONNECT
+    Client mosq-o4Gn8fPBXKQnpGnixQ received CONNACK (0)
+    Client mosq-o4Gn8fPBXKQnpGnixQ sending PUBLISH (d0, q1, r0, m1, 'output', ... (2 bytes))
+    Client mosq-o4Gn8fPBXKQnpGnixQ received PUBACK (Mid: 1, RC:0)
+    Client mosq-o4Gn8fPBXKQnpGnixQ sending DISCONNECT
+    mosquitto_pub -d -h 192.168.1.107 -t "output" -m "off" -q 1
+    Client mosq-sq8ZSnZedHg5RMTieT sending CONNECT
+    Client mosq-sq8ZSnZedHg5RMTieT received CONNACK (0)
+    Client mosq-sq8ZSnZedHg5RMTieT sending PUBLISH (d0, q1, r0, m1, 'output', ... (3 bytes))
+    Client mosq-sq8ZSnZedHg5RMTieT received PUBACK (Mid: 1, RC:0)
+    Client mosq-sq8ZSnZedHg5RMTieT sending DISCONNECT
 
-  ```
+    ```
 
-  In order to broadcast periodically, one can run this modified Peter Hinch's bash file
+    In order to broadcast periodically, one can run this modified Peter Hinch's bash file
 
-  ```console
-  #! /bin/bash
-  while :
-  do
-      mosquitto_pub -d -h 192.168.1.107 -t "output" -m "on" -q 1
-      sleep 30
-      mosquitto_pub -d -h 192.168.1.107 -t "output" -m "off" -q 1
-      sleep 30
-  done
-  ```
+    ```console
+    #! /bin/bash
+    while :
+    do
+        mosquitto_pub -d -h 192.168.1.107 -t "output" -m "on" -q 1
+        sleep 30
+        mosquitto_pub -d -h 192.168.1.107 -t "output" -m "off" -q 1
+        sleep 30
+    done
+    ```
 
-The async codes use artificial delays up to 20s to react robustly to the broker's messages, in theory.
+    The async codes use artificial delays up to 20s to react robustly to the broker's messages, in theory.
 
 
 ## SSD1306 Display 
