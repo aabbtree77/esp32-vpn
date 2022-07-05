@@ -18,7 +18,7 @@ to take this incrementally and report certain progress points. The plan:
 
 - [x] MQTT server/broker, (mosquitto on Ubuntu, with Remmina for remote control).
 
-- [ ] Android MQTT client. Optional: Android MQTT clients and cloud brokers' free plans come and go.
+- [ ] Android MQTT client. Optional: Android apps and the 3rd party cloud broker free plans come and go.
 
 - [x] Resilience/robustness w.r.t. a lost Wi-Fi connection.
 
@@ -95,7 +95,7 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
   ```console
   esptool.py --port /dev/ttyUSB0 flash_id
   esptool.py --port /dev/ttyUSB0 erase_flash
-  esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x1000 esp32-ota-20220117-v1.18.bin
+  esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x1000 esp32-ota-20220618-v1.19.1.bin
   ```
 
 - Testing workflow:
@@ -141,19 +141,18 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
 
 2. Open the first terminal window, upload and run the MicroPython program either in the test or production mode, as described above.
 
-3. Open the second one, start the MQTT Broker/Server
+3. Open the second terminal window for the mosquitto broker (MQTT server). To keep things simple lets ignore security for now. 
+   Since mosquitto version 2.0, one needs to create a custom config file and place it somewhere, say at /home/sara/esp32/custom_mosquitto.conf, with this minimal content:
+
+   ```console
+   listener 1883
+   allow_anonymous true
+   ```
+  
+   Then start the MQTT broker:
 
     ```console
-    mosquitto
-    [26443.515169]~DLT~13894~INFO     ~FIFO /tmp/dlt cannot be opened. Retrying later...
-    1647721031: mosquitto version 1.6.9 starting
-    1647721031: Using default config.
-    1647721031: Opening ipv4 listen socket on port 1883.
-    1647721031: Opening ipv6 listen socket on port 1883.
-    1647721044: New connection from 192.168.1.107 on port 1883.
-    1647721044: New client connected from 192.168.1.107 as mosq-Cza6hBSrWKTRDzhk1k (p2, c1, k60).
-    1647721078: New connection from 192.168.1.100 on port 1883.
-
+    mosquitto -c /home/sara/esp32/custom_mosquitto.conf
     ```
 
     If you get "Error: Address already in use" that means Ubuntu is already running its own MQTT broker process. Kill it via 
@@ -165,7 +164,7 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
     
     Here "12345" is the mosquitto process ID shown by the ps command.
 
-    The last line indicates the connected MicroPython MQTT client which gets a local IP address such as 192.168.1.100, 
+    You should get the console message indicating the connected MicroPython MQTT client with its local IP address such as 192.168.1.100, 
     the latter may change with each device reboot.
 
 4. Open the third terminal window. Start another MQTT client to read what MicroPython broadcasts:
@@ -274,10 +273,12 @@ psda = machine.Pin(21, machine.Pin.OPEN_DRAIN)
   Refresh issues, limited RAM... Busted/tricky async REPL printing. MQTT/repl is sufficient to read any complex information. Keep the device at "low level", use it just to build 
   the control and read/broadcast sensor measurements. Bail out to the PC space for everything else.
 
-- Reconnection after losing Wifi seems to work (!), but more testing needs to be done w.r.t. very long runs (days and months).
+- Reconnection after losing Wi-Fi seems to work (!), but more testing needs to be done w.r.t. very long runs (days and months).
+
+- The Mosquitto broker may need a richer security configuration, but for now it runs in a WLAN, while the remote access will be done via ssh or Remmina with its own security. One needs to keep track of the Mosquitto version change if Ubuntu gets updated. Before the summer 2022 versions 1.9.x did not require any configuration and just running "mosquitto" command would be sufficient to start the broker, now since v2.0.x one needs a minimal configuration as described above.
 
 - Capacitive Soil Moisture Sensor v1.2 works, but is not that great. The voltage/ADC value range between the dry and wet soil is too small compared to the measurement noise.
-  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. Most likely the best way is to make your own electrical resistance-based soil moisture sensor by sticking wires to a cylinder of a liquid _gypsum_ and then drying it into a solid state. **I will add more information when and if it becomes available.** 
+  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. Most likely the best way is to make your own electrical resistance-based soil moisture sensor by sticking wires to a paper cylinder of a liquid _gypsum_ and then drying it into a solid state. **I will add more information when and if it becomes available.** 
 
 - My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos.
 
