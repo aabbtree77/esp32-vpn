@@ -18,14 +18,17 @@ to take this incrementally and report certain progress points. The plan:
 
 - [x] MQTT server/broker, (mosquitto on Ubuntu within Wi-Fi).
 
-- [ ] Remote desktop control, e.g. Remmina.
+- [ ] Remote desktop control, e.g. ~~Remmina~~. Does not work with certain ISPs, need a free hole punching solution but that demands an external server.
 
-- [ ] Android MQTT client. Optional: Android apps and the 3rd party cloud broker free plans come and go.
+- [ ] Android MQTT client. Optional, the app called MQTT Dash seems to be alright/long living.
+
+- [ ] External/nonlocal/3rd party cloud broker. This is quite a hassle, free plans come and go.
 
 - [x] Resilience/robustness w.r.t. a lost Wi-Fi connection.
 
-- [ ] Coding a final application. An example **mqtt_dht_sync_prod** shows broadcasting temperature, air humidity and soil humidity with LED control, for now.
+- [x] Coding a minimal application. An example **mqtt_dht_sync_prod** shows broadcasting temperature, air humidity and soil humidity with LED control, for now.
 
+The main conclusion so far: Drop this entirely in favour of the ESP RainMaker cloud for global connectivity, leave it as it is for building local wireless ESP networks. Focus on open source hole punching for the sake of learning something new and interesting.
 
 ## Some Photos
 
@@ -300,7 +303,7 @@ Perhaps the best way is to rely on the ESP RainMaker cloud which solves most of 
 - The Mosquitto broker may need a richer security configuration, but for now it runs locally. One needs to keep track of the Mosquitto version change if Ubuntu gets updated. Before the summer 2022 versions 1.9.x did not require any configuration and just running "mosquitto" command would be sufficient to start the broker, now since v2.0.x one needs a minimal configuration as described above.
 
 - Capacitive Soil Moisture Sensor v1.2 works, but is not that great. The voltage/ADC value range between the dry and wet soil is too small compared to the measurement noise.
-  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. ~~Most likely the best way is to make your own electrical resistance-based soil moisture sensor by sticking wires to a paper cylinder of a liquid _gypsum_ and then drying it into a solid state. ~~A cheap construction-site gypsum does not change its electrical resistivity w.r.t. an increasing moisture.~~ 
+  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. ~~It is better to make your own electrical resistance-based soil moisture sensor by sticking wires to a paper cylinder of a liquid _gypsum_ and then drying it into a solid state.~~ A cheap construction-site gypsum does not change its electrical resistivity w.r.t. an increasing soil moisture.
 
 - Connecting any board/PC/LAN globally seems to be nearly impossible without an additional external (3rd party) server that does a hole punching. What a pity that we cannot simply send a UDP packet to a MAC address and instead have to deal with so many layers of complexity.
 
