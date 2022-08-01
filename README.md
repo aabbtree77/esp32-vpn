@@ -16,7 +16,9 @@ to take this incrementally and report certain progress points. The plan:
 
 - [x] DOIT DEVIT V1 ESP32-WROOM-32 with some extras (DHT22, SSD1306). 
 
-- [x] MQTT server/broker, (mosquitto on Ubuntu, with Remmina for remote control).
+- [x] MQTT server/broker, (mosquitto on Ubuntu within Wi-Fi).
+
+- [ ] Remote desktop control, e.g. Remmina.
 
 - [ ] Android MQTT client. Optional: Android apps and the 3rd party cloud broker free plans come and go.
 
@@ -93,9 +95,9 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
 - Flashing/reflashing [MicroPython firmware][MicroPython firmware] (anew or after messing up **boot.py** and **main.py**):
 
   ```console
-  esptool.py --port /dev/ttyUSB0 flash_id
-  esptool.py --port /dev/ttyUSB0 erase_flash
-  esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x1000 esp32-ota-20220618-v1.19.1.bin
+  sudo esptool.py --port /dev/ttyUSB0 flash_id
+  sudo esptool.py --port /dev/ttyUSB0 erase_flash
+  sudo esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x1000 esp32-ota-20220618-v1.19.1.bin
   ```
 
 - Testing workflow:
@@ -233,6 +235,26 @@ pscl = machine.Pin(22, machine.Pin.OPEN_DRAIN)
 psda = machine.Pin(21, machine.Pin.OPEN_DRAIN)
 ```
 
+## Remote Desktop Control
+
+There are two types of remote desktop software (RDS): (i) those that rely on port forwarding and don't need any external "rendezvous server", and (ii) those that do hole 
+punching. Remmina is of the first type and it does not get through every network. The problem is that certain wireless ISPs may put one behind their NAT in such a way that no port forwarding is possible, which can always be checked by using
+
+[SO](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network)
+
+[www.yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/)
+
+[canyouseeme.org](https://canyouseeme.org/)
+
+Hole punching solves the problem, but demands another external server or the 3rd party service. An interesting option is [rustdesk](https://github.com/rustdesk/rustdesk) which automates everything for free, for now. Practice shows that such free 3rd party solutions are only good for testing as they do not stay free eventually.
+
+There is also the exotic 3rd option that does UDP hole punching with the ICMP packets, i.e. the [pwnat](https://samy.pl/pwnat/) utility. It succeeds only with a certain probability and is totally unsuitable for continuous operations.
+
+Yet another way is to rely on the 3rd party MQTT broker. CloudMQTT has removed its only free plan. HiveMQ allows a free setup, but I am getting "Server closed connection without DISCONNECT" already in their test phase when switching a computer yet using the same credentials from their CLI interface. Such solutions seem to be good for big commercial apps that would build their setups with at least some consultancy via email or phone.
+
+It seems the most solid way is to set up hole punching with one's own server via e.g. [rustdesk](https://github.com/rustdesk/rustdesk), but this is quite a layer to study and adopt.
+
+Perhaps the best way is to rely on the ESP RainMaker cloud which solves most of the problems of connecting ESP32 chips globally, for free, for now. The problem is that this is again a 3rd party solution with a still evolving C++ API which is a lot more complex than MicroPython. 
 
 ## Some Observations, Problems
 
@@ -275,14 +297,16 @@ psda = machine.Pin(21, machine.Pin.OPEN_DRAIN)
 
 - Reconnection after losing Wi-Fi seems to work (!), but more testing needs to be done w.r.t. very long runs (days and months).
 
-- The Mosquitto broker may need a richer security configuration, but for now it runs in a WLAN, while the remote access will be done via ssh or Remmina with its own security. One needs to keep track of the Mosquitto version change if Ubuntu gets updated. Before the summer 2022 versions 1.9.x did not require any configuration and just running "mosquitto" command would be sufficient to start the broker, now since v2.0.x one needs a minimal configuration as described above.
+- The Mosquitto broker may need a richer security configuration, but for now it runs locally. One needs to keep track of the Mosquitto version change if Ubuntu gets updated. Before the summer 2022 versions 1.9.x did not require any configuration and just running "mosquitto" command would be sufficient to start the broker, now since v2.0.x one needs a minimal configuration as described above.
 
 - Capacitive Soil Moisture Sensor v1.2 works, but is not that great. The voltage/ADC value range between the dry and wet soil is too small compared to the measurement noise.
-  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. Most likely the best way is to make your own electrical resistance-based soil moisture sensor by sticking wires to a paper cylinder of a liquid _gypsum_ and then drying it into a solid state. **I will add more information when and if it becomes available.** 
+  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. ~~Most likely the best way is to make your own electrical resistance-based soil moisture sensor by sticking wires to a paper cylinder of a liquid _gypsum_ and then drying it into a solid state. ~~A cheap construction-site gypsum does not change its electrical resistivity w.r.t. an increasing moisture.~~ 
+
+- Connecting any board/PC/LAN globally seems to be nearly impossible without an additional external (3rd party) server that does a hole punching. What a pity that we cannot simply send a UDP packet to a MAC address and instead have to deal with so many layers of complexity.
 
 - My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos.
 
-- TBC...
+- Ditch this whole idea in favour of the ESP Rainmaker cloud? TBC...
 
 
 ## References
