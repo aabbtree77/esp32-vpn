@@ -255,7 +255,7 @@ Yet another way is to rely on a 3rd party MQTT broker. CloudMQTT has removed its
 
 Perhaps it is best to rely on the ESP RainMaker cloud which solves most of the problems of connecting ESP32 chips globally, for free, for now. The problem here is a heavy dependence on the cloud built by Espressif Systems, with a still evolving C++ API. 
 
-As a compromise, I could suggest a hackish [communication via github](https://github.com/aabbtree77/sendrecvb) which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but we have access to giant largely free reliable services such as gmail or github which can be used to send commands from PC to PC globally and achieve remote control independence from complex proprietary/open source software.
+As a compromise, I could suggest one [sending commands via github](https://github.com/aabbtree77/sendrecv), which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but at least we have access to a few reliable and largely free services such as gmail or github. They can be used to send and receive commands from PC to PC globally and achieve remote control independence from complex proprietary/open source software.
 
 ## Some Observations, Problems
 
@@ -300,9 +300,9 @@ As a compromise, I could suggest a hackish [communication via github](https://gi
 
 - The problem of global connectivity has no answers, only choices. What a pity that we cannot simply send a UDP packet to a MAC address and instead have to deal with so many layers of IT crapola.
 
-- My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos.
-
 - Ditch this whole approach in favour of the ESP Rainmaker cloud with the Arduino IDE and C++ API?!
+
+- My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos.
 
 ## References
 
