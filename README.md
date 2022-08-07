@@ -15,18 +15,19 @@ This is an ongoing experience report regarding the use of the ESP32 chips as a s
 
 - [x] DOIT DEVIT V1 ESP32-WROOM-32 with some extras (DHT22, SSD1306). 
 
-- [x] MQTT server/broker. Mosquitto on Ubuntu within LAN, dropped any use of the 3rd party MQTT brokers.
+- [x] MQTT server/broker. Mosquitto on Ubuntu within LAN, 3rd party MQTT broker services undesirable.
 
-- [x] Remote desktop control, e.g. ~~Remmina~~. Remmina does not work with certain ISPs, while "hole punching" TeamViewer/AnyDesk 
-solutions are proprietary and too complex/expensive for the embedded tasks.
+- [x] Remote desktop control, e.g. ~~Remmina~~. Remmina is weak, while "hole punching" TeamViewer/AnyDesk/RustDesk 
+solutions are too expensive/proprietary/complex.
 
 - [ ] Wi-Fi provisioning, Android clients. Optional conveniences.
 
-- [x] Resilience/robustness w.r.t. a lost Wi-Fi connection.
+- [x] Resilience/robustness w.r.t. a lost Wi-Fi connection, finally!
 
-- [x] Coding a minimal application. An example **mqtt_dht_sync_prod** shows broadcasting temperature, air humidity and soil humidity with LED control, for now.
+- [x] Coding a minimal application. An example **mqtt_dht_sync_prod** shows broadcasting temperature, air humidity and soil humidity with LED control.
 
-The main conclusion so far: Drop this entirely in favour of the ESP RainMaker cloud for global connectivity and Android niceties, leave it as it is for a connectivity within the LAN. See also [this idea](https://github.com/aabbtree77/sendrecvb) which is a free global connectivity solution aiming to reduce the dependence on complex 3rd party services.
+**Warning:** Drop this entirely in favour of the ESP RainMaker cloud for global connectivity and Android niceties, leave it as it is for the LAN connectivity. 
+See also [this idea](https://github.com/aabbtree77/sendrecvb) which is my global connectivity attempt/demo/idea for the embedded uses aiming to reduce the dependence on complex 3rd party services and protocols.
 
 ## Some Photos
 
@@ -35,7 +36,7 @@ The main conclusion so far: Drop this entirely in favour of the ESP RainMaker cl
 ![gThumb02](./images/esp32-ssd1306-dht22-back.jpg "ESP32 on a custom board: Back.")
 
 
-The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it is an inexpensive (sub 10-20$) board with an ambition to perform networking. At this point in time (2022), the board's RAM is still too tiny (we are left with tens of kilobytes after MicroPython and a few basic libs), ~~and the recovery from a lost Wi-Fi connection is still an ongoing research, but the device is already quite usable~~.
+The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it is an inexpensive (sub 10-20$) board with an ambition to perform networking. At this point in time (2022), the board's RAM is still too tiny (we are left with tens of kilobytes after MicroPython and a few basic libs), ~~and the recovery from a lost Wi-Fi connection is still an ongoing research~~, the device is already usable.
 
 ## Circuit Diagram
 
@@ -246,15 +247,15 @@ Remote desktop control splits into two main camps: (i) the one that relies on po
 
 [canyouseeme.org](https://canyouseeme.org/)
 
-Hole punching solves the problem, but demands another external server or an entire commercial service. An interesting option is [RustDesk](https://github.com/rustdesk/rustdesk) which automates everything for free, for now. Running and configuring such software is a complex endeavor however.
+Hole punching solves the problem, but demands another external server or an entire commercial service. An interesting option is [RustDesk](https://github.com/rustdesk/rustdesk) which automates everything openly, for free, for now. Running and configuring such software is a complex endeavor however. Rust...
 
-There is also the exotic 3rd option that does UDP hole punching with the ICMP packets, i.e. the [pwnat](https://samy.pl/pwnat/) utility. It succeeds only with a certain probability and is totally unsuitable for continuous operations.
+There exist exotic network science possibilities based on the ICMP packets, i.e. the [pwnat](https://samy.pl/pwnat/) utility. It succeeds only with a certain probability and is totally unsuitable as a communication method.
 
-Yet another way is to rely on the 3rd party MQTT broker. CloudMQTT has removed its only free plan. HiveMQ allows a free setup, but I am getting "Server closed connection without DISCONNECT" already in a simple test setup when switching a computer yet using the same credentials from their CLI interface. Such ways seem to be good for big commercial apps as they introduce a need for at least some consultancy via email or phone.
+Yet another way is to rely on a 3rd party MQTT broker. CloudMQTT has removed its only free plan. HiveMQ allows a free setup, but I am getting "Server closed connection without DISCONNECT" already in a simple test setup when switching a computer yet using the same credentials from their CLI interface. Such ways seem to be good for big commercial apps as they introduce the need for at least some consultancy via email or phone.
 
-Perhaps it is best to rely on the ESP RainMaker cloud which solves most of the problems of connecting ESP32 chips globally, for free, for now. The problem here is a heavy dependence on a cloud by Espressif Systems, with a still evolving C++ API. 
+Perhaps it is best to rely on the ESP RainMaker cloud which solves most of the problems of connecting ESP32 chips globally, for free, for now. The problem here is a heavy dependence on the cloud built by Espressif Systems, with a still evolving C++ API. 
 
-As a compromise, I could suggest a hackish [communication via github](https://github.com/aabbtree77/sendrecvb) which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but we have access to giant largely free reliable services such as gmail or github which can be used to send commands and achieve remote control independence from complex proprietary/open source software.
+As a compromise, I could suggest a hackish [communication via github](https://github.com/aabbtree77/sendrecvb) which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but we have access to giant largely free reliable services such as gmail or github which can be used to send commands from PC to PC globally and achieve remote control independence from complex proprietary/open source software.
 
 ## Some Observations, Problems
 
@@ -292,16 +293,16 @@ As a compromise, I could suggest a hackish [communication via github](https://gi
 
 - Reconnection after a lost Wi-Fi seems to work, which is a huge recent progress. 
 
-- One needs to track the Mosquitto version changes when Ubuntu gets updated. Before the summer 2022 versions 1.9.x did not require any configuration and just running "mosquitto" command would be sufficient to start the broker, now since v2.0.x one needs a minimal configuration as described above.
+- One may need to track the Mosquitto broker version changes when Ubuntu gets updated. Before the summer 2022, versions 1.9.x did not require any configuration and just running "mosquitto" command would be sufficient to start the broker, now since v2.0.x one needs a minimal configuration as described above.
 
 - Capacitive Soil Moisture Sensor v1.2 works, but its voltage/ADC value range between a dry and wet soil leaves space for improvements.
-  Most of the existing solutions based on the electrical resistance/impedance/resistivity are worse due to the corrosion of the electrodes. ~~It is better to make your own electrical resistance-based soil moisture sensor by sticking wires to a paper cylinder of a liquid _gypsum_ and then drying it into a solid state.~~ A cheap construction-site gypsum does not change its electrical resistivity w.r.t. an increasing soil moisture.
+  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. ~~It is better to make your own electrical resistance-based soil moisture sensor by sticking wires to a paper cylinder of a liquid _gypsum_ and then drying it into a solid state.~~ A cheap construction-site gypsum does not change its electrical resistivity w.r.t. an increasing soil moisture.
 
 - The problem of global connectivity has no answers, only choices. What a pity that we cannot simply send a UDP packet to a MAC address and instead have to deal with so many layers of IT crapola.
 
 - My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos.
 
-- Ditch this whole approach in favour of the ESP Rainmaker cloud?!
+- Ditch this whole approach in favour of the ESP Rainmaker cloud with the Arduino IDE and C++ API?!
 
 ## References
 
