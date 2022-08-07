@@ -27,7 +27,7 @@ solutions are too expensive/proprietary/complex.
 - [x] Coding a minimal application. An example **mqtt_dht_sync_prod** shows broadcasting temperature, air humidity and soil humidity with LED control.
 
 **Warning:** Drop this entirely in favour of the ESP RainMaker cloud for global connectivity and Android niceties, leave it as it is for the LAN connectivity. 
-See also [this idea](https://github.com/aabbtree77/sendrecvb) which is my global connectivity attempt/demo/idea for the embedded uses aiming to reduce the dependence on complex 3rd party services and protocols.
+See also this [communication via github](https://github.com/aabbtree77/sendrecv) which is my global connectivity demo/hack for the embedded uses aiming to reduce the dependence on complex 3rd party services and protocols.
 
 ## Some Photos
 
