@@ -11,22 +11,20 @@
     </tr>
 </table>
 
-This is an ongoing experience report regarding the use of the ESP32 chips as a sensor gathering communication platform:
+This is an ongoing experience report regarding the use of ESP32 chips as a wireless communication platform:
 
 - [x] DOIT DEVIT V1 ESP32-WROOM-32 with some extras (DHT22, SSD1306). 
 
 - [x] MQTT server/broker. Mosquitto on Ubuntu within LAN, 3rd party MQTT broker services undesirable.
 
-- [x] Remote desktop control, e.g. ~~Remmina~~. Remmina is weak, while "hole punching" TeamViewer/AnyDesk/RustDesk 
+- [ ] Remote desktop control, e.g. ~~Remmina~~. Remmina is weak, while "hole punching" TeamViewer/AnyDesk/RustDesk 
 solutions are too expensive/proprietary/complex.
-
-- [ ] Wi-Fi provisioning, Android clients. Optional conveniences.
 
 - [x] Resilience/robustness w.r.t. a lost Wi-Fi connection, finally!
 
 - [x] Coding a minimal application. An example **mqtt_dht_sync_prod** shows broadcasting temperature, air humidity and soil humidity with LED control.
 
-**Warning:** Drop this entirely in favour of the ESP RainMaker cloud for global connectivity and Android niceties. Consider building/following any of this for the LAN connectivity only. See also this [communication via github](https://github.com/aabbtree77/sendrecv) which is my global connectivity demo/hack for the embedded uses aiming to reduce the dependence on complex 3rd party services and protocols.
+**Warning:** ESP32+Mosquitto+MicroPython is a nice way to build Wi-Fi apps within their LAN. A real challenge is sending messages from PC to PC without opaque 3rd party services. Consider [communication via github](https://github.com/aabbtree77/sendrecv) which is my global connectivity experiment for the embedded uses.
 
 ## Some Photos
 
@@ -238,7 +236,7 @@ psda = machine.Pin(21, machine.Pin.OPEN_DRAIN)
 
 ## Remote Desktop Control
 
-Remote desktop control splits into two main camps: (i) the one that relies on port forwarding and does not need any external "rendezvous server", and (ii) mostly SAAS solutions which do hole punching (TeamViewer, AnyDesk, RustDesk). Remmina is of the first type and it does not get through every network. The problem is that certain wireless ISPs may put one behind their [NAT](https://en.wikipedia.org/wiki/NAT_traversal) in such a way that no port forwarding is possible, which can always be checked by using
+Remote desktop control splits into two main camps: (i) the one that relies on router port forwarding and does not need any external "rendezvous server", and (ii) mostly SAAS solutions which do hole punching (TeamViewer, AnyDesk, RustDesk). Remmina is of the first type and it does not get through every network. The problem is that certain wireless ISPs may put one behind their [NAT](https://en.wikipedia.org/wiki/NAT_traversal) in such a way that no port forwarding is possible, which can always be checked by using
 
 [SO](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network)
 
@@ -246,13 +244,13 @@ Remote desktop control splits into two main camps: (i) the one that relies on po
 
 [canyouseeme.org](https://canyouseeme.org/)
 
-Hole punching solves the problem, but demands another external server or an entire commercial service. An interesting option is [RustDesk](https://github.com/rustdesk/rustdesk) which automates everything openly, for free, for now. Running and configuring such software is a complex endeavor however. Rust...
+Hole punching solves the problem, but demands another external server or an entire commercial service. An interesting option is [RustDesk](https://github.com/rustdesk/rustdesk) which automates everything openly, for free, for now. Running and configuring such software is a complex endeavor however.
 
 There exist exotic network science possibilities based on the ICMP packets, i.e. the [pwnat](https://samy.pl/pwnat/) utility. It succeeds only with a certain probability and is totally unsuitable as a communication method.
 
-Yet another way is to rely on a 3rd party MQTT broker. CloudMQTT has removed its only free plan. HiveMQ allows a free setup, but I am getting "Server closed connection without DISCONNECT" already in a simple test setup when switching a computer yet using the same credentials from their CLI interface. Such ways seem to be good for big commercial apps as they introduce the need for at least some consultancy via email or phone.
+Yet another way is to rely on a 3rd party MQTT broker. CloudMQTT has removed its only free plan. HiveMQ allows a free setup, but I am getting "Server closed connection without DISCONNECT" already in a simple test setup when switching a computer yet using the same credentials from their CLI interface. Such services seem to be good for big commercial apps as they introduce the need for at least some consultancy via email or phone.
 
-Perhaps it is best to rely on the ESP RainMaker cloud which solves most of the problems of connecting ESP32 chips globally, for free, for now. The problem here is a heavy dependence on the cloud built by Espressif Systems, with a still evolving C++ API. 
+Regarding minimal IoT dabbles one could rely on the ESP RainMaker cloud which solves most of the problems of connecting ESP32 chips globally, for free, for now. The problem here is a heavy dependence on the cloud built by Espressif Systems, with a still evolving C++ API. 
 
 As a compromise, I could suggest one [sending commands via github](https://github.com/aabbtree77/sendrecv), which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but at least we have access to a few reliable and largely free services such as gmail or github. They can be used to send and receive commands from PC to PC globally and achieve remote control independence from complex proprietary/open source software.
 
