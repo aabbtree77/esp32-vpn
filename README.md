@@ -288,8 +288,6 @@ As a compromise, I could suggest one [sending commands via github](https://githu
   Refresh issues, limited RAM... Busted/tricky async REPL printing. MQTT/repl is sufficient to read any complex information. Keep the device at "low level", 
   use it just to build the control and read/broadcast sensor measurements. Bail out to the PC space for everything else.
 
-- Reconnection after a lost Wi-Fi seems to work, which is a huge recent progress. 
-
 - One may need to track the Mosquitto broker version changes when Ubuntu gets updated. Before the summer 2022, versions 1.9.x did not require any configuration and just running "mosquitto" command would be sufficient to start the broker, now since v2.0.x one needs a minimal configuration as described above.
 
 - Capacitive Soil Moisture Sensor v1.2 works, but its voltage/ADC value range between a dry and wet soil leaves space for improvements.
