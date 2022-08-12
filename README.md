@@ -1,4 +1,4 @@
-## Introduction
+## A Picture Is Worth a Thousand Words
 
 <table align="center">
     <tr>
@@ -11,20 +11,11 @@
     </tr>
 </table>
 
-This is an ongoing experience report regarding the use of ESP32 chips as a wireless communication platform:
+## Introduction
 
-- [x] DOIT DEVIT V1 ESP32-WROOM-32 with some extras (DHT22, SSD1306). 
+This is a memo which presents details for DOIT DEVIT V1 ESP32-WROOM-32 development board applied for wireless communication inside LAN via MQTT. 
+The MicroPython code achieves resilience w.r.t. a lost Wi-Fi. In the picture above Remmina is supposed to be applied for the connection to LAN from the outside. This demands opening ports which may not always be possible. Instead, one can try this type of a [communication via github](https://github.com/aabbtree77/sendrecv) built in order to avoid opaque 3rd party MQTT brokers and remote desktop software. 
 
-- [x] MQTT server/broker. Mosquitto on Ubuntu within LAN, 3rd party MQTT broker services undesirable.
-
-- [ ] Remote desktop control, e.g. ~~Remmina~~. Remmina is weak, while "hole punching" TeamViewer/AnyDesk/RustDesk 
-solutions are too expensive/proprietary/complex.
-
-- [x] Resilience/robustness w.r.t. a lost Wi-Fi connection, finally!
-
-- [x] Coding a minimal application. An example **mqtt_dht_sync_prod** shows broadcasting temperature, air humidity and soil humidity with LED control.
-
-**Warning:** ESP32+Mosquitto+MicroPython is a nice way to build Wi-Fi apps within their LAN. A real challenge is sending messages from PC to PC without opaque 3rd party services. Consider [communication via github](https://github.com/aabbtree77/sendrecv) which is my global connectivity experiment for the embedded uses.
 
 ## Some Photos
 
@@ -33,48 +24,25 @@ solutions are too expensive/proprietary/complex.
 ![gThumb02](./images/esp32-ssd1306-dht22-back.jpg "ESP32 on a custom board: Back.")
 
 
-The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it is an inexpensive (sub 10-20$) board with an ambition to perform networking. At this point in time (2022), the board's RAM is still too tiny (we are left with tens of kilobytes after MicroPython and a few basic libs), ~~and the recovery from a lost Wi-Fi connection is still an ongoing research~~, the device is already usable.
+The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it is an inexpensive (sub 10-20$) board with an ambition to perform networking. A combo with MicroPython in a way realizes one's dream of a Lisp machine and brings nostalgia about the golden age of computing in 1970s and 1980s where loading a device or displaying something on a monitor required a few lines of interpreted code.
+
+The MicroPython code here is an adaptation of this [github repo by Rui Santos][micropython-Rui-Santos] and does so much with so little.
 
 ## Circuit Diagram
 
 - [esp32-30pin] (the 30-pin variant of DOIT DEVIT V1 ESP32-WROOM-32, not 36).
 
-- DHT22 is connected to GPIO14.
+- DHT22.
 
-- LED is connected to GPIO1.
+- Multiple LEDs.
 
-- SSD1306 (optional). In-software I2C, adjust minihinch/color_setup.py accordingly:
+- ~~SSD1306 with in-software I2C.~~ Dropped it, rewind to "the last before revamp" commit if interested.
 
-  ```python
-  if soft:
-        pscl = machine.Pin(22, machine.Pin.OPEN_DRAIN)
-        psda = machine.Pin(21, machine.Pin.OPEN_DRAIN)
-        i2c = machine.SoftI2C(scl=pscl, sda=psda)
-  ```
+- Capacitive Soil Moisture Sensor v1.2.
 
-- Capacitive Soil Moisture Sensor v1.2 is pinned to GPIO36.
+See boot.py for the exact connectivity/pin numbers.
 
-## Results So Far
-
-- **minihinch**. Experiments with DHT22 and SSD1306, adapting the codes by Peter Hinch. Both tests, sync and async work fine. 
-  Networking works only half-way: The device sends the temperature and humidity data to the broker, but I am not able to set the LED value on 
-  the ESP32 board remotely from the mosquitto client. Something is not right with the receiving message callback async stack, my code or the specific nightly 
-  bin release I used to test the codes. Async also screws up printing in the repl, abandoning this for now. 
-  This code might be useful for connecting the monitor SSD1306 and doing simple async stuff without interrupts which is kind of amazing, but 
-  I do not recommend this path due to a tiny RAM.
-
-- **minisantos_test**. This code is adapted from [the github repo by Rui Santos][micropython-Rui-Santos], and with it I am able to control LED on ESP32 remotely 
-  via MQTT. This proves that the network configuration parameters are correctly set. The sync/blocking way is fine, after a lost Wifi the device stops operating and just reboots 
-  into the repl (no continuous operation with reconnection, just testing everything else).
-
-- **minisantos_prod**. Same as **minisantos_test**, except that the device reconnects after a lost connection (tested it).
-
-- **mqtt_dht_sync_test**. Same as **minisantos_test**, except that the device also sends the sensor values to the MQTT broker.
-
-- **mqtt_dht_sync_prod**. Same as **minisantos_prod**, except that the device also sends the sensor values to the MQTT broker..
-
-
-## MicroPython
+## Commands
 
 - Ubuntu PC:
 
@@ -91,148 +59,74 @@ The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it
   dmesg | grep ttyUSB
   ```
 
-- Flashing/reflashing [MicroPython firmware][MicroPython firmware] (anew or after messing up **boot.py** and **main.py**):
+- Flashing/reflashing [MicroPython firmware][MicroPython firmware] via USB:
 
   ```console
   sudo esptool.py --port /dev/ttyUSB0 flash_id
   sudo esptool.py --port /dev/ttyUSB0 erase_flash
   sudo esptool.py --chip esp32 --port /dev/ttyUSB0 --baud 460800 write_flash -z 0x1000 esp32-ota-20220618-v1.19.1.bin
-  ```
-
-- Testing workflow:
-
-  ```console
-  cd mqtt_dht_sync_test
-  rshell --buffer-size=30 -p /dev/ttyUSB0 -a
-  boards
-  ls /pyboard
-  cp test_mqtt_dht_sync.py /pyboard
-  cp umqttsimple.py /pyboard
-  repl
-  import test_mqtt_dht_sync
-  ```
-  
-  Keep the device connected via USB. 
-  
+  ```  
 
 - Release: 
 
   ```console
-  cd mqtt_dht_sync_prod
   rshell --buffer-size=30 -p /dev/ttyUSB0 -a
-  cp boot.py /pyboard
+  boards
+  ls /pyboard
   cp main.py /pyboard
   cp umqttsimple.py /pyboard
+  cp boot.py /pyboard
   ```
 
   Disconnect the device from USB and use only a power supply.
 
-## MQTT and Running the Whole Thing
+- MQTT:
 
-1. Install the **mosquitto** broker and testing client:
+  ```console
+  sudo apt install mosquitto mosquitto-clients
+  hostname -I
+  ifconfig -a | grep inet
+  ```
 
-    ```console
-    sudo apt install mosquitto mosquitto-clients
-    hostname -I
-    ifconfig -a | grep inet
-    ```
+  The hostname/ifconfig command will provide the local IP address assigned by the router to a computer (PC1) which runs the MQTT broker (Moscquitto), such as '192.168.1.107'. It will have to be entered in boot.py manually/explicitly. 
 
-    The hostname/ifconfig command will provide the local MQTT broker IP address assigned by the router, such as '192.168.1.107' which will have to be entered in the MicroPython 
-    files manually/explicitly. 
 
-2. Open the first terminal window, upload and run the MicroPython program either in the test or production mode, as described above.
+  The Mosquitto broker always runs on Ubuntu by default once the OS starts. However, depending on the exact Ubuntu and Mosquitto versions one may need some additional minimal configuration.
+  Since Mosquitto version 2.0, one needs to create a custom config file and place it somewhere, say at /home/sara/esp32/custom_mosquitto.conf, with this minimal content:
 
-3. Open the second terminal window for the mosquitto broker (MQTT server). To keep things simple lets ignore security for now. 
-   Since mosquitto version 2.0, one needs to create a custom config file and place it somewhere, say at /home/sara/esp32/custom_mosquitto.conf, with this minimal content:
-
-   ```console
-   listener 1883
-   allow_anonymous true
-   ```
+  ```console
+  listener 1883
+  allow_anonymous true
+  ```
   
-   Then start the MQTT broker:
+  Then start the MQTT broker with this config:
 
-    ```console
-    mosquitto -c /home/sara/esp32/custom_mosquitto.conf
-    ```
+  ```console
+  mosquitto -c /home/sara/esp32/custom_mosquitto.conf
+  ```
 
-    If you get "Error: Address already in use" that means Ubuntu is already running its own MQTT broker process. Kill it via 
+  Sometimes you may get "Error: Address already in use". That means you are starting another Mosquitto broker on the same machine. Kill one or the other with
     
-    ```console
-    ps -ef | grep mosquitto
-    sudo kill 12345
-    ```
+  ```console
+  ps -ef | grep mosquitto
+  sudo kill 1234
+  ```
     
-    Here "12345" is the mosquitto process ID shown by the ps command.
+  One should get the console message indicating the connected MicroPython MQTT client with its local IP address such as 192.168.1.108, the latter may change 
+  with each device reboot, it is assigned by a router.
 
-    You should get the console message indicating the connected MicroPython MQTT client with its local IP address such as 192.168.1.100, 
-    the latter may change with each device reboot.
+  Read the sensor data from the device:
+ 
+  ```console
+  mosquitto_sub -d -h 192.168.1.107 -t "testincr"
+  ```
 
-4. Open the third terminal window. Start another MQTT client to read what MicroPython broadcasts:
-  
-    ```console
-    mosquitto_sub -d -h 192.168.1.107 -t "testincr"
-    Client mosq-Cza6hBSrWKTRDzhk1k sending CONNECT
-    Client mosq-Cza6hBSrWKTRDzhk1k received CONNACK (0)
-    Client mosq-Cza6hBSrWKTRDzhk1k sending SUBSCRIBE (Mid: 1, Topic: testincr, QoS: 0, Options: 0x00)
-    Client mosq-Cza6hBSrWKTRDzhk1k received SUBACK
-    Subscribed (mid: 1): 0
-    Client mosq-Cza6hBSrWKTRDzhk1k received PUBLISH (d0, q0, r0, m0, 'testincr', ... (17 bytes))
-    t=24.1C, h=26.5%.
-    Client mosq-Cza6hBSrWKTRDzhk1k received PUBLISH (d0, q0, r0, m0, 'testincr', ... (17 bytes))
-    t=24.2C, h=26.3%.
-    ...
-    ```
+  Publish the messages "on" or "off" to control the LED output:
 
-5. Open the fourth terminal window. Publish the messages "on" or "off" to control the LED output:
-
-    ```console
-    mosquitto_pub -d -h 192.168.1.107 -t "output" -m "on" -q 1
-    Client mosq-o4Gn8fPBXKQnpGnixQ sending CONNECT
-    Client mosq-o4Gn8fPBXKQnpGnixQ received CONNACK (0)
-    Client mosq-o4Gn8fPBXKQnpGnixQ sending PUBLISH (d0, q1, r0, m1, 'output', ... (2 bytes))
-    Client mosq-o4Gn8fPBXKQnpGnixQ received PUBACK (Mid: 1, RC:0)
-    Client mosq-o4Gn8fPBXKQnpGnixQ sending DISCONNECT
-    mosquitto_pub -d -h 192.168.1.107 -t "output" -m "off" -q 1
-    Client mosq-sq8ZSnZedHg5RMTieT sending CONNECT
-    Client mosq-sq8ZSnZedHg5RMTieT received CONNACK (0)
-    Client mosq-sq8ZSnZedHg5RMTieT sending PUBLISH (d0, q1, r0, m1, 'output', ... (3 bytes))
-    Client mosq-sq8ZSnZedHg5RMTieT received PUBACK (Mid: 1, RC:0)
-    Client mosq-sq8ZSnZedHg5RMTieT sending DISCONNECT
-
-    ```
-
-    In order to broadcast periodically, one can run this modified Peter Hinch's bash file
-
-    ```console
-    #! /bin/bash
-    while :
-    do
-        mosquitto_pub -d -h 192.168.1.107 -t "output" -m "on" -q 1
-        sleep 30
-        mosquitto_pub -d -h 192.168.1.107 -t "output" -m "off" -q 1
-        sleep 30
-    done
-    ```
-
-    The async codes use artificial delays up to 20s to react robustly to the broker's messages, in theory.
-
-
-## SSD1306 Display 
-
-I have adapted the [micropython-nano-gui][micropython-nano-gui] library for monochrome SSD1306 display, some bits of Peter Hinch's MIT-licensed code 
-are simply copied here in order not to have the dependencies. **gui/core/colors.py** had a bug: All the occurences of "SSD" had to be changed to "ssd".
-
-The pin configuration is in **color_setup.py** (which is basically the original micropython-nano-gui/setup_examples/ssd1306_pyb.py). When using I2C, only 
-the two pins need to be specified: 
-
-```python
-use_spi = False
-soft = True 
-...
-pscl = machine.Pin(22, machine.Pin.OPEN_DRAIN)
-psda = machine.Pin(21, machine.Pin.OPEN_DRAIN)
-```
+  ```console
+  mosquitto_pub -d -h 192.168.1.107 -t "output" -m "on" -q 1
+  mosquitto_pub -d -h 192.168.1.107 -t "output" -m "off" -q 1
+  ```
 
 ## Remote Desktop Control
 
@@ -246,17 +140,15 @@ Remote desktop control splits into two main camps: (i) the one that relies on ro
 
 Hole punching solves the problem, but demands another external server or an entire commercial service. An interesting option is [RustDesk](https://github.com/rustdesk/rustdesk) which automates everything openly, for free, for now. Running and configuring such software is a complex endeavor however.
 
-There exist exotic network science possibilities based on the ICMP packets, i.e. the [pwnat](https://samy.pl/pwnat/) utility. It succeeds only with a certain probability and is totally unsuitable as a communication method.
+Yet another way is to rely on a 3rd party MQTT broker. CloudMQTT has removed its only free plan. HiveMQ allows a free setup, but I am getting "Server closed connection without DISCONNECT" already in a simple test setup when switching a computer yet using the same credentials from their CLI interface. Such services seem to be good for big commercial apps as they introduce the need for some consultancy with the provider.
 
-Yet another way is to rely on a 3rd party MQTT broker. CloudMQTT has removed its only free plan. HiveMQ allows a free setup, but I am getting "Server closed connection without DISCONNECT" already in a simple test setup when switching a computer yet using the same credentials from their CLI interface. Such services seem to be good for big commercial apps as they introduce the need for at least some consultancy via email or phone.
+A decent way out of these problems could be the ESP RainMaker cloud which solves most of the problems of connecting ESP32 chips globally, for free. The problem here is a heavy dependence on the cloud built by Espressif Systems, with a still evolving C++ API. 
 
-Regarding minimal IoT dabbles one could rely on the ESP RainMaker cloud which solves most of the problems of connecting ESP32 chips globally, for free, for now. The problem here is a heavy dependence on the cloud built by Espressif Systems, with a still evolving C++ API. 
+As a compromise, I could suggest one [sending commands via github](https://github.com/aabbtree77/sendrecv), which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but at least we have access to a few reliable and largely free services such as gmail or github. They can be used to send and receive commands from PC to PC globally and achieve remote control independence from complex proprietary/open source software. The downside of this approach is that it is very raw/primitive yet and Github tracks each file update and thus the size of the repository grows which may exceed a quota.
 
-As a compromise, I could suggest one [sending commands via github](https://github.com/aabbtree77/sendrecv), which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but at least we have access to a few reliable and largely free services such as gmail or github. They can be used to send and receive commands from PC to PC globally and achieve remote control independence from complex proprietary/open source software.
+## Some Observations
 
-## Some Observations, Problems
-
-- Consider an example: The DHT sensor is detached from the chip's pin. Executing the line "dht_sensor.measure()" or "dht_sensor.start()" 
+- When the DHT sensor is detached from the chip's pin, executing the line "dht_sensor.measure()" or "dht_sensor.start()" 
   in the MicroPython REPL will reboot the device with a "useful" error message:
 
   ```console
@@ -284,22 +176,18 @@ As a compromise, I could suggest one [sending commands via github](https://githu
   is still possible when running the DHT measurement with the display without the networking stack. Adding the async networking and the MQTT libs exposes an 
   insufficient RAM: "MemoryError: memory allocation failed, allocating 6632 bytes" (breaks at "#import gui.fonts.arial35 as arial35").
 
-- Despite all the amazing work by Peter Hinch, I do not recommend using displays with ESP32 and the async codes. GUIs and ESP32 do not go hand in hand really: 
-  Refresh issues, limited RAM... Busted/tricky async REPL printing. MQTT/repl is sufficient to read any complex information. Keep the device at "low level", 
-  use it just to build the control and read/broadcast sensor measurements. Bail out to the PC space for everything else.
-
-- One may need to track the Mosquitto broker version changes when Ubuntu gets updated. Before the summer 2022, versions 1.9.x did not require any configuration and just running "mosquitto" command would be sufficient to start the broker, now since v2.0.x one needs a minimal configuration as described above.
+- Despite all the amazing work by Peter Hinch, I do not recommend using displays with ESP32 and the async codes which I could not get to receive the MQTT messages, but the device could send them.
 
 - Capacitive Soil Moisture Sensor v1.2 works, but its voltage/ADC value range between a dry and wet soil leaves space for improvements.
-  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. ~~It is better to make your own electrical resistance-based soil moisture sensor by sticking wires to a paper cylinder of a liquid _gypsum_ and then drying it into a solid state.~~ A cheap construction-site gypsum does not change its electrical resistivity w.r.t. an increasing soil moisture.
+  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. Personal attempts to make soil-moisture sensitive resistors out of cheap construction-site gypsum did not meet success.
 
 - The problem of global connectivity has no answers, only choices. What a pity that we cannot simply send a UDP packet to a MAC address and instead have to deal with so many layers of IT crapola.
 
 - Ditch this whole approach in favour of the ESP Rainmaker cloud with the Arduino IDE and C++ API?!
 
-- My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos.
-
 ## References
+
+My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos whose code is worth checking out.
 
 Essential:
 
