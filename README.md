@@ -1,4 +1,3 @@
-## A Picture Is Worth a Thousand Words
 
 <table align="center">
     <tr>
@@ -13,8 +12,7 @@
 
 ## Introduction
 
-This is a memo which presents details for DOIT DEVIT V1 ESP32-WROOM-32 development board applied for wireless communication inside LAN via MQTT. 
-The MicroPython code achieves resilience w.r.t. a lost Wi-Fi. In the picture above Remmina is supposed to be applied for the connection to LAN from the outside. This demands opening ports which may not always be possible. Instead, one can try this type of a [communication via github](https://github.com/aabbtree77/sendrecv) built in order to avoid opaque 3rd party MQTT brokers and remote desktop software. 
+This report is about DOIT DEVIT V1 ESP32-WROOM-32 applied for wireless communication inside LAN with MQTT. The MicroPython code achieves resilience w.r.t. a lost Wi-Fi. In the picture above Remmina is supposed to be applied for the connection to LAN from the outside. This demands opening ports which may not always be possible. Instead, one can try this type of a [communication via github](https://github.com/aabbtree77/sendrecv) built in order to avoid opaque 3rd party MQTT brokers and remote desktop software. 
 
 
 ## Some Photos
@@ -24,7 +22,7 @@ The MicroPython code achieves resilience w.r.t. a lost Wi-Fi. In the picture abo
 ![gThumb02](./images/esp32-ssd1306-dht22-back.jpg "ESP32 on a custom board: Back.")
 
 
-The main appeal of the DOIT DEVIT V1 ESP32-WROOM-32 development board is that it is an inexpensive (sub 10-20$) board with an ambition to perform networking. A combo with MicroPython in a way realizes one's dream of a Lisp machine and brings nostalgia about the golden age of computing in 1970s and 1980s where loading a device or displaying something on a monitor required a few lines of interpreted code.
+The DOIT DEVIT V1 ESP32-WROOM-32 development board is an inexpensive (sub 10-20$) board with an ambition to perform networking. A combo with MicroPython in a way realizes one's dream of a Lisp machine and brings nostalgia about the golden age of computing around 1980s when activating some device or displaying text/pixels on a monitor required only a few lines of code.
 
 The MicroPython code here is an adaptation of this [github repo by Rui Santos][micropython-Rui-Santos] and does so much with so little.
 
@@ -144,7 +142,7 @@ Yet another way is to rely on a 3rd party MQTT broker. CloudMQTT has removed its
 
 A decent way out of these problems could be the ESP RainMaker cloud which solves most of the problems of connecting ESP32 chips globally, for free. The problem here is a heavy dependence on the cloud built by Espressif Systems, with a still evolving C++ API. 
 
-As a compromise, I could suggest one [sending commands via github](https://github.com/aabbtree77/sendrecv), which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but at least we have access to a few reliable and largely free services such as gmail or github. They can be used to send and receive commands from PC to PC globally and achieve remote control independence from complex proprietary/open source software. The downside of this approach is that it is very raw/primitive yet and Github tracks each file update and thus the size of the repository grows which may exceed a quota.
+As a middle ground, I could suggest one [sending commands via github](https://github.com/aabbtree77/sendrecv), which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but at least we have access to a few reliable and largely free services such as gmail or github. They can be used to send and receive commands from PC to PC globally and achieve remote control independence from complex proprietary/open source software. The downside of this approach is that it is very raw/primitive yet and Github tracks each file update and thus the size of the repository grows which may exceed a quota.
 
 ## Some Observations
 
@@ -178,7 +176,7 @@ As a compromise, I could suggest one [sending commands via github](https://githu
 
 - Despite all the amazing work by Peter Hinch, I do not recommend using displays with ESP32 and the async codes which I could not get to receive the MQTT messages, but the device could send them.
 
-- Capacitive Soil Moisture Sensor v1.2 works, but its voltage/ADC value range between a dry and wet soil leaves space for improvements.
+- Capacitive Soil Moisture Sensor v1.2 works, but its voltage/ADC value range between dry and wet soil leaves space for improvements.
   Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. Personal attempts to make soil-moisture sensitive resistors out of cheap construction-site gypsum did not meet success.
 
 - The problem of global connectivity has no answers, only choices. What a pity that we cannot simply send a UDP packet to a MAC address and instead have to deal with so many layers of IT crapola.
