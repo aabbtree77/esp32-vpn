@@ -12,7 +12,7 @@
 
 ## Introduction
 
-This report is about DOIT DEVIT V1 ESP32-WROOM-32 applied for wireless communication inside LAN with MQTT. The MicroPython code achieves resilience w.r.t. a lost Wi-Fi. In the picture above Remmina is supposed to be applied for the connection to LAN from the outside. This demands opening ports which may not always be possible. Instead, one can try this type of a [communication via github](https://github.com/aabbtree77/sendrecv) built in order to avoid opaque 3rd party MQTT brokers and remote desktop software. 
+This report is about DOIT DEVIT V1 ESP32-WROOM-32 applied to wireless communication inside LAN, via MQTT. The MicroPython code achieves resilience w.r.t. a lost Wi-Fi. The Remmina part demands opening ports which may not always be possible. Instead, one can try this [communication via github](https://github.com/aabbtree77/sendrecv) built in order to avoid opaque 3rd party MQTT brokers and remote desktop software. I am also considering go-libp2p, TBC... 
 
 
 ## Some Photos
@@ -142,7 +142,7 @@ Yet another way is to rely on a 3rd party MQTT broker. CloudMQTT has removed its
 
 A decent way out of these problems could be the ESP RainMaker cloud which solves most of the problems of connecting ESP32 chips globally, for free. The problem here is a heavy dependence on the cloud built by Espressif Systems, with a still evolving C++ API. 
 
-As a middle ground, I could suggest one [sending commands via github](https://github.com/aabbtree77/sendrecv), which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but at least we have access to a few reliable and largely free services such as gmail or github. They can be used to send and receive commands from PC to PC globally and achieve remote control independence from complex proprietary/open source software. The downside of this approach is that it is very raw/primitive yet and Github tracks each file update and thus the size of the repository grows which may exceed a quota.
+As a simple hack, I could suggest one [sending commands via github](https://github.com/aabbtree77/sendrecv), which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but at least we have access to a few reliable and largely free services such as gmail or github. They can be used to send and receive commands from PC to PC globally and achieve remote control independence from complex proprietary/open source software. The downside of this approach is that it is very raw/primitive yet and Github tracks each file update and thus the size of the repository grows in time.
 
 ## Some Observations
 
