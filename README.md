@@ -12,8 +12,9 @@
 
 ## Introduction
 
-This report is about DOIT DEVIT V1 ESP32-WROOM-32 applied to wireless communication inside LAN, via MQTT. The MicroPython code achieves resilience w.r.t. a lost Wi-Fi. The Remmina part demands opening ports which may not always be possible. Instead, one can try this [communication via github](https://github.com/aabbtree77/sendrecv) built in order to avoid opaque 3rd party MQTT brokers and remote desktop software. I am also considering go-libp2p, TBC... 
+This report is about DOIT DEVIT V1 ESP32-WROOM-32 applied to wireless communication inside LAN, via MQTT. The MicroPython code achieves resilience w.r.t. a lost Wi-Fi. The Remmina part demands opening ports which may not always be possible. Instead, one can try this [communication via github](https://github.com/aabbtree77/sendrecv) built in order to avoid opaque 3rd party MQTT brokers and remote desktop software.
 
+*Warning. This is slowly getting obsolete as a "web2 technology". The problem is that one needs a server/broker, his/her own or a 3rd party, which is totally unnecessary as an ESP32 device is capable of connecting to the internet self-sufficiently. It seems to me that the best solution is the "torrent way". Make an ESP32 device an IPFS node and store its sensor data into an updatable file tied to a fixed IPNS sent beforehand to the second party. Similarly with sending commands/communication in the opposite way: Create another updatable file on the other side with an IPNS known to ESP32. No servers needed, not even MQTT which is/was a good idea, albeit for LAN purposes, mostly. "ifps add" and "ifps get" become "send" and "receive", resp.* 
 
 ## Some Photos
 
