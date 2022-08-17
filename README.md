@@ -12,20 +12,17 @@
 
 ## Introduction
 
-This report is about DOIT DEVIT V1 ESP32-WROOM-32 applied to wireless communication inside LAN via MQTT, mostly. The MicroPython code achieves resilience w.r.t. a lost Wi-Fi. 
+This report is about DOIT DEVIT V1 ESP32-WROOM-32 applied to wireless communication inside LAN via MQTT, mostly. The MicroPython code is an adaptation of this [github repo by Rui Santos][micropython-Rui-Santos] and it achieves resilience w.r.t. a lost Wi-Fi. It does so much with so little.
 
-The Remmina part shown above is for the global connectivity over the internet and it is just an idea. It demands opening ports which may not always be possible. Instead, one could add another LAN node to the same PC which runs LAN's MQTT broker. That node would have two purposes: (i) it would run a regular Python with its paho-mqtt library to control the ESP32 MQTT via the broker, and (ii) it would manage a communication via the internet by means of IFPS. However, all that is still a "web2" tech stack, needing the whole server/broker just to communicate with ESP32 when ideally ESP32 should act directly as an IFPS node without PC1 shown in the picture above, and even without MQTT.
+The DOIT DEVIT V1 ESP32-WROOM-32 development board is an inexpensive (sub 10-20$) board with an ambition to perform networking. A combo with MicroPython in a way could realize one's dream of a Lisp machine. It brings nostalgia about the golden age of computing around 1980s when activating some device or displaying text/pixels on a monitor required only a few lines of code.
+
+The Remmina part shown above is for the global connectivity over the internet which remains an unsolved problem. Remmina demands opening ports which may not always be possible. Instead, one could add another LAN node to the same PC1 shown above. That node would have two purposes: (i) it would run a regular Python with its paho-mqtt library as an MQTT client to control the ESP32 MQTT via the LAN's broker, and (ii) it would manage the internet communication by means of IPFS. However, all that would still be a "web2" tech stack, needing the whole server/broker just to communicate with ESP32. Ideally, every IoT device such as ESP32 should act directly as an IPFS node without PC1 shown in the picture above, and even without MQTT.
 
 ## Some Photos
 
 ![gThumb01](./images/esp32-ssd1306-dht22-front.jpg "ESP32 on a custom board: Front.")
 
 ![gThumb02](./images/esp32-ssd1306-dht22-back.jpg "ESP32 on a custom board: Back.")
-
-
-The DOIT DEVIT V1 ESP32-WROOM-32 development board is an inexpensive (sub 10-20$) board with an ambition to perform networking. A combo with MicroPython in a way realizes one's dream of a Lisp machine and brings nostalgia about the golden age of computing around 1980s when activating some device or displaying text/pixels on a monitor required only a few lines of code.
-
-The MicroPython code here is an adaptation of this [github repo by Rui Santos][micropython-Rui-Santos] and does so much with so little.
 
 ## Circuit Diagram
 
@@ -137,7 +134,7 @@ Remote desktop control splits into two main camps: (i) the one that relies on ro
 
 [canyouseeme.org](https://canyouseeme.org/)
 
-This path is not recommended. Instead, one could communicate with ESP32 as indicated in the introduction or even by [sending commands via github](https://github.com/aabbtree77/sendrecv) which I used before not knowing about the existence of IFPS.
+This path is not recommended. Instead, one could communicate with ESP32 via IPFS as indicated in the introduction or even by [sending commands via github](https://github.com/aabbtree77/sendrecv) which I used before, when not knowing about the existence of IPFS.
 
 ## Observations about ESP32 and MicroPython
 
@@ -174,15 +171,19 @@ This path is not recommended. Instead, one could communicate with ESP32 as indic
 - Capacitive Soil Moisture Sensor v1.2 works, but its voltage/ADC value range between dry and wet soil leaves space for improvements.
   Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. Personal attempts to make soil-moisture sensitive resistors out of cheap construction-site gypsum did not meet success.
 
-- ESP32 and MicroPython is ideal for projects within a LAN. In the case of the global connectivity this combo is no longer adequate as one needs an external MQTT broker with all the configuration shenanigans of "web2". Instead, one could opt for the ESP Rainmaker cloud with the Arduino IDE and its C++ API which is also highly suboptimal.
+- ESP32 and MicroPython is ideal for projects within a LAN. In the case of the global connectivity this combo is no longer adequate as one needs an external MQTT broker with all the configuration shenanigans of "web2". Instead, one could opt for the ESP Rainmaker cloud with the Arduino IDE and its C++ API, which is also very "web2", unfortunately.
 
-- The best way would be to treat any ESP32 as an IPFS node, but solid codes do not exist there yet, and definitely not in MicroPython. As an example, kubo, the implementation of IPFS in Go, takes more than 60MB as a Linux package, and it is recommended "running it on a machine with at least 2 GB of RAM and 2 CPU cores (kubo is highly parallel). On systems with less memory, it may not be completely stable."
+- The best way would be to treat any ESP32 as an IPFS node, but solid codes do not exist yet, and definitely not in MicroPython. As an example, kubo, the implementation of IPFS in Go, takes more than 60MB as a Linux package, and it is recommended "running it on a machine with at least 2 GB of RAM and 2 CPU cores (kubo is highly parallel). On systems with less memory, it may not be completely stable."
 
-- Therefore, ESP32 and MicroPython is still not there, but it leads to an interesting challenge of implementing IFPS on such low RAM devices.
+- Therefore, ESP32 with MicroPython is still not there, but it leads to the challenge of implementing IPFS with IPNS on such low RAM devices.
+
+- IPFS and the embedded Linux SBCs is something to consider. The problem is that these SBCs are already in a different price range and power consumption, not to mention the needless OS that pushes us back to "web2".
+
+- "There are no answers, only choices". 
 
 ## References
 
-My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos whose code is worth checking out.
+My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos.
 
 Essential:
 
