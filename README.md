@@ -12,9 +12,9 @@
 
 ## Introduction
 
-This report is about DOIT DEVIT V1 ESP32-WROOM-32 applied to wireless communication inside LAN, via MQTT. The MicroPython code achieves resilience w.r.t. a lost Wi-Fi. The Remmina part demands opening ports which may not always be possible. Instead, one can try this [communication via github](https://github.com/aabbtree77/sendrecv) built in order to avoid opaque 3rd party MQTT brokers and remote desktop software.
+This report is about DOIT DEVIT V1 ESP32-WROOM-32 applied to wireless communication inside LAN via MQTT, mostly. The MicroPython code achieves resilience w.r.t. a lost Wi-Fi. 
 
-*Warning. This is slowly getting obsolete as a "web2 technology". The problem is that one needs a server/broker, his/her own or a 3rd party, which is totally unnecessary as an ESP32 device is capable of connecting to the internet self-sufficiently. It seems to me that the best solution is the "torrent way". Make an ESP32 device an IPFS node and store its sensor data into an updatable file tied to a fixed IPNS sent beforehand to the second party. Similarly with sending commands/communication in the opposite way: Create another updatable file on the other side with an IPNS known to ESP32. No servers needed, not even MQTT which is/was a good idea, albeit for LAN purposes, mostly. "ifps add" and "ifps get" become "send" and "receive", resp.* 
+The Remmina part shown above is for the global connectivity over the internet and it is just an idea. It demands opening ports which may not always be possible. Instead, one could add another LAN node to the same PC which runs LAN's MQTT broker. That node would have two purposes: (i) it would run a regular Python with its paho-mqtt library to control the ESP32 MQTT via the broker, and (ii) it would manage a communication via the internet by means of IFPS. However, all that is still a "web2" tech stack, needing the whole server/broker just to communicate with ESP32 when ideally ESP32 should act directly as an IFPS node without PC1 shown in the picture above, and even without MQTT.
 
 ## Some Photos
 
@@ -137,15 +137,9 @@ Remote desktop control splits into two main camps: (i) the one that relies on ro
 
 [canyouseeme.org](https://canyouseeme.org/)
 
-Hole punching solves the problem, but demands another external server or an entire commercial service. An interesting option is [RustDesk](https://github.com/rustdesk/rustdesk) which automates everything openly, for free, for now. Running and configuring such software is a complex endeavor however.
+This path is not recommended. Instead, one could communicate with ESP32 as indicated in the introduction or even by [sending commands via github](https://github.com/aabbtree77/sendrecv) which I used before not knowing about the existence of IFPS.
 
-Yet another way is to rely on a 3rd party MQTT broker. CloudMQTT has removed its only free plan. HiveMQ allows a free setup, but I am getting "Server closed connection without DISCONNECT" already in a simple test setup when switching a computer yet using the same credentials from their CLI interface. Such services seem to be good for big commercial apps as they introduce the need for some consultancy with the provider.
-
-A decent way out of these problems could be the ESP RainMaker cloud which solves most of the problems of connecting ESP32 chips globally, for free. The problem here is a heavy dependence on the cloud built by Espressif Systems, with a still evolving C++ API. 
-
-As a simple hack, I could suggest one [sending commands via github](https://github.com/aabbtree77/sendrecv), which I have tested. We are not able to send simple text messages/UDP/MQTT packets directly from PC to PC based on their MAC addresses, but at least we have access to a few reliable and largely free services such as gmail or github. They can be used to send and receive commands from PC to PC globally and achieve remote control independence from complex proprietary/open source software. The downside of this approach is that it is very raw/primitive yet and Github tracks each file update and thus the size of the repository grows in time.
-
-## Some Observations
+## Observations about ESP32 and MicroPython
 
 - When the DHT sensor is detached from the chip's pin, executing the line "dht_sensor.measure()" or "dht_sensor.start()" 
   in the MicroPython REPL will reboot the device with a "useful" error message:
@@ -180,9 +174,11 @@ As a simple hack, I could suggest one [sending commands via github](https://gith
 - Capacitive Soil Moisture Sensor v1.2 works, but its voltage/ADC value range between dry and wet soil leaves space for improvements.
   Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. Personal attempts to make soil-moisture sensitive resistors out of cheap construction-site gypsum did not meet success.
 
-- The problem of global connectivity has no answers, only choices. What a pity that we cannot simply send a UDP packet to a MAC address and instead have to deal with so many layers of IT crapola.
+- ESP32 and MicroPython is ideal for projects within a LAN. In the case of the global connectivity this combo is no longer adequate as one needs an external MQTT broker with all the configuration shenanigans of "web2". Instead, one could opt for the ESP Rainmaker cloud with the Arduino IDE and its C++ API which is also highly suboptimal.
 
-- Ditch this whole approach in favour of the ESP Rainmaker cloud with the Arduino IDE and C++ API?!
+- The best way would be to treat any ESP32 as an IPFS node, but solid codes do not exist there yet, and definitely not in MicroPython. As an example, kubo, the implementation of IPFS in Go, takes more than 60MB as a Linux package, and it is recommended "running it on a machine with at least 2 GB of RAM and 2 CPU cores (kubo is highly parallel). On systems with less memory, it may not be completely stable."
+
+- Therefore, ESP32 and MicroPython is still not there, but it leads to an interesting challenge of implementing IFPS on such low RAM devices.
 
 ## References
 
