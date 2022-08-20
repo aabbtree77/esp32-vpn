@@ -1,7 +1,7 @@
 
 <table align="center">
     <tr>
-    <th align="center"> ESP32 as the MQTT Client</th>
+    <th align="center"> ESP32 as an MQTT Client</th>
     </tr>
     <tr>
     <td>
@@ -21,11 +21,11 @@ We do not really need this link, and neither MQTT is that important. In the idea
 
 - The case of	[Google IoT Core](https://news.ycombinator.com/item?id=32475298).
 
-- CloudMQTT has removed its only free plan.
+- [CloudMQTT has removed its only free plan](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html).
 
 - HiveMQ with [“Server closed connection without DISCONNECT.”](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)
 
-- Remote desktop control horrors. Router port forwarding is a waste of time, though it could be a quick solution when it works: [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [https://www.yougetsignal.com/](https://www.yougetsignal.com/tools/open-ports/)... Remmina will not punch through every NAT though. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions. RustDesk could be an interesting OSS alternative, but I prefer [Hyprspace](https://github.com/hyprspace) with its go-libp2p stack abstracted from IPFS.
+- Remote desktop control horrors. Router port forwarding is a waste of time, though it could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/)... Remmina will not punch through every NAT though. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions. RustDesk could be an interesting OSS alternative, but it is a complex system and there exist [some doubts](https://news.ycombinator.com/item?id=29479503) about its server component. This is a Rust world and also AGPL, which also looks "Web2ish". I prefer [Hyprspace](https://github.com/hyprspace) which is a minimal, Apache-licensed way, with its go-libp2p (MIT-licensed) stack centered around IPFS.
 
 ## Some Photos
 
