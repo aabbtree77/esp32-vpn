@@ -1,22 +1,31 @@
 
 <table align="center">
     <tr>
-    <th align="center"> ESP32 as MQTT Client</th>
+    <th align="center"> ESP32 as the MQTT Client</th>
     </tr>
     <tr>
     <td>
-    <img src="./images/mermaid-diagram-20220402145130.svg"  alt="Device in the Operating Mode)" width="100%" >
+    <img src="./images/mermaid-diagram-2022-08-20-161912.png"  alt="ESP32 in the Operating Mode)" width="100%" >
     </td>
     </tr>
 </table>
 
 ## Introduction
 
-This report is about DOIT DEVIT V1 ESP32-WROOM-32 applied to wireless communication inside LAN via MQTT, mostly. The MicroPython code is an adaptation of this [github repo by Rui Santos][micropython-Rui-Santos] and it achieves resilience w.r.t. a lost Wi-Fi. It does so much with so little.
+The DOIT DEVIT V1 ESP32-WROOM-32 development board is an inexpensive (sub 10-20$) board with an ambition to perform OS-free networking. There are so many ways of using such a board in IoT projects, and this memo documents my several years of experience and what I think is the best way to control an ESP32 device. The goal is to have a reliable full stack control without any 3rd party services. A suggested solution, for this moment (August 2022), is shown above.
 
-The DOIT DEVIT V1 ESP32-WROOM-32 development board is an inexpensive (sub 10-20$) board with an ambition to perform networking. A combo with MicroPython in a way could realize one's dream of a Lisp machine. It brings nostalgia about the golden age of computing around 1980s when activating some device or displaying text/pixels on a monitor required only a few lines of code.
+This is still largely a "Web2" way as one needs an additional Linux machine to run along with ESP32. The machine consumes electricity and needs to be configured.
+We do not really need this link, and neither MQTT is that important. In the ideal "Web3" world some day we will have an ESP32 as the IPFS node which will share a file with its IPNS link which will effectively become its "message board", punching through the moribund NAT.
 
-The Remmina part shown above is for the global connectivity over the internet which remains an unsolved problem. Remmina demands opening ports which may not always be possible. Instead, one could add another LAN node to the same PC1 shown above. That node would have two purposes: (i) it would run a regular Python with its paho-mqtt library as an MQTT client to control the ESP32 MQTT via the LAN's broker, and (ii) it would manage the internet communication by means of IPFS. However, all that would still be a "web2" tech stack, needing the whole server/broker just to communicate with ESP32. Ideally, every IoT device such as ESP32 should act directly as an IPFS node without PC1 shown in the picture above, and even without MQTT.
+## Why Against a Third Party?
+
+- The case of	[Google IoT Core](https://news.ycombinator.com/item?id=32475298).
+
+- CloudMQTT has removed its only free plan.
+
+- HiveMQ with [“Server closed connection without DISCONNECT.”](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)
+
+- Remote desktop control horrors. Router port forwarding is a waste of time, though it could be a quick solution when it works: [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [https://www.yougetsignal.com/](https://www.yougetsignal.com/tools/open-ports/)... Remmina will not punch through every NAT though. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions. RustDesk could be an interesting OSS alternative, but I prefer [Hyprspace](https://github.com/hyprspace) with its go-libp2p stack abstracted from IPFS.
 
 ## Some Photos
 
@@ -138,7 +147,7 @@ This path is not recommended. Instead, one could communicate with ESP32 via IPFS
 
 ## Observations about ESP32 and MicroPython
 
-- When the DHT sensor is detached from the chip's pin, executing the line "dht_sensor.measure()" or "dht_sensor.start()" 
+- **Hardware is tough.** When the DHT sensor is detached from the chip's pin, executing the line "dht_sensor.measure()" or "dht_sensor.start()" 
   in the MicroPython REPL will reboot the device with a "useful" error message:
 
   ```console
@@ -161,29 +170,29 @@ This path is not recommended. Instead, one could communicate with ESP32 via IPFS
   Type "help()" for more information.
   >>> 
   ```
-
-- ESP12 has a pathetic amount of RAM, but ESP32 is no cake either. Importing the font arial35 from Peter Hinch's ssd1306 lib along with freesans20 
+- **Too little RAM.** ESP12 has a pathetic amount of RAM, but ESP32 is no cake either. Importing the font arial35 from Peter Hinch's ssd1306 lib along with freesans20 
   is still possible when running the DHT measurement with the display without the networking stack. Adding the async networking and the MQTT libs exposes an 
-  insufficient RAM: "MemoryError: memory allocation failed, allocating 6632 bytes" (breaks at "#import gui.fonts.arial35 as arial35").
+  insufficient RAM: 
+  
+  ```console
+  "MemoryError: memory allocation failed, allocating 6632 bytes" (breaks at "#import gui.fonts.arial35 as arial35").
+  ```
+- **Low quality sensors**, see e.g. this [discussion](https://www.youtube.com/watch?v=IGP38bz-K48) of Capacitive Soil Moisture Sensor v1.2.
+  The solutions based on the electrical resistance are worse due to a rapid corrosion of the electrodes. Contrary to some existing recommendations, submerging them into a cheap construction-site gypsum does not work as this kills their moisture sensitivity.  
+  
+- Despite all the amazing work by Peter Hinch, I could not make the async codes receive my MQTT messages, the device could only send them.
 
-- Despite all the amazing work by Peter Hinch, I do not recommend using displays with ESP32 and the async codes which I could not get to receive the MQTT messages, but the device could send them.
+- After a long search and disappointment I could finally have a resilience w.r.t. the Wi-Fi loss thanks to this [code by Rui and Sara Santos][micropython-Rui-Santos].
+  
+## Reservations about Networking with ESP32
+   
+- ESP32 with MicroPython is a solid Wi-Fi client to be controlled from a PC within a LAN via MQTT. Despite many existing attempts, it is not a self-sufficient minicomputer or network node.
 
-- Capacitive Soil Moisture Sensor v1.2 works, but its voltage/ADC value range between dry and wet soil leaves space for improvements.
-  Most of the existing solutions based on the electrical resistance are worse due to the corrosion of the electrodes. Personal attempts to make soil-moisture sensitive resistors out of cheap construction-site gypsum did not meet success.
+- One could opt for the [Espressif](https://github.com/espressif/esp-idf/issues) [Rainmaker](https://github.com/espressif/esp-rainmaker/issues) cloud, which makes ESP32 globally accessible to any Android device, but this is a 3rd party service, a huge opaque dependency.  
 
-- ESP32 and MicroPython is ideal for projects within a LAN. In the case of the global connectivity this combo is no longer adequate as one needs an external MQTT broker with all the configuration shenanigans of "web2". Instead, one could opt for the ESP Rainmaker cloud with the Arduino IDE and its C++ API, which is also very "web2", unfortunately.
-
-- The best way would be to treat any ESP32 as an IPFS node, but solid codes do not exist yet, and definitely not in MicroPython. As an example, kubo, the implementation of IPFS in Go, takes more than 60MB as a Linux package, and it is recommended "running it on a machine with at least 2 GB of RAM and 2 CPU cores (kubo is highly parallel). On systems with less memory, it may not be completely stable."
-
-- Therefore, ESP32 with MicroPython is still not there, but it leads to the challenge of implementing IPFS with IPNS on such low RAM devices.
-
-- IPFS and the embedded Linux SBCs is something to consider. The problem is that these SBCs are already in a different price range and power consumption, not to mention the needless OS that pushes us back to "web2".
-
-- "There are no answers, only choices". 
+- Ideally, some day ESP32 would become a global IPFS/IPNS "Web3" node with a "hole punching" capacity. It is not clear if the amount of RAM available in ESP32 chips can make this goal/challenge viable. As an example, [kubo](https://github.com/ipfs/kubo), the implementation of IPFS in Go, takes more than 60MB as a Linux package, and it is recommended "running it on a machine with at least 2 GB of RAM and 2 CPU cores..."
 
 ## References
-
-My great respect to the MicroPython community, esp. Peter Hinch and Rui and Sara Santos.
 
 Essential:
 
