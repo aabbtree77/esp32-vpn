@@ -15,7 +15,7 @@
 The DOIT DEVIT V1 ESP32-WROOM-32 development board is an inexpensive (sub 10-20$) board with an ambition to perform OS-free networking. There are so many ways of using such a board in IoT projects, and this memo documents my several years of experience and what I think is the best way to control an ESP32 device. The goal is to have a reliable full stack control without any 3rd party services. A suggested solution, for this moment (August 2022), is shown above.
 
 This is still largely a "Web2" way as one needs an additional Linux machine to run along with ESP32. The machine consumes electricity and needs to be configured.
-We do not really need this link, and neither MQTT is that important. In the ideal "Web3" world some day we will have an ESP32 as the IPFS node which will share a file with its IPNS link which will effectively become its "message board", punching through the moribund NAT.
+We do not really need this link, and neither MQTT is that important. In the ideal "Web3" world some day we will have an ESP32 as the IPFS node which will share a file with its IPNS link which will effectively become its "message board", punching through NAT in the P2P way.
 
 ## Why Against a Third Party?
 
@@ -25,7 +25,9 @@ We do not really need this link, and neither MQTT is that important. In the idea
 
 - HiveMQ with [“Server closed connection without DISCONNECT.”](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)
 
-- Remote desktop control horrors. Router port forwarding is a waste of time, though it could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/)... Remmina will not punch through every NAT though. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions. RustDesk could be an interesting OSS alternative, but it is a complex system and there exist [some doubts](https://news.ycombinator.com/item?id=29479503) about its server component. This is a Rust world and also AGPL, which also looks "Web2ish". I prefer [Hyprspace](https://github.com/hyprspace) which is a minimal, Apache-licensed way, with its go-libp2p (MIT-licensed) stack centered around IPFS.
+- Remote desktop control (RDC) horrors. Router port forwarding is a waste of time, though it could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/)... Remmina will not punch through every NAT though. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions.
+
+Considering RDC, RustDesk could be an interesting OSS alternative, but it is a complex system and there exist [some doubts](https://news.ycombinator.com/item?id=29479503) about its server component. This is a Rust world, and also AGPL. It looks "Web2ish". I prefer [Hyprspace](https://github.com/hyprspace) which is a minimal, Apache-licensed way just to tap into a remote computer with ssh. It uses go-libp2p MIT-licensed stack centered around IPFS.
 
 ## Some Photos
 
