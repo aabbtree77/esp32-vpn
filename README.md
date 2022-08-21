@@ -19,17 +19,27 @@ We do not really need this link, and neither MQTT is that important. In the idea
 
 ## Why Against a Third Party?
 
+The most challenging part of this setup is connecting to the LAN via the internet from anywhere as most of the default ISP NAT configurations do not allow port forwarding. One can find various SaaS/3rd party services for the global connectivity, but real life shows that this is all running on fumes. A few examples: 
+
 - The case of	[Google IoT Core](https://news.ycombinator.com/item?id=32475298).
 
 - [CloudMQTT has removed its only free plan](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html).
 
 - HiveMQ with [“Server closed connection without DISCONNECT.”](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)
 
-- Remote desktop control (RDC) horrors. Router port forwarding is a waste of time, though it could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/)... Remmina will not punch through every NAT though. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions.
+- Remote desktop control (RDC) horrors. Router port forwarding is a waste of time. It could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/). Remmina does not punch through every NAT though. Even when it does get through, it always involves some manual effort for every goddam specific LAN with its routers. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions.
 
-Considering RDC, RustDesk could be an interesting OSS alternative, but it is a complex system and there exist [some doubts](https://news.ycombinator.com/item?id=29479503) about its server component. This is a Rust world, and also AGPL. It looks "Web2ish". I prefer [Hyprspace](https://github.com/hyprspace) which is a minimal, Apache-licensed way just to tap into a remote computer with ssh. It uses go-libp2p MIT-licensed stack centered around IPFS.
+- ...
+
+At some point I got so desperate that I just started [sending commands via github.com](https://github.com/aabbtree77/sendrecv), which works as long as github.com is available, but it is a very cumbersome and custom way to communicate globally.
+
+Considering RDC, RustDesk could be an interesting OSS alternative. However, it is a complex "all in one" system, and this is a Rust world, also AGPL... There are also minor-looking issues such as [doubts](https://news.ycombinator.com/item?id=29479503) about its server component and "Web2ish hole punching"? 
+
+The answer at the moment seems to be [Hyprspace](https://github.com/hyprspace) which is a minimal, Apache-licensed way just to tap into a remote computer with ssh. It uses go-libp2p MIT-licensed stack centered around IPFS. Does it always work though?! TBC...
 
 ## Some Photos
+
+This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (InfoVega).
 
 ![gThumb01](./images/esp32-ssd1306-dht22-front.jpg "ESP32 on a custom board: Front.")
 
@@ -39,15 +49,9 @@ Considering RDC, RustDesk could be an interesting OSS alternative, but it is a c
 
 - [esp32-30pin] (the 30-pin variant of DOIT DEVIT V1 ESP32-WROOM-32, not 36).
 
-- DHT22.
-
-- Multiple LEDs.
+- DHT22, Multiple LEDs, Capacitive Soil Moisture Sensor v1.2, see boot.py.
 
 - ~~SSD1306 with in-software I2C.~~ Dropped it, rewind to "the last before revamp" commit if interested.
-
-- Capacitive Soil Moisture Sensor v1.2.
-
-See boot.py for the exact connectivity/pin numbers.
 
 ## Commands
 
@@ -134,19 +138,7 @@ See boot.py for the exact connectivity/pin numbers.
   mosquitto_pub -d -h 192.168.1.107 -t "output" -m "on" -q 1
   mosquitto_pub -d -h 192.168.1.107 -t "output" -m "off" -q 1
   ```
-
-## Remote Desktop Control
-
-Remote desktop control splits into two main camps: (i) the one that relies on router port forwarding and does not need any external "rendezvous server", and (ii) mostly SAAS solutions which do hole punching (TeamViewer, AnyDesk, RustDesk). Remmina is of the first type and it does not get through every network. The problem is that certain wireless ISPs may put one behind their [NAT](https://en.wikipedia.org/wiki/NAT_traversal) in such a way that no port forwarding is possible, which can always be checked by using
-
-[SO](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network)
-
-[www.yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/)
-
-[canyouseeme.org](https://canyouseeme.org/)
-
-This path is not recommended. Instead, one could communicate with ESP32 via IPFS as indicated in the introduction or even by [sending commands via github](https://github.com/aabbtree77/sendrecv) which I used before, when not knowing about the existence of IPFS.
-
+  
 ## Observations about ESP32 and MicroPython
 
 - **Hardware is tough.** When the DHT sensor is detached from the chip's pin, executing the line "dht_sensor.measure()" or "dht_sensor.start()" 
