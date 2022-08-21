@@ -12,10 +12,10 @@
 
 ## Introduction
 
-The DOIT DEVIT V1 ESP32-WROOM-32 development board is an inexpensive (sub 10-20$) board with an ambition to perform OS-free networking. There are so many ways of using such a board in IoT projects, and this memo documents my several years of experience and what I think is the best way to control an ESP32 device. The goal is to have a reliable full stack control without any 3rd party services. A suggested solution, for this moment (August 2022), is shown above.
+The DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (sub 10-20$) MCU board with an ambition to perform OS-free networking. There are so many ways of using such a board in IoT projects, and this memo documents my several years of experience and what I think is the best way to control an ESP32 device. The goal is to have a reliable full stack control without any 3rd party services. A suggested solution, for this moment (August 2022), is shown above.
 
 This is still largely a "Web2" way as one needs an additional Linux machine to run along with ESP32. The machine consumes electricity and needs to be configured.
-We do not really need this link, and neither MQTT is that important. In the ideal "Web3" world some day we will have an ESP32 as the IPFS node which will share a file with its IPNS link which will effectively become its "message board", punching through NAT in the P2P way.
+We do not really need this link, and neither MQTT is that important. In the ideal "Web3" world some day we will have an ESP32 as the IPFS node which will share a file with its IPNS link which will effectively become its "message board", punching through NATs in the P2P way.
 
 ## Why Against a Third Party?
 
@@ -27,7 +27,7 @@ The most challenging part of this setup is connecting to the LAN via the interne
 
 - HiveMQ with [“Server closed connection without DISCONNECT.”](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)
 
-- Remote desktop control (RDC) horrors. Router port forwarding is a waste of time. It could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/). Remmina does not punch through every NAT though. Even when it does get through, it always involves some manual effort for every goddam specific LAN with its routers. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions.
+- Remote desktop control (RDC) horrors. Remmina with a necessary router port forwarding could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/). Remmina does not punch through every NAT though. Even when it does get through, this always involves some manual effort for every goddam specific LAN with its routers. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions.
 
 - ...
 
