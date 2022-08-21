@@ -35,7 +35,7 @@ At some point I got so desperate that I just started [sending commands via githu
 
 Considering RDC, RustDesk could be an interesting OSS alternative. However, it is a complex "all in one" system, and this is a Rust world, also AGPL... There are also minor-looking issues such as [doubts](https://news.ycombinator.com/item?id=29479503) about its server component and "Web2ish hole punching"? 
 
-The answer at the moment seems to be [Hyprspace](https://github.com/hyprspace) which is a minimal, Apache-licensed way just to tap into a remote computer with ssh. It uses go-libp2p MIT-licensed stack centered around IPFS. Does it always work though?! TBC...
+My choice is [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) or [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both codes rely on the go-libp2p MIT-licensed stack centered around IPFS. They aim at a hard problem without losing a focus: The ability to tap into a remote PC under NAT layers directly, in the P2P way. Do they always work though?! TBC...
 
 ## Some Photos
 
