@@ -12,14 +12,14 @@
 
 ## Introduction
 
-The DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (sub 10-20$) MCU board with an ambition to perform OS-free networking. There are so many ways of using such a board in IoT projects, and this memo documents my several years of experience and what I think is the best way to control an ESP32 device. The goal is to have a reliable full stack control without any 3rd party services. A suggested solution, for this moment (August 2022), is shown above.
+DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (sub 10-20$) MCU board with an ambition to perform OS-free networking. I will share here a reliable setup without any 3rd party services. It is not hassle-free, but the chosen network stack is ubiquitous and solid/well tested.
 
-This is still largely a "Web2" way as one needs an additional Linux machine to run along with ESP32. The machine consumes electricity and needs to be configured.
-We do not really need this link, and neither MQTT is that important. In the ideal "Web3" world some day we will have an ESP32 as the IPFS node which will share a file with its IPNS link which will effectively become its "message board", punching through NATs in the P2P way.
+A global picture shown above is still a "Web2" way as one needs an additional Linux machine to run along with ESP32. The machine consumes electricity and needs to be configured.
+We do not really need this link, and neither MQTT is that important. In the ideal "Web3" world we would have an ESP32 acting as an IPFS node which could share a file with its IPNS link. The latter effectively being its "message board", punching through NATs in the P2P way. This is already a reality with the embedded Linux SBCs, but with ESP32 we still need that additional machine.
 
-## Why Against a Third Party?
+## Why Against Third Party Services?
 
-The most challenging part is connecting to a LAN via the internet from anywhere as most of the default ISP NAT configurations do not allow port forwarding. One can find various SaaS/3rd party services for the global connectivity, but real life shows it is dangerous to rely on them. A few examples: 
+The most challenging part is connecting to a LAN via the internet from anywhere. One can find various SaaS/3rd party services for the global connectivity, but real life shows it is dangerous to rely on them. A few examples: 
 
 - The cases of [Google IoT Core](https://news.ycombinator.com/item?id=32475298), [Google Cloud](https://news.ycombinator.com/item?id=32547912)...
 
@@ -29,15 +29,15 @@ The most challenging part is connecting to a LAN via the internet from anywhere 
 
 - Remote desktop control (RDC) horrors. Remmina with a necessary router port forwarding could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/). It does not punch through every NAT though, demands manual tweaking around OS, LAN, routers. A lot of things can and do go wrong. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions.
 
-At some point one becomes so desperate that [sending commands via github.com](https://github.com/aabbtree77/sendrecv) becomes "viable". At least this works for testing purposes, as long as github.com is available, but it is a very cumbersome custom/isolated way to communicate globally. Patching "Web2" so to speak.
+At some point one becomes so desperate that [sending commands via github.com](https://github.com/aabbtree77/sendrecv) becomes viable. At least this works for testing purposes, as long as github.com is available, but it is a very cumbersome custom/isolated way to communicate globally.
 
-Considering RDC, projects such as [RustDesk](https://github.com/rustdesk/rustdesk) begin to emerge, but this is a Rust world. AGPL, [doubts](https://news.ycombinator.com/item?id=29479503) about its "server component", Web2ish hole punching? 
+Considering RDC, projects such as [RustDesk](https://github.com/rustdesk/rustdesk) begin to emerge. This is a Rust world... There also exist some [doubts](https://news.ycombinator.com/item?id=29479503) about RustDesk's "server component". 
 
 Eventually, the attention switches to the P2P world. After all, we have been using torrent clients since Napster and these nodes manage to communicate under harsh conditions.
 
-Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers directly, in the P2P way. Both tools are OSS written in Go, which means a much better life with compilation and adaptation compared to C++/Rust/Nim/Zig... Both of them rely on the go-libp2p MIT-licensed stack centered around IPFS. 
+Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers directly, in the P2P way. Both tools are OSS written in Go, which means a much better life with compilation and adaptation compared to C++/Rust/Nim/Zig... Both rely on the go-libp2p MIT-licensed stack centered around IPFS. 
 
-Do they always work though?! TBC...
+Do they always work though, are they equally good? EdgeVPN may have an [edge]((https://github.com/mudler/edgevpn/issues/25).
 
 ## Some Photos
 
@@ -186,19 +186,18 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - One could opt for the [Espressif](https://github.com/espressif/esp-idf/issues) [Rainmaker](https://github.com/espressif/esp-rainmaker/issues) cloud, which makes ESP32 globally accessible to any Android device, but this is a 3rd party service, a huge opaque dependency.  
 
-- Ideally, some day ESP32 would become a global IPFS/IPNS "Web3" node with a "hole punching" capacity. It is not clear if the amount of RAM available in ESP32 chips can make this goal/challenge viable. As an example, [kubo](https://github.com/ipfs/kubo), the implementation of IPFS in Go, takes more than 60MB as a Linux package, and it is recommended "running it on a machine with at least 2 GB of RAM and 2 CPU cores..."
+- Ideally, some day ESP32 would become a global IPFS/IPNS "Web3" node with a "hole punching" capacity. It is not clear if the amount of RAM available in ESP32 chips can make this goal/challenge viable. As an example, [kubo](https://github.com/ipfs/kubo), the implementation of IPFS in Go, takes more than 60MB as a Linux package, and it is recommended "running it on a machine with at least 2 GB of RAM."
 
 ## References
 
-Essential:
+ESP32 Essentials:
 
-- [Getting started]
 - [MicroPython firmware]
 - [micropython-Rui-Santos]
 - [umqtt.simple]
 - [esp32-30pin]
 
-Optional:
+Optional (Places not to go to, but to be aware of):
 
 - [micropython-mqtt-async]
 - [micropython-nano-gui]
