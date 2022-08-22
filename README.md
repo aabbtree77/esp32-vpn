@@ -19,23 +19,25 @@ We do not really need this link, and neither MQTT is that important. In the idea
 
 ## Why Against a Third Party?
 
-The most challenging part of this setup is connecting to the LAN via the internet from anywhere as most of the default ISP NAT configurations do not allow port forwarding. One can find various SaaS/3rd party services for the global connectivity, but real life shows that this is all running on fumes. A few examples: 
+The most challenging part is connecting to a LAN via the internet from anywhere as most of the default ISP NAT configurations do not allow port forwarding. One can find various SaaS/3rd party services for the global connectivity, but real life shows it is dangerous to rely on them. A few examples: 
 
-- The case of	[Google IoT Core](https://news.ycombinator.com/item?id=32475298).
+- The cases of [Google IoT Core](https://news.ycombinator.com/item?id=32475298), [Google Cloud](https://news.ycombinator.com/item?id=32547912)...
 
-- [CloudMQTT has removed its only free plan](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html).
+- CloudMQTT and its [free plan](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html).
 
 - HiveMQ with [“Server closed connection without DISCONNECT.”](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)
 
-- Remote desktop control (RDC) horrors. Remmina with a necessary router port forwarding could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/). Remmina does not punch through every NAT though. Even when it does get through, this always involves some manual effort for every goddam specific LAN with its routers. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions.
+- Remote desktop control (RDC) horrors. Remmina with a necessary router port forwarding could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/). It does not punch through every NAT though, demands manual tweaking around OS, LAN, routers. A lot of things can and do go wrong. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions.
 
-- ...
+At some point one becomes so desperate that [sending commands via github.com](https://github.com/aabbtree77/sendrecv) becomes "viable". At least this works for testing purposes, as long as github.com is available, but it is a very cumbersome custom/isolated way to communicate globally. Patching "Web2" so to speak.
 
-At some point I got so desperate that I just started [sending commands via github.com](https://github.com/aabbtree77/sendrecv), which works as long as github.com is available, but it is a very cumbersome and custom way to communicate globally.
+Considering RDC, projects such as [RustDesk](https://github.com/rustdesk/rustdesk) begin to emerge, but this is a Rust world. AGPL, [doubts](https://news.ycombinator.com/item?id=29479503) about its "server component", Web2ish hole punching? 
 
-Considering RDC, RustDesk could be an interesting OSS alternative. However, it is a complex "all in one" system, and this is a Rust world, also AGPL... There are also minor-looking issues such as [doubts](https://news.ycombinator.com/item?id=29479503) about its server component and "Web2ish hole punching"? 
+Eventually, the attention switches to the P2P world. After all, we have been using torrent clients since Napster and these nodes manage to communicate under harsh conditions.
 
-My choice is [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) or [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both codes rely on the go-libp2p MIT-licensed stack centered around IPFS. They aim at a hard problem without losing a focus: The ability to tap into a remote PC under NAT layers directly, in the P2P way. Do they always work though?! TBC...
+Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers directly, in the P2P way. Both tools are OSS written in Go, which means a much better life with compilation and adaptation compared to C++/Rust/Nim/Zig... Both of them rely on the go-libp2p MIT-licensed stack centered around IPFS. 
+
+Do they always work though?! TBC...
 
 ## Some Photos
 
