@@ -1,7 +1,7 @@
 
 <table align="center">
     <tr>
-    <th align="center"> ESP32 as an MQTT Client</th>
+    <th align="center"> ESP32 as an MQTT Client in the Context of IoT</th>
     </tr>
     <tr>
     <td>
@@ -37,7 +37,7 @@ Eventually, the attention switches to the P2P world. After all, we have been usi
 
 Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers directly, in the P2P way. Both tools are OSS written in Go, which means a much better life with compilation and adaptation compared to C++/Rust/Nim/Zig... Both rely on the go-libp2p MIT-licensed stack centered around IPFS. 
 
-Do they always work though, are they equally good? EdgeVPN may have an [edge]((https://github.com/mudler/edgevpn/issues/25).
+Do they always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
 ## Some Photos
 
