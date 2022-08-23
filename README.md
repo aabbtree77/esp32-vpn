@@ -12,12 +12,12 @@
 
 ## Introduction
 
-DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (sub 10-20$) MCU board with an ambition to perform OS-free networking. I will share here a reliable setup without any 3rd party services. It is not hassle-free, but the chosen network stack is ubiquitous and solid/well tested.
+DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (sub 10-20$) MCU board with an ambition to perform Linux-free networking. I will share here a reliable setup without any 3rd party services. It is not hassle-free, but the chosen network stack is ubiquitous and solid/well tested.
 
 A global picture shown above is still a "Web2" way as one needs an additional Linux machine to run along with ESP32. The machine consumes electricity and needs to be configured.
-We do not really need this link, and neither MQTT is that important. In the ideal "Web3" world we would have an ESP32 acting as an IPFS node which could share a file with its IPNS link. The latter effectively being its "message board", punching through NATs in the P2P way. This is already a reality with the embedded Linux SBCs, but with ESP32 we still need that additional machine.
+We do not really need this link, and neither MQTT is that important. In the ideal "Web3" world we would have an ESP32 acting as an IPFS node which could share a file with its IPNS link. The latter effectively being its "message board", punching through NATs in the P2P way. This could already be a reality with the embedded Linux SBCs, but with ESP32 we still need that additional link.
 
-## Why Against Third Party Services?
+## Congratulations, You Had a Problem and Now You Have Two
 
 The most challenging part is connecting to a LAN via the internet from anywhere. One can find various SaaS/3rd party services for the global connectivity, but real life shows it is dangerous to rely on them. A few examples: 
 
@@ -33,7 +33,7 @@ At some point one becomes so desperate that [sending commands via github.com](ht
 
 Considering RDC, projects such as [RustDesk](https://github.com/rustdesk/rustdesk) begin to emerge. This is a Rust world... There also exist some [doubts](https://news.ycombinator.com/item?id=29479503) about RustDesk's "server component". 
 
-Eventually, the attention switches to the P2P world. After all, we have been using torrent clients since Napster and these nodes manage to communicate under harsh conditions.
+Eventually, attention switches to the P2P world. After all, we have been using torrent clients since Napster and these nodes manage to communicate under harsh conditions.
 
 Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers directly, in the P2P way. Both tools are OSS written in Go, which means a much better life with compilation and adaptation compared to C++/Rust/Nim/Zig... Both rely on the go-libp2p MIT-licensed stack centered around IPFS. 
 
@@ -197,7 +197,7 @@ ESP32 Essentials:
 - [umqtt.simple]
 - [esp32-30pin]
 
-Optional (Places not to go to, but to be aware of):
+Optional (Places not to go to, only to be aware of):
 
 - [micropython-mqtt-async]
 - [micropython-nano-gui]
