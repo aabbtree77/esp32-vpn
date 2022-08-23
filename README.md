@@ -19,13 +19,15 @@ We do not really need this link, and neither MQTT is that important. In the idea
 
 ## Congratulations, You Had a Problem and Now You Have Two
 
-The most challenging part is connecting to a LAN via the internet from anywhere. One can find various SaaS/3rd party services for the global connectivity, but real life shows it is dangerous to rely on them. A few examples: 
+The most challenging part is connecting to a LAN/device via the internet from anywhere. One can find a bewildering number of SaaS/3rd party services for the deliberation, but real life shows it is too dangerous/pricey to give up freedom for convenience. A few examples: 
 
-- The cases of [Google IoT Core](https://news.ycombinator.com/item?id=32475298), [Google Cloud](https://news.ycombinator.com/item?id=32547912)...
+- [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [plenty](https://www.esp32.com/viewtopic.php?t=16293) of [issues](https://github.com/espressif/esp-rainmaker/issues/155).
 
-- CloudMQTT and its [free plan](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html).
+- [Google IoT Core](https://news.ycombinator.com/item?id=32475298) and [Google Cloud](https://news.ycombinator.com/item?id=32547912).
 
-- HiveMQ with [“Server closed connection without DISCONNECT.”](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)
+- [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html).
+
+- [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4).
 
 - Remote desktop control (RDC) horrors. Remmina with a necessary router port forwarding could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/). It does not punch through every NAT though, demands manual tweaking around OS, LAN, routers. A lot of things can and do go wrong. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions.
 
@@ -166,7 +168,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   Type "help()" for more information.
   >>> 
   ```
-- **Too little RAM.** ESP12 has a pathetic amount of RAM, but ESP32 is no cake either. Importing the font arial35 from Peter Hinch's ssd1306 lib along with freesans20 
+- **Too little RAM.** ESP12 has a pathetic amount of RAM and is a [disaster](https://github.com/espressif/esp-rainmaker/issues/8), but ESP32 is no cake either. Importing the font arial35 from Peter Hinch's ssd1306 lib along with freesans20 
   is still possible when running the DHT measurement with the display without the networking stack. Adding the async networking and the MQTT libs exposes an 
   insufficient RAM: 
   
@@ -184,7 +186,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
    
 - ESP32 with MicroPython is a solid Wi-Fi client to be controlled from a PC within a LAN via MQTT. Despite many existing attempts, it is not a self-sufficient minicomputer or network node.
 
-- One could opt for the [Espressif](https://github.com/espressif/esp-idf/issues) [Rainmaker](https://github.com/espressif/esp-rainmaker/issues) cloud, which makes ESP32 globally accessible to any Android device, but this is a 3rd party service, a huge opaque dependency.  
+- One could opt for the [Espressif](https://github.com/espressif/esp-idf/issues) [Rainmaker](https://github.com/espressif/esp-rainmaker/issues) cloud, which makes ESP32 globally accessible to any Android device, but this is a 3rd party service, a huge opaque dependency that runs on AWS inside of it.  
 
 - Ideally, some day ESP32 would become a global IPFS/IPNS "Web3" node with a "hole punching" capacity. It is not clear if the amount of RAM available in ESP32 chips can make this goal/challenge viable. As an example, [kubo](https://github.com/ipfs/kubo), the implementation of IPFS in Go, takes more than 60MB as a Linux package, and it is recommended "running it on a machine with at least 2 GB of RAM."
 
