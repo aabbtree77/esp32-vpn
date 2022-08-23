@@ -21,7 +21,7 @@ We do not really need this link, and neither MQTT is that important. In the idea
 
 The most challenging part is connecting to a LAN/device via the internet from anywhere. One can find a bewildering number of SaaS/3rd party services for the deliberation, but real life shows it is too dangerous/pricey to give up freedom for convenience. A few examples: 
 
-- [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [plenty](https://www.esp32.com/viewtopic.php?t=16293) of [issues](https://github.com/espressif/esp-rainmaker/issues/155).
+- [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [plenty](https://www.esp32.com/viewtopic.php?t=16293) [of](https://github.com/espressif/esp-rainmaker/issues/51) [issues](https://github.com/espressif/esp-rainmaker/issues/155).
 
 - [Google IoT Core](https://news.ycombinator.com/item?id=32475298) and [Google Cloud](https://news.ycombinator.com/item?id=32547912).
 
