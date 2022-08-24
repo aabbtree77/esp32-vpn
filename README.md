@@ -23,17 +23,15 @@ The most challenging part is connecting to a LAN/device via the internet from an
 
 - [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [plenty](https://www.esp32.com/viewtopic.php?t=16293) [of](https://github.com/espressif/esp-rainmaker/issues/51) [issues](https://github.com/espressif/esp-rainmaker/issues/155).
 
-- [Google IoT Core](https://news.ycombinator.com/item?id=32475298) and [Google Cloud](https://news.ycombinator.com/item?id=32547912).
+- [Google IoT Core](https://news.ycombinator.com/item?id=32475298) and [Google](https://news.ycombinator.com/item?id=32547912) [Cloud](https://twitter.com/splix/status/1562169212105367554).
 
 - [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html).
 
 - [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4).
 
-- Remote desktop control (RDC) horrors. Remmina with a necessary router port forwarding could be a quick solution when it works, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/). It does not punch through every NAT though, demands manual tweaking around OS, LAN, routers. A lot of things can and do go wrong. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions.
+A special honorable mention here is earned by the remote desktop control (RDC) software. Remmina relies on port forwarding which is only a quick and dirty solution, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/). It does not punch through every NAT, demands manual tweaking around OS, LAN, routers. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions. More recent OSS efforts such as [RustDesk](https://github.com/rustdesk/rustdesk) still bring [doubts](https://news.ycombinator.com/item?id=29479503) about their "server component". Where is "UbuntuDesk"?!
 
 At some point one becomes so desperate that [sending commands via github.com](https://github.com/aabbtree77/sendrecv) becomes viable. At least this works for testing purposes, as long as github.com is available, but it is a very cumbersome custom/isolated way to communicate globally.
-
-Considering RDC, projects such as [RustDesk](https://github.com/rustdesk/rustdesk) begin to emerge. This is a Rust world... There also exist some [doubts](https://news.ycombinator.com/item?id=29479503) about RustDesk's "server component". 
 
 Eventually, attention switches to the P2P world. After all, we have been using torrent clients since Napster and these nodes manage to communicate under harsh conditions.
 
