@@ -45,7 +45,7 @@ The most challenging part is connecting to a LAN/device via the internet from an
 
 At some point one becomes so desperate that [sending commands via github.com](https://github.com/aabbtree77/sendrecv) becomes viable. At least this works for testing purposes as long as github.com is available, but it is a very slow and cumbersome way to communicate.
 
-Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers without an external server/service. They rely on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p).
+Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers without an external server/service. They rely on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p). The way this magic works, IIUIC, is that the connection gets established through the external/bootstrap nodes of the IPFS network which is, in a way, a torrent network which treats VPN computers as its new nodes. 
 
 Do they always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
