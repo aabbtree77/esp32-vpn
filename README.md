@@ -21,21 +21,31 @@ We do not really need this link, and neither MQTT is that important. In the idea
 
 The most challenging part is connecting to a LAN/device via the internet from anywhere. One can find a bewildering number of SaaS/3rd party services for the deliberation, but real life shows it is too dangerous/pricey to give up freedom for convenience. A few examples: 
 
-- [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [plenty](https://www.esp32.com/viewtopic.php?t=16293) [of](https://github.com/espressif/esp-rainmaker/issues/51) [issues](https://github.com/espressif/esp-rainmaker/issues/155).
+- [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96): Opaque layer on top of AWS.
 
-- [Google IoT Core](https://news.ycombinator.com/item?id=32475298) and [Google](https://news.ycombinator.com/item?id=32547912) [Cloud](https://twitter.com/splix/status/1562169212105367554).
+- [Google IoT Core](https://news.ycombinator.com/item?id=32475298) and [Google](https://news.ycombinator.com/item?id=32547912) [Cloud](https://twitter.com/splix/status/1562169212105367554): Little to rely on.
 
-- [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html).
+- [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)...
 
-- [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4).
+- Remmina: RDC, depends [on](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network) [port](https://canyouseeme.org/) [forwarding](https://www.yougetsignal.com/tools/open-ports/) which is a gigantic waste of time.
 
-A special honorable mention here is earned by the remote desktop control (RDC) software. Remmina relies on port forwarding which is only a quick and dirty solution, clf. [this SO question](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network), [canyouseeme.org](https://canyouseeme.org/), [yougetsignal.com](https://www.yougetsignal.com/tools/open-ports/). It does not punch through every NAT, demands manual tweaking around OS, LAN, routers. TeamViewer/AnyDesk alikes are expensive, complex, opaque "Web2" SaaS solutions. More recent OSS efforts such as [RustDesk](https://github.com/rustdesk/rustdesk) still bring [doubts](https://news.ycombinator.com/item?id=29479503) about their "server component". Where is "UbuntuDesk"?!
+- Chrome Remote Desktop: Opaque RDC.
 
-At some point one becomes so desperate that [sending commands via github.com](https://github.com/aabbtree77/sendrecv) becomes viable. At least this works for testing purposes, as long as github.com is available, but it is a very cumbersome custom/isolated way to communicate globally.
+- TeamViewer/AnyDesk alikes: Expensive opaque RDC.
 
-Eventually, attention switches to the P2P world. After all, we have been using torrent clients since Napster and these nodes manage to communicate under harsh conditions.
+- [RustDesk](https://github.com/rustdesk/rustdesk): RDC, needs a server, [not entirely OSS](https://news.ycombinator.com/item?id=29479503). Where is "UbuntuDesk"?!
 
-Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers directly, in the P2P way. Both tools are OSS written in Go, which means a much better life with compilation and adaptation compared to C++/Rust/Nim/Zig... Both rely on the go-libp2p MIT-licensed stack centered around IPFS. 
+- Wireguard: Requires an [endpoint public IP](https://wiki.archlinux.org/title/WireGuard#Endpoint_with_changing_IP), [is too low level](https://github.com/pirate/wireguard-docs#NAT-to-NAT-Connections), but it runs everywhere including [ESP-IDF](https://github.com/trombik/esp_wireguard), which is something to think about. 
+
+- Nebula, NetBird, Tailscale, ZeroTier, tinc... A long list of ["mesh networks"](https://wiki.nikiv.dev/networking/vpn/wireguard) built on top of Wireguard, mostly. Some are totally OSS, others with only their "client component" being OSS, but the ghost of a public IP is always looming there. Welcome to the jungle.
+
+- [wireguard-p2p](https://github.com/manuels/wireguard-p2p/issues/5): A layer on top of Wireguard with Rust and C++ compilation issues.
+
+- [The list of "solutions"](https://news.ycombinator.com/item?id=27672715) goes on and on...
+
+At some point one becomes so desperate that [sending commands via github.com](https://github.com/aabbtree77/sendrecv) becomes viable. At least this works for testing purposes as long as github.com is available, but it is a very slow and cumbersome way to communicate.
+
+Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers directly, in the P2P way, by means of the MIT-licensed stack called go-libp2p.
 
 Do they always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
