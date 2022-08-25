@@ -37,7 +37,7 @@ The most challenging part is connecting to a LAN/device via the internet from an
 
 - Wireguard: Requires an [endpoint public IP](https://wiki.archlinux.org/title/WireGuard#Endpoint_with_changing_IP), [is too low level](https://github.com/pirate/wireguard-docs#NAT-to-NAT-Connections), but it runs everywhere including [ESP-IDF](https://github.com/trombik/esp_wireguard), which is something to think about. 
 
-- Nebula, NetBird, Tailscale, ZeroTier, tinc... A long list of ["mesh networks"](https://wiki.nikiv.dev/networking/vpn/wireguard) built on top of Wireguard, mostly. Some are totally OSS, others with only their "client component" being OSS, but the ghost of a public IP is always looming there. Welcome to the jungle.
+- Nebula, NetBird, Tailscale, ZeroTier, tinc, Netmaker, Hamachi... A long list of various "[mesh](https://geeksrepos.com/RealOrangeOne/awesome-wireguard) [networks](https://wiki.nikiv.dev/networking/vpn/wireguard)" built on top of Wireguard, mostly. Some are totally OSS, others with only their "client component" being OSS. Quite a few services with free plans to punch through NAT, but the ghost of a public IP is always looming there.
 
 - [wireguard-p2p](https://github.com/manuels/wireguard-p2p/issues/5): A layer on top of Wireguard with Rust and C++ compilation issues.
 
@@ -45,7 +45,7 @@ The most challenging part is connecting to a LAN/device via the internet from an
 
 At some point one becomes so desperate that [sending commands via github.com](https://github.com/aabbtree77/sendrecv) becomes viable. At least this works for testing purposes as long as github.com is available, but it is a very slow and cumbersome way to communicate.
 
-Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers directly, in the P2P way, by means of the MIT-licensed stack called go-libp2p.
+Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers without an external server/service. They rely on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p).
 
 Do they always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
