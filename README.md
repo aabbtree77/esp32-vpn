@@ -35,9 +35,9 @@ The most challenging part is connecting to a LAN/device via the internet from an
 
 - [RustDesk](https://github.com/rustdesk/rustdesk): RDC, needs a server, [not entirely OSS](https://news.ycombinator.com/item?id=29479503). Where is "UbuntuDesk"?!
 
-- Wireguard: Requires an [endpoint public IP](https://wiki.archlinux.org/title/WireGuard#Endpoint_with_changing_IP), [is too low level](https://github.com/pirate/wireguard-docs#NAT-to-NAT-Connections), but it runs everywhere including [ESP-IDF](https://github.com/trombik/esp_wireguard), which is something to think about. 
+- Wireguard: Requires an [endpoint](https://wiki.archlinux.org/title/WireGuard#Endpoint_with_changing_IP) [public IP](https://github.com/pirate/wireguard-docs#NAT-to-NAT-Connections), is too low level, but it runs everywhere including [ESP-IDF](https://github.com/trombik/esp_wireguard), which is something to think about. 
 
-- Nebula, NetBird, Tailscale, ZeroTier, tinc, Netmaker, Hamachi... A long list of various "[mesh](https://geeksrepos.com/RealOrangeOne/awesome-wireguard) [networks](https://wiki.nikiv.dev/networking/vpn/wireguard)" built on top of Wireguard, mostly. Some are totally OSS, others with only their "client component" being OSS. Quite a few services with free plans to punch through NAT, but the ghost of a public IP is always looming there.
+- Nebula, NetBird, Netmaker, Tailscale, headscale, innernet, ZeroTier, tinc, Hamachi... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [networks](https://wiki.nikiv.dev/networking/vpn/wireguard)" built on top of Wireguard, mostly. Some are totally OSS, others with only their "client component" being OSS. Quite a few services with free plans to punch through NAT, but the ghost of a public static IP is always looming there.
 
 - [wireguard-p2p](https://github.com/manuels/wireguard-p2p/issues/5): A layer on top of Wireguard with Rust and C++ compilation issues.
 
