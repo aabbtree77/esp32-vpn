@@ -43,7 +43,7 @@ The most challenging part is connecting to a LAN/device via the internet from an
 
 - [The list of "solutions"](https://news.ycombinator.com/item?id=27672715) goes on and on...
 
-At some point one becomes so desperate that [sending commands via github.com](https://github.com/aabbtree77/sendrecv) becomes viable. At least this works for testing purposes as long as github.com is available, but it is a very slow and cumbersome way to communicate.
+At some point one becomes so desperate that [sending commands](https://github.com/aabbtree77/sendrecv) via github.com becomes viable. At least this works for testing purposes as long as github.com is available, and no significant detours with worries about static IPs and protocols are necessary. This is a very slow and limited way to communicate globally though.
 
 Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers without an external server/service. They rely on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p). The way this magic works, IIUIC, is that the connection gets established through the [bootstrap peers](https://news.ycombinator.com/item?id=27461354) of the IPFS network which is, in a way, a torrent network that treats VPN computers as its new nodes. 
 
