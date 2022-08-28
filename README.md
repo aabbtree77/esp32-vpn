@@ -45,9 +45,11 @@ The most challenging part is connecting to a LAN/device via the internet from an
    
 - The show must go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling)...
 
-At some point one becomes so desperate that [sending commands](https://github.com/aabbtree77/sendrecv) via github.com becomes viable. At least this works for testing purposes as long as github.com is available, and no significant detours with worries about static IPs and protocols are necessary. This is a very slow and limited way to communicate globally though.
+- Could [Tor, The Onion Router](https://www.techjail.net/raspberry-iotlinux-devices.html) be the answer to the way out of this mess?! Generate a hidden onion service link with "echalot" and then access your computer with "torify ssh"...
 
-Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers without an external server/service. They rely on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p). The way this magic works, IIUIC, is that the connection gets established through the [bootstrap peers](https://news.ycombinator.com/item?id=27461354) of the IPFS network which is, in a way, a torrent network that treats VPN computers as its new nodes. 
+At some point one becomes so desperate that [sending commands](https://github.com/aabbtree77/sendrecv) via github.com becomes viable. At least this works for testing purposes as long as github.com is available. Why worry about VPS, VPN, DNS, SSH and endless ways to tame the gorilla when all you need is sending a message to a remote computer?! This is a very slow and limited way to communicate globally, but it does the job.
+
+Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers without an external server/service. They rely on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p). The way this magic works is that the connection gets established through the [bootstrap peers](https://news.ycombinator.com/item?id=27461354) of the global IPFS network which is, in a way, a torrent network that treats VPN computers as its new nodes. 
 
 Do they always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
