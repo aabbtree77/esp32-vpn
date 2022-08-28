@@ -21,27 +21,29 @@ We do not really need this link, and neither MQTT is that important. In the idea
 
 The most challenging part is connecting to a LAN/device via the internet from anywhere. One can find a bewildering number of SaaS/3rd party services for the deliberation, but real life shows it is too dangerous/pricey to give up freedom for convenience. A few examples: 
 
-- [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96): Opaque layer on top of AWS.
-
-- [Google IoT Core](https://news.ycombinator.com/item?id=32475298) and [Google](https://news.ycombinator.com/item?id=32547912) [Cloud](https://twitter.com/splix/status/1562169212105367554): Little to rely on.
+- [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [Google IoT Core](https://news.ycombinator.com/item?id=32475298)... No.
 
 - [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)...
 
-- Remmina: RDC, depends [on](https://stackoverflow.com/questions/54878001/cannot-get-mosquitto-to-allow-connection-from-outside-local-network) [port](https://canyouseeme.org/) [forwarding](https://www.yougetsignal.com/tools/open-ports/) which is a gigantic waste of time.
+- Remmina: Free OSS RDC, demands [port](https://canyouseeme.org/) [forwarding](https://www.yougetsignal.com/tools/open-ports/) which is a gigantic waste of time.
 
 - Chrome Remote Desktop: Opaque RDC.
 
-- TeamViewer/AnyDesk alikes: Expensive opaque RDC.
+- TeamViewer/AnyDesk alikes: Expensive opaque RDCs.
 
-- [RustDesk](https://github.com/rustdesk/rustdesk): RDC, needs a server, [not entirely OSS](https://news.ycombinator.com/item?id=29479503). Where is "UbuntuDesk"?!
+- [RustDesk](https://github.com/rustdesk/rustdesk): RDC, [not entirely OSS](https://news.ycombinator.com/item?id=29479503). Where is "UbuntuDesk"?!
 
-- Wireguard: Requires an [endpoint](https://wiki.archlinux.org/title/WireGuard#Endpoint_with_changing_IP) [public IP](https://github.com/pirate/wireguard-docs#NAT-to-NAT-Connections), is too low level, but it runs everywhere including [ESP-IDF](https://github.com/trombik/esp_wireguard), which is something to think about. 
+- Wireguard: Requires an [endpoint](https://wiki.archlinux.org/title/WireGuard#Endpoint_with_changing_IP) [public IP](https://github.com/pirate/wireguard-docs#NAT-to-NAT-Connections), is too low level, but it runs everywhere including [ESP-IDF](https://github.com/trombik/esp_wireguard), which is something to think about.
 
 - Nebula, NetBird, Netmaker, Tailscale, headscale, innernet, ZeroTier, tinc, Hamachi... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [networks](https://wiki.nikiv.dev/networking/vpn/wireguard)" built on top of Wireguard, mostly. Some are totally OSS, others with only their "client component" being OSS. Quite a few services with free plans to punch through NAT, but the ghost of a public static IP is always looming there.
 
 - [wireguard-p2p](https://github.com/manuels/wireguard-p2p/issues/5): A layer on top of Wireguard with Rust and C++ compilation issues.
 
-- [The list of "solutions"](https://news.ycombinator.com/item?id=27672715) goes on and on...
+- ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In: Mostly Raspberry Pi related IoT clouds with very limited free plans and steep prices w.r.t. the growing number of devices. Many Raspberry Pi W tutorials still promote archaic port forwarding and dynamic DNS services, but such tools do not solve the "behind the NAT" problem.
+
+- ngrok, frp, localtunnel.me, gotunnelme, boringproxy, rathole. All these are good "reverse proxy tools" to expose "behind-NAT machines" if you already have a VPS with an IP. Some are [TCP only](https://github.com/fatedier/frp/issues/3009), some result in a [much faster VPN](https://github.com/fatedier/frp/issues/2911). ngrok and frp have also been used in phishing attacks, see e.g. these case studies: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/)...
+   
+- The show must go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling)...
 
 At some point one becomes so desperate that [sending commands](https://github.com/aabbtree77/sendrecv) via github.com becomes viable. At least this works for testing purposes as long as github.com is available, and no significant detours with worries about static IPs and protocols are necessary. This is a very slow and limited way to communicate globally though.
 
