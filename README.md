@@ -25,23 +25,17 @@ The most challenging part is connecting to a LAN/device via the internet from an
 
 - [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)...
 
-- Remmina: Free OSS RDC, demands [port](https://canyouseeme.org/) [forwarding](https://www.yougetsignal.com/tools/open-ports/) which is a gigantic waste of time.
+- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk: No. Where is "UbuntuDesk"?!
 
-- Chrome Remote Desktop: Opaque RDC.
+- ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In: Mostly Raspberry Pi related IoT clouds with very limited free plans and steep prices w.r.t. the growing number of devices. Many Raspberry Pi W tutorials still promote archaic port forwarding and dynamic DNS services.
 
-- TeamViewer/AnyDesk alikes: Expensive opaque RDCs.
-
-- [RustDesk](https://github.com/rustdesk/rustdesk): RDC, [not entirely OSS](https://news.ycombinator.com/item?id=29479503). Where is "UbuntuDesk"?!
-
-- Wireguard: Requires an [endpoint](https://wiki.archlinux.org/title/WireGuard#Endpoint_with_changing_IP) [public IP](https://github.com/pirate/wireguard-docs#NAT-to-NAT-Connections), is too low level, but it runs everywhere including [ESP-IDF](https://github.com/trombik/esp_wireguard), which is something to think about.
-
-- Nebula, NetBird, Netmaker, Tailscale, headscale, innernet, ZeroTier, tinc, Hamachi... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [networks](https://wiki.nikiv.dev/networking/vpn/wireguard)" built on top of Wireguard, mostly. Some are totally OSS, others with only their "client component" being OSS. Quite a few services with free plans to punch through NAT, but the ghost of a public static IP is always looming there.
+- Wireguard: Requires an [endpoint](https://wiki.archlinux.org/title/WireGuard#Endpoint_with_changing_IP) [public IP](https://github.com/pirate/wireguard-docs#NAT-to-NAT-Connections), is too low level, but it may run everywhere including [ESP-IDF](https://github.com/trombik/esp_wireguard), which is something to think about.
 
 - [wireguard-p2p](https://github.com/manuels/wireguard-p2p/issues/5): A layer on top of Wireguard with Rust and C++ compilation issues.
 
-- ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In: Mostly Raspberry Pi related IoT clouds with very limited free plans and steep prices w.r.t. the growing number of devices. Many Raspberry Pi W tutorials still promote archaic port forwarding and dynamic DNS services, but such tools do not solve the "behind the NAT" problem.
+- Nebula, NetBird, Netmaker, Tailscale, headscale, innernet, ZeroTier, tinc, Hamachi... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly. Quite a few services with shaky free plans to punch through NAT, server-oriented "Web2" stuff.
 
-- ngrok, frp, localtunnel.me, gotunnelme, boringproxy, rathole. All these are good "reverse proxy tools" to expose "behind-NAT machines" if you already have a VPS with an IP. Some are [TCP only](https://github.com/fatedier/frp/issues/3009), some result in a [much faster VPN](https://github.com/fatedier/frp/issues/2911). ngrok and frp have also been used in phishing attacks, see e.g. these case studies: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/)...
+- ngrok, frp, localtunnel.me, gotunnelme, boringproxy, rathole. Most of them are good "reverse proxy tools" to expose a machine behind a NAT when you already have a VPS with a static IP. Some are [TCP only](https://github.com/fatedier/frp/issues/3009), some may result in a [much faster VPN](https://github.com/fatedier/frp/issues/2911). ngrok's free plan is fairly limited to testing as the plan allows only a temporal public url which becomes invalid as soon as one restarts the ngrok process. ngrok, frp and many other such tunneling/VPN tools have been used in phishing attacks, see e.g. [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/)...
    
 - The show must go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling)...
 
