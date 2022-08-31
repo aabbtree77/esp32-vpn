@@ -19,15 +19,15 @@ We do not really need this link, and neither MQTT is that important. In the idea
 
 ## Congratulations, You Had a Problem and Now You Have Two
 
-The most challenging part is connecting to a LAN/device via the internet from anywhere. One can find a bewildering number of SaaS/3rd party services for the deliberation, but real life shows it is too dangerous/pricey to give up freedom for convenience. A few examples: 
+The most challenging part is connecting to a LAN/device via the internet from anywhere. One can find a bewildering number of SaaS/3rd party services for the deliberation, but real life shows it is too dangerous/pricey to give up freedom for convenience. Let's discuss this a bit: 
 
 - [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [Google IoT Core](https://news.ycombinator.com/item?id=32475298), [Heroku](https://twitter.com/heroku/status/1562817050565054469)... No.
 
 - [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)...
 
-- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk: No. Where is "UbuntuDesk"?!
+- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk... Where is "UbuntuDesk"?!
 
-- ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In: Mostly Raspberry Pi related IoT clouds with very limited free plans and steep prices w.r.t. the growing number of devices. Many Raspberry Pi W tutorials still promote archaic port forwarding and dynamic DNS services.
+- ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In... Mostly Raspberry Pi related IoT clouds with very limited free plans and steep prices.
 
 - Wireguard: Requires an [endpoint](https://wiki.archlinux.org/title/WireGuard#Endpoint_with_changing_IP) [public IP](https://github.com/pirate/wireguard-docs#NAT-to-NAT-Connections), is too low level, but it may run everywhere including [ESP-IDF](https://github.com/trombik/esp_wireguard), which is something to think about.
 
@@ -39,9 +39,11 @@ The most challenging part is connecting to a LAN/device via the internet from an
    
 - The show must go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling)...
 
-- Could [Tor (The Onion Router)](https://www.techjail.net/raspberry-iotlinux-devices.html) be the answer to the way out of this mess?! Generate a hidden onion service link with "echalot" and then access your computer with "torify ssh"...
+- Could [Tor (The Onion Router)](https://www.techjail.net/raspberry-iotlinux-devices.html) be the answer to the way out of this mess?! Generate a hidden onion service link with "echalot" and then access your computer with "torify ssh"?
 
-At some point one becomes so desperate that [sending commands](https://github.com/aabbtree77/sendrecv) via github.com becomes viable. At least this works for testing purposes as long as github.com is available. Why worry about VPS, VPN, DNS, SSH and endless ways to tame the gorilla when all you need is sending a message to a remote computer?! This is a very slow and limited way to communicate globally, but it does the job.
+- IPFS: [1](https://docs.ipfs.tech/how-to/websites-on-ipfs/multipage-website/#publish-to-ipns), [2](https://www.atnnn.com/p/ipfs-hosting/), [3](https://push32.com/post/blogging-on-ipfs/), [4](https://pawelurbanek.com/ipfs-ethereum-blog). Its subsystem called [IPNS](https://hackernoon.com/understanding-ipfs-in-depth-3-6-what-is-interplanetary-naming-system-ipns-9aca71e4c13b) is [too slow](https://github.com/ipfs/kubo/issues/3860) and [confusing](https://discuss.ipfs.tech/t/confusion-about-ipns/1414), [if it works at all](https://macwright.com/2019/06/08/ipfs-again.html). There is also Dat: [1](https://macwright.com/2017/08/09/decentralize-ipfs.html), [2](https://hannuhartikainen.fi/blog/dat-site/)...
+
+At some point one becomes so desperate that [sharing a file](https://github.com/aabbtree77/sendrecv) via github.com becomes viable. At least this works for testing purposes as long as github.com is available. This is a very slow and limited way to communicate globally, but it does the job.
 
 Great ideas come in pairs, and one gets lucky to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). They focus on the ability to tap into a remote PC under NAT layers without an external server/service. They rely on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p). The way this magic works is that the connection gets established through the [bootstrap peers](https://news.ycombinator.com/item?id=27461354) of the global IPFS network which is, in a way, a torrent network that treats VPN computers as its new nodes. 
 
