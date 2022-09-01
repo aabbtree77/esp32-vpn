@@ -25,7 +25,7 @@ The most challenging part is connecting to a LAN/device via the internet from an
 
 - [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)...
 
-- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk... Where is "UbuntuDesk"?!
+- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, screego... "UbuntuDesk" with a solid NAT punching, please.
 
 - ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In... Mostly Raspberry Pi related IoT clouds with very limited free plans and steep prices.
 
