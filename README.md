@@ -1,3 +1,11 @@
+> “An operating system is a collection of things that don't fit into a language. <br>
+There shouldn't be one.”<br> &ndash; Dan Ingalls
+
+> "I notice that in your growing up you missed one step."<br>
+"Oh?" I said, surprised.<br>
+"Yes, you missed the crawling stage you are a young man in a great hurry."<br>
+You can slow down now," she said, "there is no more war, no need to rush."<br>
+&ndash; Yaro Starak, A Memory of Laura Perls
 
 <table align="center">
     <tr>
