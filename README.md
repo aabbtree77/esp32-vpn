@@ -1,12 +1,6 @@
 > “An operating system is a collection of things that don't fit into a language. <br>
 There shouldn't be one.”<br> &ndash; Dan Ingalls
 
-> "I notice that in your growing up you missed one step."<br>
-"Oh?" I said, surprised.<br>
-"Yes, you missed the crawling stage you are a young man in a great hurry."<br>
-"You can slow down now," she said, "there is no more war, no need to rush."<br>
-&ndash; Yaro Starak, A Memory of Laura Perls
-
 <table align="center">
     <tr>
     <th align="center"> ESP32 as an MQTT Client in the Context of IoT</th>
@@ -43,6 +37,8 @@ The most challenging part is connecting to a LAN/device via the internet from an
 
 - Nebula, NetBird, Netmaker, Tailscale, headscale, innernet, ZeroTier, tinc, [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans, but how long will they stay that way? Outside the service mode there is always a need for a static IP here.
 
+- [NetFoundry](https://netfoundry.io/edge-and-iot-zero-trust-networking/) cloud. "The SaaS is free forever for up to 10 endpoints, so you can get started immediately with the SaaS or open source." It positions itself as a [more secure Tailscale](https://netfoundry.io/networking-alternative-compare-tailscale-netfoundry/), which is even further away from a raw connectivity problem. Too much to figure out what is what and run something simple, [at first glance](https://www.reddit.com/r/openziti/comments/xpe01b/need_some_guidance/).
+
 - ngrok, frp, localtunnel.me, gotunnelme, boringproxy, rathole. So called "reverse proxy tools" to expose a machine behind a NAT when you already have a VPS with a static IP. Some are [TCP only](https://github.com/fatedier/frp/issues/3009), some may result in a [much faster VPN](https://github.com/fatedier/frp/issues/2911). ngrok's free plan is fairly limited to testing as the public urls disappear/change when one restarts the self-hosting machine. 
    
 - The show must go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling) and [on](https://changelog.complete.org/archives/10231-recovering-our-lost-free-will-online-tools-and-techniques-that-are-available-now)... with some phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/)...
@@ -55,7 +51,7 @@ The most challenging part is connecting to a LAN/device via the internet from an
 
 - IPFS: [1](https://docs.ipfs.tech/how-to/websites-on-ipfs/multipage-website/#publish-to-ipns), [2](https://www.atnnn.com/p/ipfs-hosting/), [3](https://push32.com/post/blogging-on-ipfs/), [4](https://pawelurbanek.com/ipfs-ethereum-blog). Its subsystem called [IPNS](https://hackernoon.com/understanding-ipfs-in-depth-3-6-what-is-interplanetary-naming-system-ipns-9aca71e4c13b) is [too slow](https://github.com/ipfs/kubo/issues/3860) and [confusing](https://discuss.ipfs.tech/t/confusion-about-ipns/1414), [if it works at all](https://macwright.com/2019/06/08/ipfs-again.html). There is also Dat: [1](https://macwright.com/2017/08/09/decentralize-ipfs.html), [2](https://hannuhartikainen.fi/blog/dat-site/)...
 
-So what is the decision finally? I would probably use Tor with ssh now, but prior to that I was able to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both of them are OSS (written in Go!) based on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p) which stems from [kubo](https://github.com/ipfs/kubo) (go-ipfs). IPFS may be suboptimal for self-hosting and IPNS-related permanent sharing of a dynamic content, but it has a decent focus on [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md) without an external service or static IP junk. It is very useful for the ability to ssh into a remote computer.
+So what is the decision finally? I would probably try Tor with ssh now, or not, but prior to that I was able to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both of them are OSS (written in Go!) based on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p) which stems from [kubo](https://github.com/ipfs/kubo) (go-ipfs). IPFS may be suboptimal for self-hosting and IPNS-related permanent sharing of a dynamic content, but it has a decent focus on [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md) without an external service or static IP junk. It is very useful for the ability to ssh into a remote computer.
 
 Do these tools always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
