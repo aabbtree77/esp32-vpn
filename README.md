@@ -14,30 +14,36 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (sub 10-20$) MCU board with an ambition to perform Linux-free networking. I will share here a reliable setup without any 3rd party services. It is not hassle-free, but the chosen network stack is ubiquitous and solid/well tested.
+DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (10-20$) MCU board with the Wi-Fi connectivity. The challenge is to access such a board from anywhere, via the internet.
 
-A global picture shown above is still a "Web2" way as one needs an additional Linux machine to run along with ESP32. The machine consumes electricity and needs to be configured.
-We do not really need this link, and neither MQTT is that important. In the ideal "Web3" world we would have an ESP32 acting as an IPFS node which could share a file with its IPNS link. The latter effectively being its "message board", punching through NATs in the P2P way. This could already be a reality with the embedded Linux SBCs, but with ESP32 we still need that additional link.
+There are several ways to establish global connections to an ESP32:
+
+- Using 3rd party services: [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo), [Google IoT Core](https://news.ycombinator.com/item?id=32475298), [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans or entire cloud services, registration layers, pricing...
+
+- [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). This is a raw low level library with unclear stability and NAT punching. Its user base is too tiny to trust it.
+
+- Connecting an ESP32 board to a local Linux machine first, e.g. via an MQTT broker, thus delegating the problem of global connectivity effectively to the PC space. 
+
+This memo documents some details about the third way. It is the least opaque and the most reliable, but it demands an extra PC/Linux board (PC1 shown in the figure above).
 
 ## Congratulations, You Had a Problem and Now You Have Two
 
-The most challenging part is connecting to a LAN/device via the internet from anywhere. One can find a bewildering number of SaaS/3rd party services for the deliberation, but real life shows it is too dangerous/pricey to give up freedom for convenience. Let's list some options:
+With the Linux PC one can send to and receive messages from an ESP32 via an MQTT broker. How does one connect to the Linux PC outside of LAN? Surprisingly, there is no good solution to this problem in the year 2023, and here are some of the options I have been considering:
 
-- [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [Google IoT Core](https://news.ycombinator.com/item?id=32475298), [Heroku](https://twitter.com/heroku/status/1562817050565054469)... No.
+- Coding some ESP32 control panel and hosting it as a web app on, say, [Heroku](https://twitter.com/heroku/status/1562817050565054469) which has no longer any free plans. 
+Emulating a 3rd party service with yet another 3rd party service... No.
 
-- [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)...
-
-- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, screego... "UbuntuDesk" with a solid NAT punching, please.
+- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Hell no. "UbuntuDesk" with a solid NAT punching, please.
 
 - ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In... Mostly Raspberry Pi related IoT clouds with very limited free plans and steep prices.
 
-- Wireguard: Requires an [endpoint](https://wiki.archlinux.org/title/WireGuard#Endpoint_with_changing_IP) [public IP](https://github.com/pirate/wireguard-docs#NAT-to-NAT-Connections), is too low level, but it may run everywhere including [ESP-IDF](https://github.com/trombik/esp_wireguard), which is something to think about.
+- Wireguard: Requires an [endpoint](https://wiki.archlinux.org/title/WireGuard#Endpoint_with_changing_IP) [public IP](https://github.com/pirate/wireguard-docs#NAT-to-NAT-Connections), is too low level, but it may run everywhere including [ESP-IDF](https://github.com/trombik/esp_wireguard), which is something to think about, or not.
 
 - [wireguard-p2p](https://github.com/manuels/wireguard-p2p/issues/5): A layer on top of Wireguard with Rust and C++ compilation issues.
 
-- Nebula, NetBird, Netmaker, Tailscale, headscale, innernet, ZeroTier, tinc, [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans, but how long will they stay that way? Outside the service mode there is always a need for a static IP here.
+- Nebula, NetBird, Netmaker, Tailscale, headscale, innernet, ZeroTier, tinc, [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans, but how long will they stay that way? Outside the service mode there is always the need for a static IP here.
 
-- [NetFoundry](https://netfoundry.io/edge-and-iot-zero-trust-networking/) cloud. "The SaaS is free forever for up to 10 endpoints, so you can get started immediately with the SaaS or open source." It positions itself as a [more secure Tailscale](https://netfoundry.io/networking-alternative-compare-tailscale-netfoundry/), which is even further away from a raw connectivity problem. Too much to figure out what is what and run something simple, [at first glance](https://www.reddit.com/r/openziti/comments/xpe01b/need_some_guidance/).
+- [NetFoundry](https://netfoundry.io/edge-and-iot-zero-trust-networking/) cloud. "The SaaS is free forever for up to 10 endpoints, so you can get started immediately with the SaaS or open source." It positions itself as a [more secure Tailscale](https://netfoundry.io/networking-alternative-compare-tailscale-netfoundry/), which is even further away from a raw connectivity problem. Too much to figure out what is what and run something simple [at the first glance](https://www.reddit.com/r/openziti/comments/xpe01b/need_some_guidance/).
 
 - ngrok, frp, localtunnel.me, gotunnelme, boringproxy, rathole. So called "reverse proxy tools" to expose a machine behind a NAT when you already have a VPS with a static IP. Some are [TCP only](https://github.com/fatedier/frp/issues/3009), some may result in a [much faster VPN](https://github.com/fatedier/frp/issues/2911). ngrok's free plan is fairly limited to testing as the public urls disappear/change when one restarts the self-hosting machine. 
    
@@ -49,9 +55,7 @@ The most challenging part is connecting to a LAN/device via the internet from an
  
   "It's easier to setup a Tor hidden service than it is to set up a server with a domain. You don't have to know anything about DNS or firewalls. I'm surprised that they aren't more common."
 
-- IPFS: [1](https://docs.ipfs.tech/how-to/websites-on-ipfs/multipage-website/#publish-to-ipns), [2](https://www.atnnn.com/p/ipfs-hosting/), [3](https://push32.com/post/blogging-on-ipfs/), [4](https://pawelurbanek.com/ipfs-ethereum-blog). Its subsystem called [IPNS](https://hackernoon.com/understanding-ipfs-in-depth-3-6-what-is-interplanetary-naming-system-ipns-9aca71e4c13b) is [too slow](https://github.com/ipfs/kubo/issues/3860) and [confusing](https://discuss.ipfs.tech/t/confusion-about-ipns/1414), [if it works at all](https://macwright.com/2019/06/08/ipfs-again.html). There is also Dat: [1](https://macwright.com/2017/08/09/decentralize-ipfs.html), [2](https://hannuhartikainen.fi/blog/dat-site/)...
-
-So what is the decision finally? I would probably try Tor with ssh now, or not, but prior to that I was able to locate [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both of them are OSS (written in Go!) based on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p) which stems from [kubo](https://github.com/ipfs/kubo) (go-ipfs). IPFS may be suboptimal for self-hosting and IPNS-related permanent sharing of a dynamic content, but it has a decent focus on [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md) without an external service or static IP junk. It is very useful for the ability to ssh into a remote computer.
+So what is the decision finally? I have tested [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both of them are OSS (written in Go!) based on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p) which stems from [kubo](https://github.com/ipfs/kubo) (go-ipfs). This stack has a decent focus on the [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md) without an external service or static IP junk. It is very useful for the ability to ssh into a remote computer.
 
 Do these tools always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
@@ -200,13 +204,15 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Reservations about Networking with ESP32
    
-- ESP32 with MicroPython is a solid Wi-Fi client to be controlled from a PC within a LAN via MQTT. Despite many existing attempts, it is not a self-sufficient minicomputer or network node.
+- ESP32 with MicroPython is a somewhat resilient Wi-Fi client to be controlled from a PC within a LAN via MQTT. It is not a self-sufficient global network node.
 
-- One could opt for the [Espressif](https://github.com/espressif/esp-idf/issues) [Rainmaker](https://github.com/espressif/esp-rainmaker/issues) cloud, which makes ESP32 globally accessible to any Android device, but this is a 3rd party service, an opaque layer which, in turn, depends on AWS.  
+- **ESP32, global connectivity, no 3rd party/extra broker PC: Pick any two.**
 
-- Ideally, ESP32 would become a global IPFS "Web3" node. It is not clear if the amount of RAM available in ESP32 chips can make this goal/challenge viable. As an example, [kubo](https://github.com/ipfs/kubo), the implementation of IPFS in Go, takes more than 60MB as a Linux package, and it is recommended "running it on a machine with at least 2 GB of RAM."
+- Embedded Linux is the way...
 
-- **Reliable, inexpensive, quick-to-develop: Pick any two.**
+## Major Discovery
+
+[EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable tool to ssh globally to any computer behind NAT.
 
 ## References
 
