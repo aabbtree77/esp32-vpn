@@ -14,26 +14,26 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (10-20$) MCU board with the Wi-Fi connectivity. The challenge is to access such a board from anywhere, via the internet.
+DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (10-20$) MCU board with Wi-Fi connectivity. The challenge is to connect to such a board from anywhere.
 
-There are several ways to establish global connections to an ESP32:
+There are several ways:
 
-- Using 3rd party services: [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo), [Google IoT Core](https://news.ycombinator.com/item?id=32475298), [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans or entire cloud services, registration layers, pricing...
+- 3rd party services: [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo), [Google IoT Core](https://news.ycombinator.com/item?id=32475298), [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, pricing...
 
-- [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). This is a raw low level library with unclear stability and NAT punching. Its user base is too tiny to trust it.
+- [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). This is a raw low level code with unclear Wi-Fi resilience and NAT punching. Its user base is too tiny to trust it.
 
-- Connecting an ESP32 board to a local Linux machine first, e.g. via an MQTT broker, thus delegating the problem of global connectivity effectively to the PC space. 
+- Using an MQTT broker running on a local PC/Linux board thus delegating the problem of global connectivity effectively to the PC space. 
 
 This memo documents some details about the third way. It is the least opaque and the most reliable, but it demands an extra PC/Linux board (PC-1 shown in the figure above).
 
-## Congratulations, You Had a Problem and Now You Have Two
+## Remote LAN Access without Port Forwarding or External IP
 
-With the Linux PC one can send to and receive messages from an ESP32 via an MQTT broker. How does one connect to the Linux PC outside of LAN? Surprisingly, there is no good solution to this problem in the year 2023, and here are some of the options I have been considering:
+The MQTT broker connects ESP32 to a PC within their LAN. How does one connect to the Linux PC outside of its LAN? Surprisingly, there is no simple solution to this problem in the year 2023, and here are some of the options I have been considering:
 
 - Coding some ESP32 control panel and hosting it as a web app on, say, [Heroku](https://twitter.com/heroku/status/1562817050565054469) which has no longer any free plans. 
 Emulating a 3rd party service with yet another 3rd party service... No.
 
-- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Hell no. "UbuntuDesk" with a solid NAT punching, please.
+- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... "UbuntuDesk" with a solid NAT punching, please.
 
 - ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In... Mostly Raspberry Pi related IoT clouds with very limited free plans and steep prices.
 
@@ -204,7 +204,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Reservations about Networking with ESP32
    
-- ESP32 with MicroPython is a somewhat resilient Wi-Fi client to be controlled from a PC within a LAN via MQTT. It is not a self-sufficient global network node.
+- ESP32 with MicroPython is a somewhat resilient Wi-Fi client to be controlled from PC within LAN via MQTT. It is not a self-sufficient global network node.
 
 - ESP32, global connectivity, no 3rd party/extra broker: Pick any two.
 
