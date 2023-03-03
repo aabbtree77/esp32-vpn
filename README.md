@@ -24,7 +24,7 @@ There are several ways to establish global connections to an ESP32:
 
 - Connecting an ESP32 board to a local Linux machine first, e.g. via an MQTT broker, thus delegating the problem of global connectivity effectively to the PC space. 
 
-This memo documents some details about the third way. It is the least opaque and the most reliable, but it demands an extra PC/Linux board (PC1 shown in the figure above).
+This memo documents some details about the third way. It is the least opaque and the most reliable, but it demands an extra PC/Linux board (PC-1 shown in the figure above).
 
 ## Congratulations, You Had a Problem and Now You Have Two
 
@@ -121,7 +121,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   ifconfig -a | grep inet
   ```
 
-  The hostname/ifconfig command will provide the local IP address assigned by the router to a computer (PC1) which runs the MQTT broker (Moscquitto), such as '192.168.1.107'. It will have to be entered in boot.py manually/explicitly. 
+  The hostname/ifconfig command will provide the local IP address assigned by the router to a computer (PC-1) which runs the MQTT broker (Moscquitto), such as '192.168.1.107'. It will have to be entered in boot.py manually/explicitly. 
 
 
   The Mosquitto broker always runs on Ubuntu by default once the OS starts. However, depending on the exact Ubuntu and Mosquitto versions one may need some additional minimal configuration.
@@ -206,9 +206,9 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
    
 - ESP32 with MicroPython is a somewhat resilient Wi-Fi client to be controlled from a PC within a LAN via MQTT. It is not a self-sufficient global network node.
 
-- **ESP32, global connectivity, no 3rd party/extra broker PC: Pick any two.**
+- ESP32, global connectivity, no 3rd party/extra broker: Pick any two.
 
-- Embedded Linux is the way...
+- **Embedded Linux is the way**.
 
 ## Major Discovery
 
