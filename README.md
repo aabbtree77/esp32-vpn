@@ -49,7 +49,7 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 - Coding some ESP32 control panel and hosting it as a web app on, say, [Heroku](https://twitter.com/heroku/status/1562817050565054469). 
 Emulating a 3rd party service with yet another 3rd party service seems counterproductive. Heroku has no free plans anymore...
 
-- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... These will typically demand port forwarding which is very limited and unreliable. Some better options here are also very expensive and not Linux friendly. RustDesk could be an exception, but it is too young and too much hassle. "UbuntuDesk" with a solid NAT punching, please.
+- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. Some better options here are also very expensive and solving somewhat irrelevant "reactive remote GUI" problems. RustDesk could be better than Remmina, but also a lot more hassle. "UbuntuDesk" with a solid NAT punching, please.
 
 - Nebula, NetBird, Netmaker, Tailscale, headscale, innernet, ZeroTier, tinc, [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans, but how long will they stay that way? No public static IP.
 
@@ -63,7 +63,7 @@ Emulating a 3rd party service with yet another 3rd party service seems counterpr
 
 - Getting a VPS on, say, Hostinger, and setting up Wireguard manually. A solid option that also gets one a public IP, but it involves a monthly fee.
 
-When needed, I would go with the free plans of Tailscale or its relevant competitors, as a faster alternative to EdgeVPN, for something temporal related to testing. For something more permanent, any of these two paid options seems to me quite good-looking: (i) Wireguard on VPS (e.g. Hostinger), or (ii) using [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo) directly with ESP32 without MQTT/Linux. 
+If pressed, as a faster alternative to EdgeVPN, one could first try some free plans of Tailscale or its relevant competitors. Wireguard on VPS (e.g. Hostinger), or even [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo) also look viable to me.
 
 ## Some Photos
 
@@ -210,10 +210,9 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Conclusions
    
-- ESP32 networking is not there (yet). The user space is small and further fractured by, say, C++ vs MicroPython, MQTT vs Wireguard vs WebSocket tech. 
-The libs are scarce and often unreliable. There is also too little RAM. It is unlikely that ESP32 will displace embedded Linux any time soon.
+- ESP32 networking is not there (yet). The user space is small and further fractured by, say, the C++ and MicroPython "value systems". Networking splits it further: ESP RainMaker vs MQTT broker + VPS + Wireguard or Amazon websockets with all sorts of further variations and tech stacks such as [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). The libs are scarce and often unreliable. There is also too little RAM. It is unlikely that ESP32 will displace embedded Linux any time soon.
   
-- ESP32 communicating within a LAN over Wi-Fi and MQTT is probably its best niche. Cheap, low power devices, immediate "no C/C++ nonsense" MicroPython, mild resilience w.r.t. a lost Wi-Fi. This is good for nothing critical, reliable, precise, demanding, unless it would be backed with redundancy. The niche is thus a lot tinier than that of ATtiny. Remote control of some moving Wi-Fi camera, plant watering, city dustbin level indicator.  
+- ESP32 communicating within a LAN over Wi-Fi and MQTT is probably its best niche. Cheap, low power devices, immediate "no C/C++ nonsense" MicroPython, mild resilience w.r.t. a lost Wi-Fi. This is good for nothing critical, reliable, precise, demanding, unless it would be backed with redundancy. The ESP32 niche is probably tinier than that of ATtiny. Remote control of some moving Wi-Fi camera, plant watering, city dustbin level indicators...  
 
 - [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow.
 
