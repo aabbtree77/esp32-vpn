@@ -14,9 +14,9 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (10-20$) MCU board with Wi-Fi connectivity. ESP32 has a punch line: We do not really need a whole OS and gigahertzes with gigabytes to control embedded devices. However, global network connectivity remains to be a challenge.
+DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (10-20$) MCU board with Wi-Fi connectivity. ESP32 has a punch line: We do not really need a whole OS and gigahertzes with gigabytes to control embedded devices. The downside is that global connectivity becomes a challenge.
 
-There are several choices:
+There are several ways to go:
 
 - ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, still young/unclear stability, steep pricing.
 
@@ -38,9 +38,9 @@ Perhaps it is also worth mentioning here the Onion Router: [1](https://www.maths
  
 "It's easier to setup a Tor hidden service than it is to set up a server with a domain. You don't have to know anything about DNS or firewalls. I'm surprised that they aren't more common."
 
-I would consider this technology more seriously if it were without "underworld wibes".
+Unfortunately, the Tor technology also brings some "underworld vibes", its use in the embedded space remains unclear.
 
-## Some Other Paths Not Taken
+## Some Other Options
 
 EdgeVPN solves the problem of external connections without a public IP/3rd party. However, the connection will typically be very slow. It is fast enough to establish an ssh connection, exchange MQTT messages between the broker and ESP32 within a LAN, and logout. However, the solution is not ideal. In a long run, it is better to have a more solid VPN, preferably with a static endpoint IP. Some ways I have been thinking about, but nothing too exciting to be honest:
 
@@ -213,9 +213,11 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 - ESP32 networking is not there (yet). The user space is small and further fractured by, say, C++ vs MicroPython, MQTT vs Wireguard vs WebSocket tech. 
 The libs are scarce and often unreliable. There is also too little RAM. It is unlikely that ESP32 will displace embedded Linux any time soon.
   
-- ESP32 communicating within a LAN over Wi-Fi and MQTT is probably its best niche. Cheap, low power devices, immediate "no C/C++ nonsense" MicroPython, mild resilience w.r.t. a lost Wi-Fi. This is good for nothing critical, reliable, precise, demanding. The niche is thus a lot tinier than that of ATtiny. Remote control of some moving Wi-Fi camera, plant watering, city dustbin level indicator, train/museum entrance counter.  
+- ESP32 communicating within a LAN over Wi-Fi and MQTT is probably its best niche. Cheap, low power devices, immediate "no C/C++ nonsense" MicroPython, mild resilience w.r.t. a lost Wi-Fi. This is good for nothing critical, reliable, precise, demanding, unless it would be backed with redundancy. The niche is thus a lot tinier than that of ATtiny. Remote control of some moving Wi-Fi camera, plant watering, city dustbin level indicator.  
 
-- [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable tool to ssh globally to any computer behind NAT without any 3rd party service and static IP.
+- [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow.
+
+- [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A) is another remarkable FOSS VPN. It can be a lot faster than EdgeVPN, but is more suitable in the environments with an available public static endpoint IP.
 
 ## References
 
