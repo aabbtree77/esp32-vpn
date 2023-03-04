@@ -63,7 +63,7 @@ Emulating a 3rd party service with yet another 3rd party service seems counterpr
 
 - Getting a VPS on, say, Hostinger, and setting up Wireguard manually. A solid option that also gets one a public IP, but it involves a monthly fee.
 
-When needed, I would go with the free plans of Tailscale or its relevant competitors, as a faster alternative to EdgeVPN, for something temporal related to testing. For something more permanent, any of these two paid options seems to me quite good-looking: (i) Wireguard on VPS (e.g. Hostinger), or (ii) using [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo) directly with ESP32 without MQTT. 
+When needed, I would go with the free plans of Tailscale or its relevant competitors, as a faster alternative to EdgeVPN, for something temporal related to testing. For something more permanent, any of these two paid options seems to me quite good-looking: (i) Wireguard on VPS (e.g. Hostinger), or (ii) using [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo) directly with ESP32 without MQTT/Linux. 
 
 ## Some Photos
 
