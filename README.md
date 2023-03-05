@@ -211,8 +211,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Conclusions
    
-- It is unlikely that ESP32 boards will displace embedded Linux any time soon. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes.
-Raspberries bring a lot more value!
+- It is unlikely that ESP32 boards will displace embedded Linux any time soon. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes. This introduces so much needless pain and the need to completely rewrite and test virtually anything. After dabbling with ESP32 I now begin to appreciate Linux even more. The quote by Dan Ingalls, stated in the beginning of this memo, is just an illusion, an ideal that will never be met, a wrong direction at this point of time (2023). Raspberries bring so much more value!
   
 - On the other hand, producing, say, Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/) at a massive city scale might justify ESP32 with its lacking libraries and severe memory constraints. The ESP32 niche is massive commercial products where low hardware costs and low power consumption of the end result matters a lot more than product development time. 
 
