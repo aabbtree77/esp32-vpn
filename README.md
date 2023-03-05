@@ -210,9 +210,9 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Conclusions
    
-- ESP32 networking is not there (yet). The user space is small and further fractured by, say, the C++ and MicroPython "value systems". Networking splits it further: ESP RainMaker vs MQTT broker + VPS + Wireguard or Amazon websockets with all sorts of further variations and tech stacks such as [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). The libs are scarce and often unreliable. There is also too little RAM. It is unlikely that ESP32 will displace embedded Linux any time soon.
+- It is unlikely that current ESP32 boards will displace embedded Linux. Raspberries bring a lot more value, in my opinion.
   
-- ESP32 communicating within a LAN over Wi-Fi and MQTT is probably its best niche. Cheap, low power devices, immediate "no C/C++ nonsense" MicroPython, mild resilience w.r.t. a lost Wi-Fi. This is good for nothing critical, reliable, precise, demanding, unless it would be backed with redundancy. The ESP32 niche is probably tinier than that of ATtiny. Remote control of some moving Wi-Fi camera, plant watering, city dustbin level indicators...  
+- On the other hand, producing, say, Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/) at a massive city scale might justify the use of ESP32 due to its lower cost and power consumption. Such applications will probably be too rare/exceptional to care about.
 
 - [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow.
 
