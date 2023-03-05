@@ -14,9 +14,8 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-DOIT DEVIT V1 ESP32-WROOM-32 is an inexpensive (10-20$) MCU board with Wi-Fi connectivity. ESP32 has a punch line: We do not really need a whole OS and gigahertzes with gigabytes to control embedded devices. The downside is that global connectivity becomes a challenge.
-
-There are several ways to go:
+[ESP32](https://en.wikipedia.org/wiki/ESP32) is a new technology with an extremely ambitious goal to perform Linux-free networking. The challenge
+is to design reliable hassle-free wireless IoT. A few major starting choices include:
 
 - ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, still young/unclear stability, steep pricing.
 
@@ -26,9 +25,9 @@ There are several ways to go:
 
 - [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static endpoint IP. The properties of the specific ESP32 "client" library are unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it, for now.
 
-- Connecting ESP32 to a PC/Linux board over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
+- Connecting an ESP32 device to a PC/Linux board over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
 
-This memo documents the details regarding the last way. It is the least opaque and the most reliable, but it demands an extra PC/Linux board (PC-1 shown in the figure above).
+This memo documents the details regarding the last way. It is the least opaque and most reliable, but it demands an extra PC/Linux board (PC-1 shown in the figure above).
 
 In order to establish remote PC connections, I have tested [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both of them are FOSS (written in Go) based on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p) which stems from [kubo](https://github.com/ipfs/kubo) (go-ipfs). This stack provides [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md) without an external 3rd party service or static IP. It is very useful for the ability to ssh into almost any remote computer.
 
@@ -210,9 +209,10 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Conclusions
    
-- It is unlikely that current ESP32 boards will displace embedded Linux. Raspberries bring a lot more value, in my opinion.
+- It is unlikely that ESP32 boards will displace embedded Linux any time soon. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes.
+Raspberries bring a lot more value!
   
-- On the other hand, producing, say, Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/) at a massive city scale might justify the use of ESP32 due to its lower cost and power consumption. Such applications are too rare/exceptional to care about.
+- On the other hand, producing, say, Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/) at a massive city scale might justify ESP32 with its lacking libraries and severe memory constraints. The ESP32 niche is massive commercial products where low hardware costs and low power consumption of the end result matters a lot more than product development time. 
 
 - [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow.
 
