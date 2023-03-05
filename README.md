@@ -15,7 +15,9 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 ## Introduction
 
 [ESP32](https://en.wikipedia.org/wiki/ESP32) is a new technology with an extremely ambitious goal to perform Linux-free networking. The challenge
-is to design reliable hassle-free wireless IoT. A few major starting choices include:
+is to design reliable hassle-free wireless IoT.
+
+ A few major starting directions include:
 
 - ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, still young/unclear stability, steep pricing.
 
