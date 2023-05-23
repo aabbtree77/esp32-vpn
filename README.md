@@ -14,8 +14,7 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-[ESP32](https://en.wikipedia.org/wiki/ESP32) is a new technology with an extremely ambitious goal to perform Linux-free networking. The challenge
-is to design reliable hassle-free wireless IoT.
+[DOIT DEVIT V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board complete with Wi-Fi. How good is its Linux-free networking stack? How does one connect such devices into the global internet?
 
  A few major starting directions include:
 
@@ -25,44 +24,41 @@ is to design reliable hassle-free wireless IoT.
 
 - [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Most likely one of the better options out there, but the service is not free.
 
-- [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static endpoint IP. The properties of the specific ESP32 "client" library are unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it, for now.
+- [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. The properties of this specific ESP32 "client" library remain unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it.
 
-- Connecting an ESP32 device to a PC/Linux board over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
+- Connecting an ESP32 device to a PC/Linux board over Wi-Fi that runs an MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
 
-This memo documents the details regarding the last way. It is the least opaque and most reliable, but it demands an extra PC/Linux board (PC-1 shown in the figure above).
+The last option is my choice. It is the most reliable, but it demands an extra PC/Linux board (PC-1 shown in the figure above).
 
 In order to establish remote PC connections, I have tested [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both of them are FOSS (written in Go) based on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p) which stems from [kubo](https://github.com/ipfs/kubo) (go-ipfs). This stack provides [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md) without an external 3rd party service or static IP. It is very useful for the ability to ssh into almost any remote computer.
 
 Do these tools always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
-Perhaps it is also worth mentioning here the Onion Router: [1](https://www.maths.tcd.ie/~fionn/misc/ssh_hidden_service/), [2](https://www.techjail.net/raspberry-iotlinux-devices.html), [3](https://golb.hplar.ch/2019/01/expose-server-tor.html), [4](https://community.torproject.org/onion-services/setup/), [5](https://www.reddit.com/r/Freenet/comments/9w4do9/demo_public_darknet_on_the_tor_onioncat_ipv6/), [6](https://null-byte.wonderhowto.com/how-to/host-your-own-tor-hidden-service-with-custom-onion-address-0180159/), [7](https://opensource.com/article/19/8/how-create-vanity-tor-onion-address).
- 
-"It's easier to setup a Tor hidden service than it is to set up a server with a domain. You don't have to know anything about DNS or firewalls. I'm surprised that they aren't more common."
-
-Unfortunately, the Tor technology also brings some "underworld vibes", its use in the embedded space remains unclear.
-
 ## Some Other Options
 
-EdgeVPN solves the problem of external connections without a public IP/3rd party. However, the connection will typically be very slow. It is fast enough to establish an ssh connection, exchange MQTT messages between the broker and ESP32 within a LAN, and logout. However, the solution is not ideal. In a long run, it is better to have a more solid VPN, preferably with a static endpoint IP. Some ways I have been thinking about, but nothing too exciting to be honest:
+EdgeVPN solves the problem of external connections without a public IP/3rd party. However, the connection will typically be very slow. It is fast enough to establish an ssh connection, exchange MQTT messages between the broker and ESP32 within a LAN, and logout. However, the solution is not ideal. In a long run, it is better to have a more solid VPN, preferably with a static public IP. Numerous options exist, though nothing too exciting:
 
 - [Google IoT Core](https://news.ycombinator.com/item?id=32475298) is being retired. ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In... Mostly Raspberry Pi related IoT clouds with very limited free plans and steep prices. 
 
-- Coding some ESP32 control panel and hosting it as a web app on, say, [Heroku](https://twitter.com/heroku/status/1562817050565054469). 
-Emulating a 3rd party service with yet another 3rd party service seems counterproductive. Heroku has no free plans anymore...
+- Building and hosting a special web app for ESP32 on, say, [Heroku](https://twitter.com/heroku/status/1562817050565054469). Cumbersome, Heroku also has no free plans anymore.
 
 - Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. Some better options here are also very expensive and solving somewhat irrelevant "reactive remote GUI" problems. RustDesk could be better than Remmina, but also a lot more hassle. "UbuntuDesk" with a solid NAT punching, please.
 
-- Nebula, NetBird, Netmaker, Tailscale, headscale, innernet, ZeroTier, tinc, [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans, but how long will they stay that way? No public static IP.
+- Tailscale, Nebula, NetBird, Netmaker, headscale, innernet, ZeroTier, tinc, [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans, but how long will they stay that way?
 
 - [NetFoundry](https://netfoundry.io/edge-and-iot-zero-trust-networking/). "The SaaS is free forever for up to 10 endpoints, so you can get started immediately with the SaaS or open source." It positions itself as a [more secure Tailscale](https://netfoundry.io/networking-alternative-compare-tailscale-netfoundry/), which is even further away from NAT punching layers. Too much to figure out what is what and run something simple [at the first glance](https://www.reddit.com/r/openziti/comments/xpe01b/need_some_guidance/).
 
+- [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [CJDNS](https://news.ycombinator.com/item?id=16135341), Freifunk and other alternatives to the libp2p network. 
+
 - ngrok, frp, localtunnel.me, gotunnelme, boringproxy, rathole. So called "reverse proxy tools" to expose a machine behind a NAT when you already have a VPS with a static IP. Some are [TCP only](https://github.com/fatedier/frp/issues/3009), some may result in a [much faster VPN](https://github.com/fatedier/frp/issues/2911). 
    
-- The show must go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling) and [on](https://changelog.complete.org/archives/10231-recovering-our-lost-free-will-online-tools-and-techniques-that-are-available-now)... with some phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/)...
-
-- [Sharing a file](https://github.com/aabbtree77/sendrecv) via github.com does the job if you only need to send and receive an occasional message. It is very slow and limited.
+- The list of options goes [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling) and [on](https://changelog.complete.org/archives/10231-recovering-our-lost-free-will-online-tools-and-techniques-that-are-available-now)... with some phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/)...
 
 - Getting a VPS on, say, Hostinger, and setting up Wireguard manually. A solid option that also gets one a public IP, but it involves a monthly fee.
+
+- The Onion Router: [1](https://www.maths.tcd.ie/~fionn/misc/ssh_hidden_service/), [2](https://www.techjail.net/raspberry-iotlinux-devices.html), [3](https://golb.hplar.ch/2019/01/expose-server-tor.html), [4](https://community.torproject.org/onion-services/setup/), [5](https://www.reddit.com/r/Freenet/comments/9w4do9/demo_public_darknet_on_the_tor_onioncat_ipv6/), [6](https://null-byte.wonderhowto.com/how-to/host-your-own-tor-hidden-service-with-custom-onion-address-0180159/), [7](https://opensource.com/article/19/8/how-create-vanity-tor-onion-address).
+ 
+  "It's easier to setup a Tor hidden service than it is to set up a server with a domain. You don't have to know anything about DNS or firewalls. I'm surprised that they aren't more common."
 
 If pressed, as a faster alternative to EdgeVPN, one could first try some free plans of Tailscale or its relevant competitors. Wireguard on VPS (e.g. Hostinger), or even [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo) also look viable to me.
 
@@ -211,13 +207,15 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Conclusions
    
-- It is unlikely that ESP32 boards will displace embedded Linux any time soon. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes. This introduces so much needless pain and the need to completely rewrite and test virtually anything. After dabbling with ESP32 I now begin to appreciate Linux even more. The quote by Dan Ingalls, stated in the beginning of this memo, is just an illusion, an ideal that will never be met, a wrong direction at this point of time (2023). Raspberries bring so much more value!
+- It is unlikely that ESP32 boards will displace the embedded Linux any time soon. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes. Tiny RAM = nonexistent or custom broken libs.
   
-- On the other hand, producing, say, Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/) at a massive city scale might justify ESP32 with its lacking libraries and severe memory constraints. The ESP32 niche is massive commercial products where low hardware costs and low power consumption of the end result matters a lot more than product development time. 
+- The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche is massive LANs with nodes connected to a Linux broker via MQTT, where each node failure is non-critical: Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/), conference/race event trackers/markers, robotic toys. Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W.
+
+- Consider the economics of DOIT DEVIT V1 ESP32-WROOM-32 vs Raspberry Pi Zero W bought on, say, anodas.lt in Vilnius, May 23rd, 2023. The former costs 12.70€, while the latter is 23.90€ plus a 32GB MicroSD card sold as low as 4.90€. A typical hobbyist will only need a dozen of such devices in a life time, and the cost of 2-4x higher priced Raspberry Pi Zero W will be negligible compared to the pain one will experience with scarce custom network software and kilobyte RAM of ESP32.
 
 - [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow.
 
-- [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A) is another remarkable FOSS VPN. It can be a lot faster than EdgeVPN, but is more suitable in the environments with an available public static endpoint IP.
+- [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A) is another remarkable FOSS VPN. It can be a lot faster than EdgeVPN, but it demands a public static IP.
 
 ## References
 
