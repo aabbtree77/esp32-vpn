@@ -40,9 +40,11 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
 - [Google IoT Core](https://news.ycombinator.com/item?id=32475298) is being retired. ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In... Mostly Raspberry Pi related IoT clouds with very limited free plans and steep prices. 
 
-- Building and hosting a special web app for ESP32 on, say, [Heroku](https://twitter.com/heroku/status/1562817050565054469). Cumbersome, Heroku also has no free plans anymore.
+- Building and hosting your own special web app/MQTT broker/WebSocket server on, say, [Heroku](https://twitter.com/heroku/status/1562817050565054469). This will be suboptimal compared to Amazon API Gateway with Websockets. Heroku also has no free plans anymore.
 
 - Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. Some better options here are also very expensive and solving somewhat irrelevant "reactive remote GUI" problems. RustDesk could be better than Remmina, but also a lot more hassle. "UbuntuDesk" with a solid NAT punching, please.
+
+- [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) game streaming services provide responsive VPNs, but they are not free.
 
 - Tailscale, Nebula, NetBird, Netmaker, headscale, innernet, ZeroTier, tinc, [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans, but how long will they stay that way?
 
@@ -56,10 +58,9 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
  
   "It's easier to setup a Tor hidden service than it is to set up a server with a domain. You don't have to know anything about DNS or firewalls. I'm surprised that they aren't more common."
 
-- [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [CJDNS](https://news.ycombinator.com/item?id=16135341), Freifunk and other p2p alternatives to the libp2p network.
-  I have little initiative to try these networks out as the libp2p network (with EdgeVPN) solves the problem, but it is worth noting that these p2p networks are ideal for low MQTT traffic. The setup and configuration is nearly zero, and they are totally free to use. 
+- [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [CJDNS](https://news.ycombinator.com/item?id=16135341)/Hyperboria, ZeroNet, I2P, Scuttlebutt, Freifunk, FunkFeuer, Openwireless and other p2p networks. I have little initiative to try these networks out as the libp2p network (with EdgeVPN) solves the problem, but it is worth noting that p2p networks are ideal for low MQTT traffic, they are totally free to use and do not demand a public static IP. [This report of the year 2022](https://cheapskatesguide.org/articles/yggdrasil.html) delves deeper into Yggdrasil and discusses its problems, in particular, limited decentralization due to the need for public permanent peers which are scarce and are blocked by certain governments.
 
-- The list may go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling) and [on](https://changelog.complete.org/archives/10231-recovering-our-lost-free-will-online-tools-and-techniques-that-are-available-now)... with some phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/)...
+- The list may go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling) and [on](https://changelog.complete.org/archives/10231-recovering-our-lost-free-will-online-tools-and-techniques-that-are-available-now)... with some phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/)... Web3...
 
 ## Some Photos
 
@@ -208,7 +209,9 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
    
 - It is unlikely that ESP32 boards will displace the embedded Linux any time soon. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes. Tiny RAM = nonexistent or custom broken libs.
   
-- The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche is massive LANs with nodes connected to a Linux broker via MQTT, where each node failure is non-critical: Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/), conference/race event trackers/markers, robotic toys. Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W.
+- The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs with nodes connected to a Linux broker via MQTT, where each node failure is non-critical: Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/), conference/race event trackers/markers, robotic toys. Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W.
+
+- [ESP32](https://en.wikipedia.org/wiki/ESP32) also has a direct small distance p2p communication capacity via BLE and ESP-NOW protocols. In theory, this could be used to implement electronic bike shifting. "But hold on a second, did you know that you never need to update the firmware on a mechanical derailleur?" 
 
 - Consider the economics of DOIT DEVIT V1 ESP32-WROOM-32 vs Raspberry Pi Zero W bought on, say, anodas.lt in Vilnius, May 23rd, 2023. The former costs 12.70€, while the latter is 23.90€ plus a 32GB MicroSD card sold as low as 4.90€. A typical hobbyist will only need a dozen of such devices in a life time, and the cost of 2-4x higher priced Raspberry Pi Zero W will be negligible compared to the pain one will experience with scarce custom network software and kilobyte RAM of ESP32.
 
