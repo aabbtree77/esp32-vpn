@@ -14,7 +14,7 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-[DOIT DEVIT V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board complete with Wi-Fi. How good is its Linux-free networking stack? How does one connect such devices to the global internet?
+[DOIT DEVIT V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board complete with Wi-Fi. How good is its Linux-free network stack? How does one connect such devices to the global internet? How does one send a message to a remote computer?
 
  A few major starting directions include:
 
@@ -22,7 +22,7 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 - 3rd party MQTT brokers and ESP32 MQTT clients. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
 
-- [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Most likely one of the better options out there, but the service is not free.
+- [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Most likely one of the better services out there, but it is not free.
 
 - [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. The properties of this specific ESP32 "client" library remain unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it.
 
