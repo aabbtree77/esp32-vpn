@@ -207,17 +207,17 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Conclusions
    
-- It is unlikely that ESP32 boards will displace the embedded Linux any time soon. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes. Tiny RAM = nonexistent or custom broken libs.
+- It is unlikely that ESP32 boards will displace embedded Linux. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes. Tiny RAM = nonexistent or custom broken libs.
   
 - The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs with nodes connected to a Linux broker via MQTT, where each node failure is non-critical: Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/), conference/race event trackers/markers, robotic toys. Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W.
 
-- [ESP32](https://en.wikipedia.org/wiki/ESP32) also has a direct small distance p2p communication capacity via BLE and ESP-NOW protocols. In theory, this could be used to implement electronic bike shifting. "But hold on a second, did you know that you never need to update the firmware on a mechanical derailleur?" 
+- [ESP32](https://en.wikipedia.org/wiki/ESP32) has a direct small distance p2p communication capacity via BLE and ESP-NOW protocols, which I have not explored. In theory, this could be used to implement electronic bike shifting. "But hold on a second, did you know that you never need to update the firmware on a mechanical derailleur?" 
 
 - Consider the economics of DOIT DEVIT V1 ESP32-WROOM-32 vs Raspberry Pi Zero W bought on, say, anodas.lt in Vilnius, May 23rd, 2023. The former costs 12.70€, while the latter is 23.90€ plus a 32GB MicroSD card sold as low as 4.90€. A typical hobbyist will only need a dozen of such devices in a life time, and the cost of 2-4x higher priced Raspberry Pi Zero W will be negligible compared to the pain one will experience with scarce custom network software and kilobyte RAM of ESP32.
 
-- [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow.
+- [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow, but this is ideal for mild messaging. One can setup an MQTT broker on one node of this VPN and use it to deliver messages to any other node, build all sorts of "actors", "workers", "microservices", without having to worry about public IPs and NAT. It would be interesting to experiment more with this tool and the whole libp2p network.
 
-- [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A) is another remarkable FOSS VPN. It can be a lot faster than EdgeVPN, but it demands a public static IP.
+- [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A) is another remarkable FOSS VPN. It can be a lot faster than EdgeVPN, but it demands a public static IP in one of the nodes.
 
 ## References
 
