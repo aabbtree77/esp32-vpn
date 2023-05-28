@@ -14,17 +14,17 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-[DOIT DEVIT V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board complete with Wi-Fi. How good is its Linux-free network stack? How does one connect such devices to the global internet? How does one send a message to a remote computer?
+[DOIT DEVIT V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi. How good is its Linux-free network stack? How does one connect such devices to the global internet? How does one send a message to a remote computer?
 
- A few major starting directions include:
+There are a lot of options with this Espressif MCU, but nothing too impressive to be honest:
 
-- ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, still young/unclear stability, steep pricing.
+- ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, still young/unclear stability, steep pricing. AWS-based, so it is 3rd party on top of another 3rd party. In the year 2023 one hardly wants yet another "customer service". I want a one-time payment board with global p2p-like connectivity. Please provide the board with an IP address, not a rental fee. 
 
 - 3rd party MQTT brokers and ESP32 MQTT clients. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
 
 - [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Vendor lock-in. Most likely one of the better services out there, but it is not free.
 
-- [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. The properties of this specific ESP32 client library remain unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it, there is so much [low level magic](https://github.com/esphome/feature-requests/issues/1444) needed just to install/configure it.
+- [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. The properties of this specific ESP32 client library remain unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it, there might be some [low level magic](https://github.com/esphome/feature-requests/issues/1444) needed to get it working.
 
 - Connecting an ESP32 device to a PC/Linux board over Wi-Fi that runs an MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
 
@@ -38,9 +38,9 @@ Do these tools always work though, are they equally good? EdgeVPN may have an [e
 
 EdgeVPN solves the problem of external connections without a public IP/3rd party. However, the connection will typically be very slow. It is fast enough to establish an ssh connection, exchange MQTT messages between the broker and ESP32 within a LAN, and logout. However, the solution is not ideal. In a long run, it is better to have a more solid VPN, preferably with a static public IP. Numerous options exist, though nothing too exciting:
 
-- [Google IoT Core](https://news.ycombinator.com/item?id=32475298) is being retired. ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In... Mostly Raspberry Pi related IoT clouds with very limited free plans and steep prices. 
+- [Google IoT Core](https://news.ycombinator.com/item?id=32475298) is being retired. AWS IoT, ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In, Zerynth Cloud Core... You know my opinion about these "customer services"...
 
-- Building and hosting your own special web app/MQTT broker/WebSocket server on, say, [Heroku](https://twitter.com/heroku/status/1562817050565054469). This will be suboptimal compared to Amazon API Gateway with Websockets. Heroku also has no free plans anymore.
+- Building and hosting your own special web app/MQTT broker/WebSocket server on, say, [Heroku](https://twitter.com/heroku/status/1562817050565054469). This could be suboptimal compared to Amazon API Gateway with Websockets, but again, all this 3rd party stuff just to make two devices talk? Heroku has no free plans anymore.
 
 - Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. Some better options here are also very expensive and solving somewhat irrelevant "reactive remote GUI" problems. RustDesk could be better than Remmina, but also a lot more hassle. "UbuntuDesk" with a solid NAT punching, please.
 
@@ -52,13 +52,13 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
 - ngrok, frp, localtunnel.me, gotunnelme, boringproxy, rathole. So called "reverse proxy tools" to expose a machine behind a NAT when you already have a VPS with a static IP. Some are [TCP only](https://github.com/fatedier/frp/issues/3009), some may result in a [much faster VPN](https://github.com/fatedier/frp/issues/2911). 
 
-- Getting a VPS on, say, Hostinger, and setting up Wireguard manually. A solid option that also gets one a public IP, but it involves a monthly fee.
+- Getting a VPS on, say, Hostinger, and setting up [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A). A solid option that also gets one a public IP, but it involves a monthly fee.
 
 - The Onion Router: [1](https://www.maths.tcd.ie/~fionn/misc/ssh_hidden_service/), [2](https://www.techjail.net/raspberry-iotlinux-devices.html), [3](https://golb.hplar.ch/2019/01/expose-server-tor.html), [4](https://community.torproject.org/onion-services/setup/), [5](https://www.reddit.com/r/Freenet/comments/9w4do9/demo_public_darknet_on_the_tor_onioncat_ipv6/), [6](https://null-byte.wonderhowto.com/how-to/host-your-own-tor-hidden-service-with-custom-onion-address-0180159/), [7](https://opensource.com/article/19/8/how-create-vanity-tor-onion-address).
  
   "It's easier to setup a Tor hidden service than it is to set up a server with a domain. You don't have to know anything about DNS or firewalls. I'm surprised that they aren't more common."
 
-- [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [CJDNS](https://news.ycombinator.com/item?id=16135341)/Hyperboria, ZeroNet, I2P, Scuttlebutt and other global p2p networks. I have little initiative to try these networks out as the libp2p network (with EdgeVPN) solves the problem, but it is worth noting that p2p networks are ideal for low MQTT traffic, they are totally free to use and do not demand a public static IP. [This report of the year 2022](https://cheapskatesguide.org/articles/yggdrasil.html) delves deeper into Yggdrasil and discusses its problems, in particular, limited decentralization due to the need for public permanent peers which are scarce and are blocked by certain governments.
+- [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [CJDNS](https://news.ycombinator.com/item?id=16135341)/Hyperboria, ZeroNet, I2P, Scuttlebutt and other global p2p networks. I have little initiative to try these networks out as the libp2p network (with EdgeVPN) solves the problem, but it is worth noting that p2p networks are ideal for low MQTT traffic, they are totally free to use and do not demand a public static IP. [This 2022 report](https://cheapskatesguide.org/articles/yggdrasil.html) delves deeper into Yggdrasil and provides some interesting details, e.g. the number of public peers in the US.
 
 - [Freifunk, FunkFeuer, NYC Mesh](https://github.com/redecentralize/alternative-internet#networking) and other local community/city/country-wide p2p networks. Too local.
 
@@ -211,9 +211,11 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Conclusions
    
-- It is unlikely that [ESP32](https://en.wikipedia.org/wiki/ESP32) boards will displace embedded Linux. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes. Tiny RAM = nonexistent or custom incomplete network libs, similar to the case of [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). They can be made to be autonomous, but I would not use them alone to build, say, a complete remote Wi-Fi trail camera, remote-controlled heating/plant watering, industrial/automotive/drone control.
+- It is unlikely that [ESP32](https://en.wikipedia.org/wiki/ESP32) boards will displace embedded Linux. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes. Tiny RAM = nonexistent or custom incomplete network libs, similar to the case of [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). They can be made to be autonomous, but I would not use them alone to build, say, a complete remote Wi-Fi trail camera/heating/plant watering, industrial/automotive/drone control or even a bus card reader.
   
-- The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs with nodes connected to a Linux broker via MQTT, where each node failure is non-critical: Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/), conference/race event trackers/markers, bus card readers, robotic toys. Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the nature of [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them within a WLAN.
+- The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs with nodes connected to a Linux broker via MQTT, where each node failure is non-critical: Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/), robotic toys. Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the types of [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them within a WLAN.
+
+- ESP32 boards
 
 - [ESP32](https://en.wikipedia.org/wiki/ESP32) has a direct small distance p2p communication capacity via BLE and ESP-NOW protocols, which I have not explored. In theory, this could be used to implement electronic bike shifting, remove low power electric control wires whenever possible. "But hold on a second, did you know that you never need to update the firmware on a mechanical derailleur?" 
 
@@ -225,7 +227,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow, but this is ideal for mild messaging. One can setup an MQTT broker on one node of this VPN and use it to deliver messages to any other node, build all sorts of "actors", "workers", "microservices", without having to worry about public IPs and NAT. It would be interesting to experiment more with this tool and the whole libp2p network.
 
-- [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A) is another remarkable FOSS VPN. It can be a lot faster than EdgeVPN, but it demands a public static IP in one of the nodes.
+- [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A) is another remarkable FOSS VPN. It can be a lot faster than EdgeVPN, but it demands a public static IP which means a monthly payment, dependency on 3rd party services, Web2 philosophy.
 
 ## References
 
