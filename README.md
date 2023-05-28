@@ -14,7 +14,7 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-[DOIT DEVIT V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi. How good is its Linux-free network stack? How does one connect such devices to the global internet? How does one send a message to a remote computer?
+[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi. How good is its Linux-free network stack? How does one connect such devices to the global internet? How does one send a message to a remote computer?
 
 There are a lot of options with this Espressif MCU, but nothing too impressive to be honest:
 
@@ -211,11 +211,13 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Conclusions
    
-- It is unlikely that [ESP32](https://en.wikipedia.org/wiki/ESP32) boards will displace embedded Linux. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes. Tiny RAM = nonexistent or custom incomplete network libs, similar to the case of [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). They can be made to be autonomous, but I would not use them alone to build, say, a complete remote Wi-Fi trail camera/heating/plant watering, industrial/automotive/drone control or even a bus card reader.
+- It is unlikely that [ESP32](https://en.wikipedia.org/wiki/ESP32) boards will displace embedded Linux. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes. Tiny RAM = nonexistent or custom incomplete network libs, similar to the case of [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). They can be made to be autonomous, but I would not use them alone to build, say, a complete remote Wi-Fi trail camera/heating/plant watering, industrial/automotive/drone control.
+
+- A bus card reader? We used to have rather simple low RAM devices here in Vilnius for about 5-10 years. They would produce occasional errors and that is how I know that their memory was kilobytes, it would be displayed in the error message on the screen :). This year (2023) the bus card readers got replaced with Ridango devices. They support several public city transport cards and have even menus with buttons, display QR codes. This evolution shows that ESP32 is not enough for such applications.
   
 - The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs with nodes connected to a Linux broker via MQTT, where each node failure is non-critical: Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/), robotic toys. Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the types of [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them within a WLAN.
 
-- ESP32 boards
+- DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a longer reach to its sensors, minus reliability.
 
 - [ESP32](https://en.wikipedia.org/wiki/ESP32) has a direct small distance p2p communication capacity via BLE and ESP-NOW protocols, which I have not explored. In theory, this could be used to implement electronic bike shifting, remove low power electric control wires whenever possible. "But hold on a second, did you know that you never need to update the firmware on a mechanical derailleur?" 
 
