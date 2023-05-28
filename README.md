@@ -22,7 +22,7 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 - 3rd party MQTT brokers and ESP32 MQTT clients. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
 
-- [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Most likely one of the better services out there, but it is not free.
+- [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Vendor lock-in. Most likely one of the better services out there, but it is not free.
 
 - [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. The properties of this specific ESP32 client library remain unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it, there is so much [low level magic](https://github.com/esphome/feature-requests/issues/1444) needed just to install/configure it.
 
@@ -46,7 +46,7 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
 - [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) game streaming services provide responsive VPNs, but they are not free.
 
-- Tailscale, Nebula, NetBird, Netmaker, headscale, innernet, ZeroTier, tinc, [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans, but how long will they stay that way?
+- Tailscale, Nebula, NetBird, Netmaker, headscale, innernet, [ZeroTier](https://www.youtube.com/watch?v=sA55fcuJSQQ), tinc, [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans, but how long will they stay that way?
 
 - [NetFoundry](https://netfoundry.io/edge-and-iot-zero-trust-networking/). "The SaaS is free forever for up to 10 endpoints, so you can get started immediately with the SaaS or open source." It positions itself as a [more secure Tailscale](https://netfoundry.io/networking-alternative-compare-tailscale-netfoundry/), which is even further away from NAT punching layers. Too much to figure out what is what and run something simple [at the first glance](https://www.reddit.com/r/openziti/comments/xpe01b/need_some_guidance/).
 
@@ -221,7 +221,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - Consider the economics of DOIT DEVIT V1 ESP32-WROOM-32 vs Raspberry Pi Zero W bought on, say, anodas.lt in Vilnius, May 23rd, 2023. The former costs 12.70€, while the latter is 23.90€ plus a 32GB MicroSD card sold as low as 4.90€. A typical hobbyist will only need a dozen of such devices in a life time, and the cost of 2-4x higher priced Raspberry Pi Zero W will be negligible compared to the pain one will experience with scarce custom network software and kilobyte RAM of ESP32.
 
-- Wi-Fi is limited to 15-45 meters without repeaters. Consider [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU) for LoRa radio communication, or even joining [Meshtastic](https://meshtastic.org/). It seems that ESP32 is suboptimal regarding its power consumption, which is quite critical in this setting.
+- Wi-Fi is limited to 10-40m without repeaters. Consider [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU) for LoRa radio communication which may reach [1-166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). ESP32 is suboptimal regarding its power consumption, which is critical in mobile p2p radio networking.
 
 - [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow, but this is ideal for mild messaging. One can setup an MQTT broker on one node of this VPN and use it to deliver messages to any other node, build all sorts of "actors", "workers", "microservices", without having to worry about public IPs and NAT. It would be interesting to experiment more with this tool and the whole libp2p network.
 
