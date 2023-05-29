@@ -40,9 +40,7 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
 - [Google IoT Core](https://news.ycombinator.com/item?id=32475298) is being retired. AWS IoT, ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In, Zerynth Cloud Core...  
 
-  "All your stupid ideals
-  You've got your head in the clouds" 
-  - Depeche Mode, Useless, 1997
+  "All your stupid ideals You've got your head in the clouds" - Depeche Mode, Useless, 1997
 
 - [Heroku](https://twitter.com/heroku/status/1562817050565054469) has no free plans anymore.
 
