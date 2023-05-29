@@ -38,21 +38,25 @@ Do these tools always work though, are they equally good? EdgeVPN may have an [e
 
 EdgeVPN solves the problem of external connections without a public IP/3rd party. However, the connection will typically be very slow. It is fast enough to establish an ssh connection, exchange MQTT messages between the broker and ESP32 within a LAN, and logout. However, the solution is not ideal. In a long run, it is better to have a more solid VPN, preferably with a static public IP. Numerous options exist, though nothing too exciting:
 
-- [Google IoT Core](https://news.ycombinator.com/item?id=32475298) is being retired. AWS IoT, ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In, Zerynth Cloud Core... You know my opinion about these "customer services"...
+- [Google IoT Core](https://news.ycombinator.com/item?id=32475298) is being retired. AWS IoT, ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In, Zerynth Cloud Core...  
 
-- Building and hosting your own special web app/MQTT broker/WebSocket server on, say, [Heroku](https://twitter.com/heroku/status/1562817050565054469). This could be suboptimal compared to Amazon API Gateway with Websockets, but again, all this 3rd party stuff just to make two devices talk? Heroku has no free plans anymore.
+  "All your stupid ideals
+  You've got your head in the clouds" 
+  - Depeche Mode, Useless, 1997
 
-- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. Some better options here are also very expensive and solving somewhat irrelevant "reactive remote GUI" problems. RustDesk could be better than Remmina, but also a lot more hassle. "UbuntuDesk" with a solid NAT punching, please.
+- [Heroku](https://twitter.com/heroku/status/1562817050565054469) has no free plans anymore.
+
+- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. "UbuntuDesk" with a solid NAT punching, please.
 
 - [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) game streaming services provide responsive VPNs, but they are not free.
 
-- Tailscale, Nebula, NetBird, Netmaker, headscale, innernet, [ZeroTier](https://www.youtube.com/watch?v=sA55fcuJSQQ), tinc, [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans, but how long will they stay that way?
+- Getting a VPS on, say, Hostinger, and setting up [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A). A solid option that also gets one a public IP, but it involves a monthly fee. Wireguard helpers: [pivpn](https://github.com/pivpn/pivpn), [wg-easy](https://github.com/wg-easy/wg-easy), [firezone](https://github.com/firezone/firezone)...
+
+- Tailscale, Nebula, NetBird, Netmaker, headscale, innernet, [ZeroTier](https://www.youtube.com/watch?v=sA55fcuJSQQ), tinc, , [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans, but how long will they stay that way?
 
 - [NetFoundry](https://netfoundry.io/edge-and-iot-zero-trust-networking/). "The SaaS is free forever for up to 10 endpoints, so you can get started immediately with the SaaS or open source." It positions itself as a [more secure Tailscale](https://netfoundry.io/networking-alternative-compare-tailscale-netfoundry/), which is even further away from NAT punching layers. Too much to figure out what is what and run something simple [at the first glance](https://www.reddit.com/r/openziti/comments/xpe01b/need_some_guidance/).
 
-- ngrok, frp, localtunnel.me, gotunnelme, boringproxy, rathole. So called "reverse proxy tools" to expose a machine behind a NAT when you already have a VPS with a static IP. Some are [TCP only](https://github.com/fatedier/frp/issues/3009), some may result in a [much faster VPN](https://github.com/fatedier/frp/issues/2911). 
-
-- Getting a VPS on, say, Hostinger, and setting up [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A). A solid option that also gets one a public IP, but it involves a monthly fee.
+- ngrok, frp, localtunnel.me, gotunnelme, boringproxy, rathole. So called "reverse proxy/tunneling", which is kind of a synonym to VPN. These tools help to expose a machine behind a NAT when you already have a VPS with a static IP. Some are [TCP only](https://github.com/fatedier/frp/issues/3009), some may result in a [much faster VPN](https://github.com/fatedier/frp/issues/2911). 
 
 - The Onion Router: [1](https://www.maths.tcd.ie/~fionn/misc/ssh_hidden_service/), [2](https://www.techjail.net/raspberry-iotlinux-devices.html), [3](https://golb.hplar.ch/2019/01/expose-server-tor.html), [4](https://community.torproject.org/onion-services/setup/), [5](https://www.reddit.com/r/Freenet/comments/9w4do9/demo_public_darknet_on_the_tor_onioncat_ipv6/), [6](https://null-byte.wonderhowto.com/how-to/host-your-own-tor-hidden-service-with-custom-onion-address-0180159/), [7](https://opensource.com/article/19/8/how-create-vanity-tor-onion-address).
  
@@ -63,6 +67,12 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 - [Freifunk, FunkFeuer, NYC Mesh](https://github.com/redecentralize/alternative-internet#networking) and other local community/city/country-wide p2p networks. Too local.
 
 - [Meshtastic](https://www.youtube.com/watch?v=TY6m6fS8bxU) p2p network based on the LoRa radio communication. Replacing telecom operators with the p2p network built on the line of sight public frequency based devices sounds too good to be true. It is an interesting experiment, but it is hard to imagine a decent coverage achieved without some sort of retransmission. The latter costs and consumes electricity, who is going to pay for that?! LoRa (LoRaWAN) alternatives include [NB-IoT, Sigfox, and Wi-Fi HaLow](https://www.hackster.io/news/the-ttgo-t-beam-an-esp32-lora-board-d44b08f18628).
+
+- [v2ray](https://www.quora.com/How-do-I-bypass-the-GFW-of-China-without-a-VPN): [1](https://www.reddit.com/r/dumbclub/comments/106aomk/how_to_install_and_setup_v2ray/), [2](https://www.reddit.com/r/dumbclub/comments/ydfpr7/why_v2ray_doesnt_work_on_games/), [3](https://www.reddit.com/r/dumbclub/comments/11q8nhn/v2ray_xray_vps/), [4](https://www.reddit.com/r/dumbclub/comments/100g8ei/best_v2ray_config_for_gaming/), and [the Great Firewall of China](https://en.wikipedia.org/wiki/Great_Firewall):
+
+  "the developer of shadowsocksR being asked to police station,the code on github was deleted by unimagable mean. so v2ray come out in the world. Which is stronger than shadowsocks (or in another way v2ray contains shadowsocks),the establish method is same with shadowsocks.U can search 一键搭建v2ray on YouTube..."
+
+- "v2ray" search related software that helps to get through firewalls: [udp2raw](https://github.com/wangyu-/udp2raw), [hysteria](https://github.com/apernet/hysteria), [trojan](https://github.com/trojan-gfw/trojan), [clash](https://github.com/Dreamacro/clash), [gost](https://github.com/ginuerzh/gost/blob/master/README_en.md), [naiveproxy](https://github.com/klzgrad/naiveproxy), [pi-hole](https://github.com/pi-hole/pi-hole)...
 
 - The list may go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling) and [on](https://changelog.complete.org/archives/10231-recovering-our-lost-free-will-online-tools-and-techniques-that-are-available-now)... with some phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/)...
 
@@ -225,7 +235,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - Consider the economics of DOIT DEVIT V1 ESP32-WROOM-32 vs Raspberry Pi Zero W bought on, say, anodas.lt in Vilnius, May 23rd, 2023. The former costs 12.70€, while the latter is 23.90€ plus a 32GB MicroSD card sold as low as 4.90€. A typical hobbyist will only need a dozen of such devices in a life time, and the cost of 2-4x higher priced Raspberry Pi Zero W will be negligible compared to the pain one will experience with scarce custom network software and kilobyte RAM of ESP32.
 
-- Wi-Fi is limited to 10-40m without repeaters. Consider [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU) for LoRa radio communication which may reach [1-166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). ESP32 is suboptimal regarding its power consumption, which is critical in mobile p2p radio networking.
+- Wi-Fi is limited to 10-40m without repeaters. Consider [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU) for LoRa radio communication which may reach [1-166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). ESP32 is suboptimal regarding its power consumption, which is critical in [mobile p2p radio networking](https://meshtastic.discourse.group/t/real-world-use-cases/175).
 
 - [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow, but this is ideal for mild messaging. One can setup an MQTT broker on one node of this VPN and use it to deliver messages to any other node, build all sorts of "actors", "workers", "microservices", without having to worry about public IPs and NAT. It would be interesting to experiment more with this tool and the whole libp2p network.
 
@@ -240,7 +250,7 @@ ESP32 Essentials:
 - [umqtt.simple]
 - [esp32-30pin]
 
-Optional (Places not to go to, only to be aware of):
+Optional (problems to be aware of):
 
 - [micropython-mqtt-async]
 - [micropython-nano-gui]
@@ -252,6 +262,7 @@ Optional (Places not to go to, only to be aware of):
 - [unstable MQTT on ESP8266 (4+ days) #2568]
 - [umqtt cannot import MQTTClient #250]
 
+[Depeche Mode - Useless](https://www.youtube.com/watch?v=U2Kyu4XURaE) 
 
 [Getting Started]: https://www.youtube.com/watch?v=_vcQTyLU1WY&list=PLKGiH5V9SS1hUz5Jh_35oTFM4wPZYA4sT&index=2
 [MicroPython firmware]: https://micropython.org/download/esp32-ota/
