@@ -231,13 +231,14 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - The combo of [ESP32](https://en.wikipedia.org/wiki/ESP32) with MicroPython achieves a hassle-free ADC to measure analogue voltage values. An easy ROM address scanning (whenever one needs to pin a lot of temperature sensors on a single wire input) is also a solid achievement. This is a lot messier in the ATmega world. There is no need to deal with the fuse bits, makefiles and C shenanigans (macros, pointers, no proper strings/arrays/hashes/modules). On the other hand, MicroPython eats up some precious RAM and Python coding is very prone to typos, which is a huge problem.
 
-- Consider the economics of DOIT DEVIT V1 ESP32-WROOM-32 vs Raspberry Pi Zero W bought on, say, anodas.lt in Vilnius, May 23rd, 2023. The former costs 12.70€, while the latter is 23.90€ plus a 32GB MicroSD card sold as low as 4.90€. A typical hobbyist will only need a dozen of such devices in a life time, and the cost of 2-4x higher priced Raspberry Pi Zero W will be negligible compared to the pain one will experience with scarce custom network software and kilobyte RAM of ESP32.
-
 - Wi-Fi is limited to 10-40m without repeaters. Consider [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU) for LoRa radio communication which may reach [1-166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). ESP32 is suboptimal regarding its power consumption, which is critical in [mobile p2p radio networking](https://meshtastic.discourse.group/t/real-world-use-cases/175).
 
 - [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow, but this is ideal for mild messaging. One can setup an MQTT broker on one node of this VPN and use it to deliver messages to any other node, build all sorts of "actors", "workers", "microservices", without having to worry about public IPs and NAT. It would be interesting to experiment more with this tool and the whole libp2p network.
 
 - [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A) is another remarkable FOSS VPN. It can be a lot faster than EdgeVPN, but it demands a public static IP which means a monthly payment, dependency on 3rd party services, Web2 philosophy.
+
+- Consider economics. DOIT DEVIT V1 ESP32-WROOM-32 vs Raspberry Pi Zero W bought on, say, anodas.lt in Vilnius, May 23rd, 2023. The former costs 12.70€, while the latter is 23.90€ plus a 32GB MicroSD card sold as low as 4.90€. A typical hobbyist will only need a dozen of such devices in a life time, and the cost of 2-4x higher priced Raspberry Pi Zero W will be negligible compared to the pain one will experience with scarce network software and tiny kilobyte RAM of ESP32. [Andreas Spiess](https://www.youtube.com/watch?v=rXc_zGRYhLo&t=389s) suggests getting an old used laptop on ebay instead of a new Raspberry Pi.
+
 
 ## References
 
