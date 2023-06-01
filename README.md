@@ -16,19 +16,21 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 [DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi. How good is its Linux-free network stack? How does one connect such devices to the global internet? How does one send a message to a remote computer?
 
-There are a lot of options with this Espressif MCU, but nothing too impressive to be honest:
+There are a lot of ways to set up this Espressif MCU, but nothing too impressive to be honest:
 
-- ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, still young/unclear stability, steep pricing. AWS-based, so it is 3rd party on top of another 3rd party. In the year 2023 one hardly wants yet another "customer service". I want a one-time payment board with global p2p-like connectivity. Please provide the board with an IP address, not a rental fee. 
+1. ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, still young/unclear stability, steep pricing. AWS-based, so it is 3rd party on top of another 3rd party. In the year 2023 one hardly wants yet another "customer service". I want a one-time payment board with global p2p-like connectivity. Please provide the board with an IP address, not a rental fee. 
 
-- 3rd party MQTT brokers and ESP32 MQTT clients. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
+2. 3rd party MQTT brokers and ESP32 MQTT clients. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
 
-- [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Vendor lock-in. Most likely one of the better services out there, but it is not free.
+3. [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Vendor lock-in. Most likely one of the better services out there, but it is not free.
 
-- [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. The properties of this specific ESP32 client library remain unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it, there might be some [low level magic](https://github.com/esphome/feature-requests/issues/1444) needed to get it working.
+4. [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. The properties of this specific ESP32 client library remain unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it, there might be some [low level magic](https://github.com/esphome/feature-requests/issues/1444) needed to get it working.
 
-- Connecting an ESP32 device to a PC/Linux board over Wi-Fi that runs an MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
+5. Connecting an ESP32 device to a PC/Linux board over Wi-Fi that runs an MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
 
-The last option is my choice. It is the most reliable, but it demands an extra PC/Linux board (PC-1 shown in the figure above). This is not ideal if one simply wants to fire up a mobile phone app to control an ESP32 globally from anywhere, directly. However, I just do not want to deal with Wireguard on ESP32 or the ESP RainMaker cloud when the connectivity errors start to appear. 
+6. Similar to the option No.5, except running the MQTT broker on the router, thus removing the extra Linux PC node. This looks very economic at the first glance, one needs to upgrade, say, the TP-Link firmware with the OpenWrt Linux whose .bin image will barely be 6-8Mb. However, such a Linux server is very limited and rebooting it will mean rebooting the router, which can easily mess up the whole network.
+
+The fifth option is my choice. It is the most reliable, but it demands an extra PC/Linux board (PC-1 shown in the figure above). This is not ideal if one simply wants to fire up a mobile phone app to control an ESP32 globally from anywhere, directly. However, I just do not want to deal with Wireguard on ESP32 or the ESP RainMaker cloud when the connectivity errors start to appear. Running an MQTT broker on OpenWrt is also not the option as I do not want to touch a router unless I absolutely have to.
 
 In order to establish remote PC connections, I have tested [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both of them are FOSS (written in Go) based on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p) which stems from [kubo](https://github.com/ipfs/kubo) (go-ipfs). This stack provides [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md) without an external 3rd party service or static IP. It is very useful for the ability to ssh into almost any remote computer.
 
@@ -218,14 +220,14 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 - After a long search and disappointment I could finally reach a certain resilience w.r.t. the Wi-Fi loss thanks to this [code by Rui and Sara Santos][micropython-Rui-Santos].
   
 ## Conclusions
+
+- DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a longer reach to its sensors, minus reliability.
    
 - It is unlikely that [ESP32](https://en.wikipedia.org/wiki/ESP32) boards will displace embedded Linux. The elephant in the room is tiny ESP32 RAM which is on the scale of kilobytes. Tiny RAM = nonexistent or custom incomplete network libs, similar to the case of [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). They can be made to be autonomous, but I would not use them alone to build, say, a complete remote Wi-Fi trail camera/heating/plant watering, industrial/automotive/drone control.
 
-- A bus card reader? We used to have rather simple low RAM devices here in Vilnius for about 5-10 years. They would produce occasional errors and that is how I know that their memory was kilobytes, it would be displayed in the error message on the screen :). This year (2023) the bus card readers got replaced with Ridango devices. They support several public city transport cards and have even menus with buttons, display QR codes. This evolution shows that ESP32 is not enough for such applications.
+- A bus card reader? We used to have some early low RAM devices here in Vilnius for about 5-10 years. They would produce occasional errors and that is how I know that their memory was kilobytes, it would be displayed in the error message on the screen :). This year (2023) the bus card readers got replaced with Ridango devices. They support several public city transport cards and a QR-code based mobile payment option. This evolution shows that ESP32 is not ideal for such applications.
   
 - The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs with nodes connected to a Linux broker via MQTT, where each node failure is non-critical: Wi-Fi-capable [bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/), robotic toys. Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the types of [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them within a WLAN.
-
-- DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a longer reach to its sensors, minus reliability.
 
 - [ESP32](https://en.wikipedia.org/wiki/ESP32) has a direct small distance p2p communication capacity via BLE and ESP-NOW protocols, which I have not explored. In theory, this could be used to implement electronic bike shifting, remove low power electric control wires whenever possible. "But hold on a second, did you know that you never need to update the firmware on a mechanical derailleur?" 
 
