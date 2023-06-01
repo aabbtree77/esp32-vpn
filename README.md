@@ -14,7 +14,13 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi. How good is its Linux-free network stack? How does one connect such devices to the global internet? How does one send a message to a remote computer?
+[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi. How good is its Linux-free network stack? How does one connect such devices to the global internet? How does one send a message to a remote computer? 
+
+Initially, the goal was to use the ESP32 board to make a hobby remote plant watering system for a green house. This goal was achieved, but there are simpler solutions based on some remote light switches that can be operated with a mobile app. The latter are so easy to use and do not cost much, but they rely on unknown servers with unknown connectivity/reliability. A light switch also does not provide a feedback/monitoring value like temperature/humidity. 
+
+Eventually, this little project transformed into a personal research on various practical ways to connect two computers or MCU boards. This study remains open, I keep adding various options or update some previous descriptions as my self education and experience with real computer networks improves. The ESP32 tech is not that important anymore, in my opinion, at least not for global connectivity, but I leave it all here with some critical comments just in case someone new is lost out there just as I am.  
+
+## A Minimal Self-Contained Project that Solves the Problem
 
 There are a lot of ways to set up this Espressif MCU, but nothing too impressive to be honest:
 
@@ -36,7 +42,7 @@ In order to establish remote PC connections, I have tested [Hyprspace](https://g
 
 Do these tools always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
-## Some Other Options
+## The Wild World of Other Networking Possibilities
 
 EdgeVPN solves the problem of external connections without a public IP/3rd party. However, the connection will typically be very slow. It is fast enough to establish an ssh connection, exchange MQTT messages between the broker and ESP32 within a LAN, and logout. However, the solution is not ideal. In a long run, it is better to have a more solid VPN, preferably with a static public IP. Numerous options exist, though nothing too exciting:
 
@@ -64,9 +70,9 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
 - [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [CJDNS](https://news.ycombinator.com/item?id=16135341)/Hyperboria, ZeroNet, I2P, Scuttlebutt and other global p2p networks. I have little initiative to try these networks out as the libp2p network (with EdgeVPN) solves the problem, but it is worth noting that p2p networks are ideal for low MQTT traffic, they are totally free to use and do not demand a public static IP. [This 2022 report](https://cheapskatesguide.org/articles/yggdrasil.html) delves deeper into Yggdrasil and provides some interesting details, e.g. the number of public peers in the US.
 
-- [Freifunk, FunkFeuer, NYC Mesh](https://github.com/redecentralize/alternative-internet#networking) and other local community/city/country-wide radio p2p networks. [B.A.T.M.A.N.](https://en.wikipedia.org/wiki/B.A.T.M.A.N.) [routing](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/) at the OSI layer 2 (Data link) rather than 3 (Network). Too local, for now.
+- [Freifunk, FunkFeuer, NYC Mesh](https://github.com/redecentralize/alternative-internet#networking) and other local community/city/country-wide radio p2p networks. [B.A.T.M.A.N.](https://en.wikipedia.org/wiki/B.A.T.M.A.N.) [routing](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/) at the OSI layer 2 (Data link) rather than 3 (Network). [This is actually very interesting](https://www.youtube.com/watch?v=DrXJ9_ezSy4). The free internet built with only "line of sight" devices, mostly routers with OpenWrt. Tools to mesh WLANs with all sorts of [use cases](https://youtu.be/t4A0kfg2olo?t=134).
 
-- [Meshtastic](https://www.youtube.com/watch?v=TY6m6fS8bxU) p2p network based on the LoRa radio communication. Replacing telecom operators with the p2p network built on the line of sight public frequency based devices sounds too good to be true. It is an interesting experiment, but it is hard to imagine a decent coverage achieved without some sort of retransmission. The latter costs and consumes electricity, who is going to pay for that?! LoRa (LoRaWAN) alternatives include [NB-IoT, Sigfox, and Wi-Fi HaLow](https://www.hackster.io/news/the-ttgo-t-beam-an-esp32-lora-board-d44b08f18628).
+- [Meshtastic](https://www.youtube.com/watch?v=TY6m6fS8bxU) is like Freifunk, but limited to/focused on the LoRa radio communication. Its main use seems to be remote rural areas, crowded rock festivals, animal tracking, where telecom operators do not work well and satellite services are too expensive. LoRa (LoRaWAN) alternatives include [NB-IoT, Sigfox, and Wi-Fi HaLow](https://www.hackster.io/news/the-ttgo-t-beam-an-esp32-lora-board-d44b08f18628).
 
 - [v2ray](https://www.quora.com/How-do-I-bypass-the-GFW-of-China-without-a-VPN): [1](https://www.reddit.com/r/dumbclub/comments/106aomk/how_to_install_and_setup_v2ray/), [2](https://www.reddit.com/r/dumbclub/comments/ydfpr7/why_v2ray_doesnt_work_on_games/), [3](https://www.reddit.com/r/dumbclub/comments/11q8nhn/v2ray_xray_vps/), [4](https://www.reddit.com/r/dumbclub/comments/100g8ei/best_v2ray_config_for_gaming/), and [the Great Firewall of China](https://en.wikipedia.org/wiki/Great_Firewall):
 
@@ -241,6 +247,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - Consider economics. DOIT DEVIT V1 ESP32-WROOM-32 vs Raspberry Pi Zero W bought on, say, anodas.lt in Vilnius, May 23rd, 2023. The former costs 12.70€, while the latter is 23.90€ plus a 32GB MicroSD card sold as low as 4.90€. A typical hobbyist will only need a dozen of such devices in a life time, and the cost of 2-4x higher priced Raspberry Pi Zero W will be negligible compared to the pain one will experience with scarce network software and tiny kilobyte RAM of ESP32. [Andreas Spiess](https://www.youtube.com/watch?v=rXc_zGRYhLo&t=389s) suggests getting an old used laptop on ebay instead of a new Raspberry Pi.
 
+- [Freifunk](https://youtu.be/t4A0kfg2olo?t=134) and this whole OneMarcFifty channel deserves a closer look. TBC... 
 
 ## References
 
