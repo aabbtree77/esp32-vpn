@@ -16,11 +16,11 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 [DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi. How good is its Linux-free network stack? How does one connect such devices to the global internet? How does one send a message to a remote computer? 
 
-Initially, the goal was to use the ESP32 board to make a hobby remote plant watering system for a green house. This goal was achieved, but there are simpler solutions based on some remote light switches that can be operated with a mobile app. The latter are so easy to use and do not cost much, but they rely on unknown servers with unknown connectivity/reliability. A light switch also does not provide a feedback/monitoring value like temperature/humidity. 
+Initially, the goal was to use the ESP32 board to make a hobby remote plant watering system for a green house. This goal was achieved. However, we also found simpler solutions based on some remote light switches which could be operated with a mobile app. The latter are so easy to use and do not cost much, but they rely on unknown servers with unknown connectivity/reliability. These light switches also do not provide feedback, one presses "on"/"off" with the hope it all works on the other end.
 
-Eventually, this little project transformed into a personal research on various practical ways to connect two computers or MCU boards. This study remains open, I keep adding various options or update some previous descriptions as my self education and experience with real computer networks improves. The ESP32 tech is not that important anymore, in my opinion, at least not for global connectivity, but I leave it all here with some critical comments just in case someone new is lost out there just as I am.  
+Eventually this little project transformed into a personal research on various practical ways to connect two computers or MCU boards. This study remains open, I keep adding/removing various options or update some previous descriptions as my self-education and experience with real computer networks improves. The ESP32 tech is not that important anymore, in my opinion, at least not for global connectivity, but I leave it all here with some critical comments just in case someone new is lost out there just as I am.  
 
-## A Minimal Self-Contained Project that Solves the Problem
+## Minimal Self-Contained Project that Solves the Problem
 
 There are a lot of ways to set up this Espressif MCU, but nothing too impressive to be honest:
 
