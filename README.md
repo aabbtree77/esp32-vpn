@@ -14,11 +14,11 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi. How good is its Linux-free network stack? How does one connect such devices to the global internet? How does one send a message to a remote computer? 
+[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi. The challenge is to connect it to the IoT.
 
-Initially, the goal was to use the ESP32 board to make a hobby remote plant watering system for a green house. This goal was achieved. However, we also found simpler solutions based on some remote light switches which could be operated with a mobile app. The latter are so easy to use and do not cost much, but they rely on unknown servers with unknown connectivity/reliability. These light switches also do not provide feedback, one presses "on"/"off" with the hope it all works on the other end.
+Initially, our goal was to use the ESP32 board for remote plant watering. This goal was achieved. However, we also found code-free solutions based on some remote light switches which could be operated with a mobile app. The latter are cheap, easy to use, and do not cost much, but they rely on unknown servers. The light switches also do not provide feedback, one presses "on"/"off" with the hope it all works on the other end (the actual control plant).
 
-Eventually this little project transformed into a personal research on various practical ways to connect two computers or MCU boards. This study remains open, I keep adding/removing various options or update some previous descriptions as my self-education and experience with real computer networks improves. The ESP32 tech is not that important anymore, in my opinion, at least not for global connectivity, but I leave it all here with some critical comments just in case someone new is lost out there just as I am.  
+Eventually this little project transformed into my personal research on various global ways to connect PCs, which I keep updating from time to time here.
 
 ## Minimal Self-Contained Project that Solves the Problem
 
@@ -78,7 +78,7 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
   "the developer of shadowsocksR being asked to police station,the code on github was deleted by unimagable mean. so v2ray come out in the world. Which is stronger than shadowsocks (or in another way v2ray contains shadowsocks),the establish method is same with shadowsocks.U can search 一键搭建v2ray on YouTube..."
 
-- "v2ray" search related software that helps to get through firewalls: [udp2raw](https://github.com/wangyu-/udp2raw), [hysteria](https://github.com/apernet/hysteria), [trojan](https://github.com/trojan-gfw/trojan), [clash](https://github.com/Dreamacro/clash), [gost](https://github.com/ginuerzh/gost/blob/master/README_en.md), [naiveproxy](https://github.com/klzgrad/naiveproxy), [pi-hole](https://github.com/pi-hole/pi-hole)...
+- "v2ray" and "Shadowsocks" related software that helps to get through firewalls: [Outline VPN](https://www.youtube.com/watch?v=O9jGg6tE7nY), [udp2raw](https://github.com/wangyu-/udp2raw), [hysteria](https://github.com/apernet/hysteria), [trojan](https://github.com/trojan-gfw/trojan), [clash](https://github.com/Dreamacro/clash), [gost](https://github.com/ginuerzh/gost/blob/master/README_en.md), [naiveproxy](https://github.com/klzgrad/naiveproxy), [pi-hole](https://github.com/pi-hole/pi-hole). Outline VPN needs to be installed as a server on DigitalOcean/Hostinger, and it is free just like Wireguard, but it might have stronger hole-punching properties. The other tools mentioned here are less clear to me.
 
 - The list may go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling) and [on](https://changelog.complete.org/archives/10231-recovering-our-lost-free-will-online-tools-and-techniques-that-are-available-now)... with some phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/)...
 
