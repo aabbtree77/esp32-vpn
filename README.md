@@ -24,7 +24,7 @@ Eventually this little project transformed into my personal research on various 
 
 There are a lot of ways to set up this Espressif MCU, but nothing too impressive to be honest:
 
-1. ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, still young/unclear stability, steep pricing. AWS-based, so it is 3rd party on top of another 3rd party. In the year 2023 one hardly wants yet another "customer service". I want a one-time payment board with global p2p-like connectivity. Please provide the board with an IP address, not a rental fee. 
+1. ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, unclear stability, [unclear pricing](https://esp32.com/viewtopic.php?t=29325). One hardly wants yet another "customer service". 
 
 2. 3rd party MQTT brokers and ESP32 MQTT clients. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
 
@@ -80,7 +80,7 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
 - "v2ray" and "Shadowsocks" related software that helps to get through firewalls: [Outline VPN](https://www.youtube.com/watch?v=O9jGg6tE7nY), [udp2raw](https://github.com/wangyu-/udp2raw), [hysteria](https://github.com/apernet/hysteria), [trojan](https://github.com/trojan-gfw/trojan), [clash](https://github.com/Dreamacro/clash), [gost](https://github.com/ginuerzh/gost/blob/master/README_en.md), [naiveproxy](https://github.com/klzgrad/naiveproxy), [pi-hole](https://github.com/pi-hole/pi-hole). Outline VPN needs to be installed as a server on DigitalOcean/Hostinger, and it is free just like Wireguard, but it might have stronger hole-punching properties. The other tools mentioned here are less clear to me.
 
-- The list may go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling) and [on](https://changelog.complete.org/archives/10231-recovering-our-lost-free-will-online-tools-and-techniques-that-are-available-now)... with some phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/)...
+- The list may go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling) and [on](https://changelog.complete.org/archives/10231-recovering-our-lost-free-will-online-tools-and-techniques-that-are-available-now)... with some phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/), [5](https://shufflingbytes.com/posts/ripping-off-professional-criminals-by-fermenting-onions-phishing-darknet-users-for-bitcoins/)...
 
 ## Some Photos
 
@@ -229,7 +229,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a longer reach to its sensors, minus economy and reliability.
    
-- [ESP32](https://en.wikipedia.org/wiki/ESP32) is much better than [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml), but I would not use any of them unless I absolutely have to.
+- [ESP32](https://en.wikipedia.org/wiki/ESP32) is much better than [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml), but I would not use any of them unless I absolutely have to. Cheap hardware, experimental/obscure networking software.
   
 - The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs of "Wi-Fi-enabled" sensors, where each node failure is non-critical, e.g. [waste bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/). Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the types of [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them within a LAN.
 
