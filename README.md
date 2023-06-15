@@ -14,9 +14,9 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi. The challenge is to connect it to the IoT.
+[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi. The challenge is to control it globally via the internet.
 
-Initially, our goal was to use the ESP32 board for remote plant watering. This goal was achieved. However, we also found code-free solutions based on smart light switches which could be operated with a mobile app. The latter are cheap, easy to use, and do not cost much, but they rely on unknown servers. The light switches also do not provide feedback, one presses "on"/"off" with the hope it all works on the other end.
+Initially, our goal was to use the ESP32 board for remote plant watering. This goal was achieved. However, we also found code-free solutions based on the Clas Ohlson WiFi Smart Plug which could be operated with their mobile app. The latter are cheap (10-20 euro) and easy to use, but one must rely on the Clas Ohlson servers. The smart plugs are also very limited in that they do not provide any feedback, one presses "on"/"off" with the hope it all works on the other end.
 
 Eventually this little project transformed into my personal research on various global ways to connect PCs, which I keep updating from time to time here.
 
@@ -229,11 +229,11 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a longer reach to its sensors, minus economy and reliability.
    
-- [ESP32](https://en.wikipedia.org/wiki/ESP32) is much better than [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml), but I would not use any of them unless I absolutely have to. Cheap hardware, but experimental/obscure networking software.
+- [ESP32](https://en.wikipedia.org/wiki/ESP32) is much better than [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml), but I would not use any of them unless I absolutely have to. Tiny RAM = obscure networking software.
   
 - The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs of "Wi-Fi-enabled" sensors, where each node failure is non-critical, e.g. [waste bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/). Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the types of [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them within a LAN.
 
-- A bus card reader? We used to have some early low RAM devices here in Vilnius for about 5-10 years. They would produce occasional errors and that is how I know that their memory was kilobytes, it would be displayed in the error message on the screen :). This year (2023) the bus card readers got replaced with Estonian Ridango devices which, I suspect, run Linux. 
+- A bus card reader? We used to have some early low RAM devices here in Vilnius for about 5-10 years. They would produce occasional errors and that is how I know that their memory was kilobytes, it would be displayed in the error message on the screen. This year (2023) the bus card readers got replaced with Estonian Ridango devices which, I suspect, run Linux. 
 
 - [ESP32](https://en.wikipedia.org/wiki/ESP32) provides small distance communication via BLE and ESP-NOW protocols. In theory, this could be used to implement electronic bike shifting, remove low power electric control wires whenever possible. "But hold on a second, did you know that you never need to update the firmware on a mechanical derailleur?" 
 
