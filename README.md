@@ -31,7 +31,7 @@ There are a lot of ways to set up this Espressif MCU, but nothing too impressive
 
 2. [Husarnet](https://husarnet.com/docs/tutorial-esp32-platformio) is organized as a VPN service, and thus it is more [developer friendly/flexible](https://github.com/husarnet/esp32-internet-ota), though the ESP32 client properties are similarly unknown and the service is generally not free. Interestingly, one can expose ESP32 as an HTTP server: [1](https://www.hackster.io/donowak/esp32-web-server-using-bootstrap-4-and-websockets-0bf950), [2](https://www.hackster.io/donowak/host-web-page-over-the-internet-on-esp32-using-sd-card-e4c72b), [3](https://www.hackster.io/donowak/esp32-to-esp32-communication-over-the-internet-9799df) within the Husarnet VPN, or even use [Nginx Proxy Manager](https://husarnet.com/blog/reverse-proxy-gui) to make such a server accessible globally and seamlessly. One would still need an extra Linux machine or VPS in the latter case as Husarnet provides only a VPN and ESP32 client software. It does not provide a domain name with a global HTTP(S) address attached to an ESP32 board. I also prefer MQTT over HTTP(S) as the primary communication transport for ESP32 devices, so these architectures/examples are not very useful, in my opinion.
 
-3. 3rd party MQTT brokers and ESP32 MQTT clients. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
+3. MQTT cloud brokers. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
 
 4. [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Vendor lock-in. Most likely one of the better services out there, but it is not free.
 
@@ -49,7 +49,7 @@ In order to establish remote PC connections, I have tested [Hyprspace](https://g
 
 Do these tools always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
-## Other Rejected Ideas
+## Other Rejected Setups
 
 EdgeVPN solves the problem of external connections without a public IP/3rd party. However, the connection will typically be very slow. It is fast enough to establish an ssh connection, run Linux commands, monitor messages. In a long run, it is better to have a more solid VPN, preferably with a static public IP. Or not.
 
@@ -57,7 +57,7 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
   "All your stupid ideals You've got your head in the clouds" - Depeche Mode, Useless, 1997
 
-- Building a webapp to communicate with ESP32 via [HTTP(S)](https://randomnerdtutorials.com/control-esp32-esp8266-gpios-from-anywhere/), e.g. [RemoteXY](https://arduinouserinterface.com/products/remotexy) with a fixed concrete frontend made with, say, React. This is expensive and cumbersome, and ESP32 is unlikely to be a reliable HTTP client. Many new cloud services/CMSes/databases/VPNs do provide free hosting plans, but how long will they last and are they scalable? [Heroku](https://twitter.com/heroku/status/1562817050565054469) has no free plans anymore.
+- Building a webapp to communicate with ESP32 via [HTTP(S)](https://randomnerdtutorials.com/control-esp32-esp8266-gpios-from-anywhere/). This is expensive and cumbersome, and ESP32 is unlikely to be a reliable HTTP client. Many new cloud services/CMSes/databases/VPNs do provide free hosting plans, but how long will they last and are they scalable? [Heroku](https://twitter.com/heroku/status/1562817050565054469) has no free plans anymore.
 
 - Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. "UbuntuDesk" with a solid NAT punching, please.
 
@@ -190,14 +190,47 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   mosquitto_pub -d -h 192.168.1.107 -t "output" -m "on" -q 1
   mosquitto_pub -d -h 192.168.1.107 -t "output" -m "off" -q 1
   ```
-  
-## Observations about ESP32 and MicroPython
 
-- **Hardware is tough.** When the DHT sensor is detached from the chip's pin, executing the line "dht_sensor.measure()" or "dht_sensor.start()" 
+- [EdgeVPN](https://github.com/mudler/edgevpn):
+
+  Download the latest edgevpn executable for your OS, e.g. [edgevpn-v0.23.1-Linux-x86_64.tar.gz](https://github.com/mudler/edgevpn/releases/tag/v0.23.1). 
+  
+  Use the same release version on all the computers that will be connected into a VPN, otherwise there might be conflicts as some versions have changed the way the keys are stored and decoded.
+  
+  Generate config.yaml:
+  
+  ```console
+  edgevpn -g > config.yaml
+  ```
+
+  and distribute it on all the machines that will be connected to EdgeVPN (manually by carrying a USB stick, via email, etc.).
+  
+  Assuming a machine runs Ubuntu, place the executable with config.yaml in the same folder and run
+  
+  ```console
+  sudo IFACE=edgevpn0 ADDRESS=10.1.0.7/24 EDGEVPNCONFIG=config.yaml ./edgevpn --log-level debug
+  ```
+  
+  The command assigns a virtual IP address 10.1.0.7 to the machine on which it is executed. Assign a different address to each machine that you connect to EdgeVPN, i.e. 10.1.0.1.. 10.1.0.254. but use the same config.yaml in each case.
+  
+  It may take several minutes for the node to join the EdgeVPN network which is the libp2p network under the hood. I do not recommend using the [Linux desktop GUI](https://github.com/mudler/edgevpn-gui) as it is totally unnecessary.
+  
+  If everything is fine, you should be able to connect to any Linux computer within the EdgeVPN network, e.g.
+  
+  ```console
+  ssh username@10.1.0.8
+  ...
+  ```
+  
+  The broker becomes visible as if EdgeVPN were a LAN, so you can run mosquitto_pub/sub commands directly even without ssh-ing to the machine that runs the MQTT broker. 
+  
+## ESP32 and MicroPython
+
+- **Hardware errors.** When the DHT sensor is detached from the chip's pin, executing the line "dht_sensor.measure()" or "dht_sensor.start()" 
   in the MicroPython REPL will reboot the device with a "useful" error message:
 
   ```console
-  >>> import mainx
+  >>> import main
   ets Jun  8 2016 00:22:57
 
   rst:0x8 (TG1WDT_SYS_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
@@ -216,7 +249,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   Type "help()" for more information.
   >>> 
   ```
-- **Too little RAM.** ESP12 has a pathetic amount of RAM and is a [disaster](https://github.com/espressif/esp-rainmaker/issues/8), but ESP32 is no cake either. Importing the font arial35 from Peter Hinch's ssd1306 lib along with freesans20 
+- **Too little RAM.** ESP12e/ESP8266 has a [pathetic amount of RAM](https://github.com/espressif/esp-rainmaker/issues/8), but ESP32 is no cake either. Importing the font arial35 from Peter Hinch's ssd1306 lib along with freesans20 
   is still possible when running the DHT measurement with the display without the networking stack. Adding the async networking and the MQTT libs exposes an 
   insufficient RAM: 
   
@@ -230,13 +263,15 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 - Despite all the amazing work by Peter Hinch, I could not make the async codes receive my MQTT messages, the device could only send them.
 
-- After a long search and disappointment I could finally reach a certain resilience w.r.t. the Wi-Fi loss thanks to this [code by Rui and Sara Santos][micropython-Rui-Santos].
+- After a long search and disappointment I could finally reach resilience w.r.t. the Wi-Fi loss thanks to this [code by Rui and Sara Santos][micropython-Rui-Santos].
   
 ## Conclusions
 
-- DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a slightly longer reach to its sensors, minus economy and reliability. [ESP32](https://en.wikipedia.org/wiki/ESP32) is much better than [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml), but I would not use any of them unless I absolutely have to. Tiny RAM = obscure software.
+- DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a slightly longer reach to its sensors, minus economy and reliability. [ESP32](https://en.wikipedia.org/wiki/ESP32) is much better than [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml), but still, tiny RAM = obscure software. I would not use ESP32s for anything other than transmitting sensor values/control within a LAN, via MQTT. Bail out to the PC space ASAP.
   
-- The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs of "Wi-Fi-enabled" sensors, where each node failure is non-critical, e.g. [waste bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/). Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the types of [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them within a LAN.
+- The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs of "Wi-Fi-enabled" sensors, where node failures are not critical, e.g. [waste bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/). Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the types of [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them within a LAN.
+
+- Consider economics: DOIT DEVIT V1 ESP32-WROOM-32 vs Raspberry Pi Zero W bought on, say, anodas.lt in Vilnius, May 23rd, 2023. The former costs 12.70€, while the latter is 23.90€ plus a 32GB MicroSD card sold as low as 4.90€. A typical hobbyist will only need a dozen of such devices in a life time, and the cost of 2-4x higher priced Raspberry Pi Zero W will be negligible compared to the pain one will experience with scarce network software and tiny kilobyte RAM of ESP32. [Andreas Spiess](https://www.youtube.com/watch?v=rXc_zGRYhLo&t=389s) even suggests getting an old used laptop on ebay instead of a new Raspberry Pi.  
 
 - A bus card reader? We used to have some early low RAM devices here in Vilnius for about 5-10 years. They would produce occasional errors and that is how I know that their memory was kilobytes, it would be displayed in the error message on the screen. This year (2023) the bus card readers got replaced with Estonian Ridango devices which, I suspect, run Linux. 
 
@@ -246,11 +281,9 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - Wi-Fi is limited to 10-40m without repeaters. [LoRa](https://en.wikipedia.org/wiki/LoRa) (via e.g. [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU)) may reach [1-166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). ESP32 seems to be suboptimal regarding its power consumption, which is critical in [mobile p2p radio networking](https://meshtastic.discourse.group/t/real-world-use-cases/175).
 
-- [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection is likely to be slow, but this is ideal for a mild plant monitoring/control.
+- [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection may be slow, but it is free and works as long as the libp2p network has any connected peers. According to [Max Inden, 2022](https://archive.fosdem.org/2022/schedule/event/libp2p/attachments/audio/4917/export/events/attachments/libp2p/audio/4917/slides.pdf), the libp2p network "powers the IPFS, Ethereum 2, Filecoin and Polkadot network and there are ~100K libp2p based nodes online at any given time".
 
-- [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A) is another remarkable FOSS VPN. It may produce faster than EdgeVPN connections, but it demands a public static IP, which means monthly payments, dependency on 3rd party services, Web2 philosophy.
-
-- Consider economics. DOIT DEVIT V1 ESP32-WROOM-32 vs Raspberry Pi Zero W bought on, say, anodas.lt in Vilnius, May 23rd, 2023. The former costs 12.70€, while the latter is 23.90€ plus a 32GB MicroSD card sold as low as 4.90€. A typical hobbyist will only need a dozen of such devices in a life time, and the cost of 2-4x higher priced Raspberry Pi Zero W will be negligible compared to the pain one will experience with scarce network software and tiny kilobyte RAM of ESP32. [Andreas Spiess](https://www.youtube.com/watch?v=rXc_zGRYhLo&t=389s) suggests getting an old used laptop on ebay instead of a new Raspberry Pi.
+- [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A) is another remarkable FOSS VPN. It may produce faster than EdgeVPN connections, but it demands a public static IP, which means monthly payments, dependency on 3rd party services. Web2 philosophy.
 
 ## References
 
