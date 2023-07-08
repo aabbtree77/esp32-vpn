@@ -27,11 +27,11 @@ Eventually this little project transformed into my personal research on global w
 
 There are a lot of ways to set up this Espressif MCU, but nothing too impressive to be honest:
 
-1. ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, unclear stability, [unclear pricing](https://esp32.com/viewtopic.php?t=29325). [Firebase](https://randomnerdtutorials.com/firebase-control-esp32-gpios/) and [Blynk](https://blynk.io/blog/esp32-blynk-iot-platform-for-your-connected-product) also provide their own ESP32 client software whose properties are unknown (reboots, resilience?).
+1. The ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, unclear stability, [unclear pricing](https://esp32.com/viewtopic.php?t=29325). [Firebase](https://randomnerdtutorials.com/firebase-control-esp32-gpios/) and [Blynk](https://blynk.io/blog/esp32-blynk-iot-platform-for-your-connected-product) also provide their own ESP32 client software whose properties are unknown (reboots, resilience?).
 
 2. [Husarnet](https://husarnet.com/docs/tutorial-esp32-platformio) is organized as a VPN service, and thus it is more [developer friendly/flexible](https://github.com/husarnet/esp32-internet-ota), though the ESP32 client properties are similarly unknown and the service is generally not free. Interestingly, one can expose ESP32 as an HTTP server: [1](https://www.hackster.io/donowak/esp32-web-server-using-bootstrap-4-and-websockets-0bf950), [2](https://www.hackster.io/donowak/host-web-page-over-the-internet-on-esp32-using-sd-card-e4c72b), [3](https://www.hackster.io/donowak/esp32-to-esp32-communication-over-the-internet-9799df) within the Husarnet VPN, or even use [Nginx Proxy Manager](https://husarnet.com/blog/reverse-proxy-gui) to make such a server accessible globally and seamlessly. One would still need an extra Linux machine or VPS in the latter case as Husarnet provides only a VPN and ESP32 client software. It does not provide a domain name with a global HTTP(S) address attached to an ESP32 board. I also prefer MQTT over HTTP(S) as the primary communication transport for ESP32 devices, so these architectures/examples are not very useful, in my opinion.
 
-3. MQTT cloud brokers. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
+3. The MQTT cloud brokers. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
 
 4. [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Vendor lock-in. Most likely one of the better services out there, but it is not free.
 
@@ -39,11 +39,11 @@ There are a lot of ways to set up this Espressif MCU, but nothing too impressive
 
 6. [RemoteXY](https://arduinouserinterface.com/products/remotexy), [Blynk IoT](https://play.google.com/store/apps/details?id=cloud.blynk&hl=en&gl=US&pli=1) mobile apps. Blynk I have placed above, while RemoteXY is [very limited](https://arduinouserinterface.com/products/remotexy). However, it does have a free web app docker container that one could host somewhere and then use it to control an ESP32 device. It seems to be more suitable for [LAN](https://www.youtube.com/watch?v=dyEnOyQS1w8&t=1s) rather than global connectivity.
 
-7. Connecting an ESP32 device to a PC/Linux board over Wi-Fi that runs an MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
+7. Connecting an ESP32 device to a PC/Linux board over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
 
-8. Similar to option No.7, except running an MQTT broker on a router, e.g. [OpenWrt Linux](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/): [1](https://www.onetransistor.eu/2019/05/run-local-mqtt-broker-on-openwrt-router.html), [2](https://esp8266.ru/esp8266-openwrt-mosquitto-mqttwarn-thingspeak-email-android-ios-twitter-cloudmqtt/) or [RutOS](https://teltonika-networks.com/lt/resursai/webinarai/rutos-an-extensive-introduction)... These router OSes (6-8MB .bin image size) are too custom and limiting.
+8. Similar to option No.7, except running the MQTT broker on a router, e.g. [OpenWrt Linux](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/): [1](https://www.onetransistor.eu/2019/05/run-local-mqtt-broker-on-openwrt-router.html), [2](https://esp8266.ru/esp8266-openwrt-mosquitto-mqttwarn-thingspeak-email-android-ios-twitter-cloudmqtt/) or [RutOS](https://teltonika-networks.com/lt/resursai/webinarai/rutos-an-extensive-introduction)... These router OSes (6-8MB .bin image size) are too limiting.
 
-The 7th option is my choice. It is the most reliable and versatile, but it demands an extra PC/Linux board (PC-1 shown in the figure above).
+The 7th option is my choice. It is the most reliable one, but it demands an extra PC/Linux board (PC-1 shown in the figure above).
 
 In order to establish remote PC connections, I have tested [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both of them are FOSS (written in Go) based on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p). This stack provides [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md) without an external 3rd party service or static IP. It is very useful for the ability to ssh into any remote computer.
 
@@ -57,7 +57,7 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
   "All your stupid ideals You've got your head in the clouds" - Depeche Mode, Useless, 1997
 
-- Building a webapp to communicate with ESP32 via [HTTP(S)](https://randomnerdtutorials.com/control-esp32-esp8266-gpios-from-anywhere/). This is expensive and cumbersome, and ESP32 is unlikely to be a reliable HTTP client. Many new cloud services/CMSes/databases/VPNs do provide free hosting plans, but how long will they last and are they scalable? [Heroku](https://twitter.com/heroku/status/1562817050565054469) has no free plans anymore.
+- Building a webapp to communicate with the ESP32 via the [HTTP(S)](https://randomnerdtutorials.com/control-esp32-esp8266-gpios-from-anywhere/). This is expensive and cumbersome, and the ESP32 is unlikely to be a reliable HTTP server/client. Many new cloud services/CMSes/databases/VPNs do provide free hosting plans, but how long will they last and are they scalable? [Heroku](https://twitter.com/heroku/status/1562817050565054469) has no free plans anymore.
 
 - Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. "UbuntuDesk" with a solid NAT punching, please.
 
@@ -275,9 +275,9 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - A bus card reader? We used to have some early low RAM devices here in Vilnius for about 5-10 years. They would produce occasional errors and that is how I know that their memory was kilobytes, it would be displayed in the error message on the screen. This year (2023) the bus card readers got replaced with Estonian Ridango devices which, I suspect, run Linux. 
 
-- [ESP32](https://en.wikipedia.org/wiki/ESP32) provides small distance communication via BLE and ESP-NOW protocols. In theory, this could be used to implement electronic bike shifting, remove low power electric control wires whenever possible. "But hold on a second, did you know that you never need to update the firmware on a mechanical derailleur?" 
+- The [ESP32](https://en.wikipedia.org/wiki/ESP32) provides small distance communication via the BLE and ESP-NOW protocols. In theory, this could be used to implement electronic bike shifting, remove low power electric control wires whenever possible. "But hold on a second, did you know that you never need to update the firmware on a mechanical derailleur?" 
 
-- The combo of [ESP32](https://en.wikipedia.org/wiki/ESP32) with MicroPython achieves a hassle-free ADC to measure analogue voltage values. An easy ROM address scanning (whenever one needs to pin a lot of temperature sensors on a single wire input) is also a solid achievement. This is a lot messier in the ATmega world. There is no need to deal with the fuse bits, makefiles and C shenanigans. This is only a convenience issue though. Fundamentally, MicroPython eats up precious RAM and dynamic typing is very prone to typos and all sorts of hidden bugs, which is a huge problem.
+- The combo of the [ESP32](https://en.wikipedia.org/wiki/ESP32) with MicroPython achieves a hassle-free ADC to measure analogue voltage values. An easy ROM address scanning (whenever one needs to pin a lot of temperature sensors on a single wire input) is also a solid achievement. This is a lot messier in the ATmega world. There is no need to deal with the fuse bits, makefiles and C shenanigans. This is only a convenience issue though. Fundamentally, MicroPython eats up precious RAM and dynamic typing is very prone to typos and all sorts of hidden bugs, which is a huge problem.
 
 - Wi-Fi is limited to 10-40m without repeaters. [LoRa](https://en.wikipedia.org/wiki/LoRa) (via e.g. [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU)) may reach [1-166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). ESP32 seems to be suboptimal regarding its power consumption, which is critical in [mobile p2p radio networking](https://meshtastic.discourse.group/t/real-world-use-cases/175).
 
@@ -287,7 +287,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 ## References
 
-ESP32 Essentials:
+The ESP32 Essentials:
 
 - [MicroPython firmware]
 - [micropython-Rui-Santos]
