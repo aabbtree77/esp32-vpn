@@ -197,15 +197,15 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
   Use the same release version on all the computers that will be connected into a VPN, otherwise there might be conflicts as some versions have changed the way the keys are stored and decoded.
   
-  Generate config.yaml:
+  cd into extracted folder and generate config.yaml:
   
   ```console
-  edgevpn -g > config.yaml
+  ./edgevpn -g > config.yaml
   ```
 
-  and distribute it on all the machines that will be connected to EdgeVPN (manually by carrying a USB stick, via email, etc.).
+  Distribute it on all the machines that will be connected to EdgeVPN (manually by carrying a USB stick, via email, etc.).
   
-  Assuming a machine runs Ubuntu, place the executable with config.yaml in the same folder and run
+  Assuming the machine runs Ubuntu, place the executable with config.yaml in the same folder and run
   
   ```console
   sudo IFACE=edgevpn0 ADDRESS=10.1.0.7/24 EDGEVPNCONFIG=config.yaml ./edgevpn --log-level debug
