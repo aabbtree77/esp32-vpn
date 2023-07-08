@@ -1,6 +1,9 @@
 > “An operating system is a collection of things that don't fit into a language. <br>
 There shouldn't be one.”<br> &ndash; Dan Ingalls
 
+
+> “...the bullshit piled up so fast... you needed wings to stay above it.”<br> &ndash; Apocalypse Now, 1979
+
 <table align="center">
     <tr>
     <th align="center"> ESP32 as an MQTT Client in the Context of IoT</th>
@@ -18,39 +21,43 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 Initially, our goal was to use the ESP32 board for remote plant watering. This goal was achieved. However, we also found code-free solutions based on the Clas Ohlson WiFi Smart Plug which could be operated with their mobile app. The latter are cheap (10-20 euro) and easy to use, but one must rely on the Clas Ohlson servers. The smart plugs are also very limited in that they do not provide any feedback, one presses "on"/"off" with the hope it all works on the other end.
 
-Eventually this little project transformed into my personal research on various global ways to connect PCs, which I keep updating from time to time here.
+Eventually this little project transformed into my personal research on global ways to connect things, which I keep updating from time to time here.
 
 ## ESP32 and IoT
 
 There are a lot of ways to set up this Espressif MCU, but nothing too impressive to be honest:
 
-1. ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, unclear stability, [unclear pricing](https://esp32.com/viewtopic.php?t=29325). One hardly wants yet another "customer service". 
+1. ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, unclear stability, [unclear pricing](https://esp32.com/viewtopic.php?t=29325).
 
-2. 3rd party MQTT brokers and ESP32 MQTT clients. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
+2. [Firebase](https://randomnerdtutorials.com/firebase-control-esp32-gpios/), [Husarnet](https://husarnet.com/docs/tutorial-esp32-platformio), [Blynk](https://blynk.io/blog/esp32-blynk-iot-platform-for-your-connected-product) clouds support ESP32 clients. They are very similar to [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96).
 
-3. [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Vendor lock-in. Most likely one of the better services out there, but it is not free.
+3. 3rd party MQTT brokers and ESP32 MQTT clients. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
 
-4. [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. The properties of this specific ESP32 client library remain unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it, there might be some [low level magic](https://github.com/esphome/feature-requests/issues/1444) needed to get it working.
+4. [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Vendor lock-in. Most likely one of the better services out there, but it is not free.
 
-5. Connecting an ESP32 device to a PC/Linux board over Wi-Fi that runs an MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
+5. [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. The properties of this specific ESP32 client library remain unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it, there might be some [low level magic](https://github.com/esphome/feature-requests/issues/1444) needed to get it working.
 
-6. Similar to option No.5, except running the MQTT broker on the router with e.g. OpenWrt Linux: [1](https://www.onetransistor.eu/2019/05/run-local-mqtt-broker-on-openwrt-router.html), [2](https://esp8266.ru/esp8266-openwrt-mosquitto-mqttwarn-thingspeak-email-android-ios-twitter-cloudmqtt/)... In theory this is very economic, but it introduces a different software stack which is neither ESP nor traditional Linux. These router OSes (6-8MB .bin image size) will be very limited  with available libraries, their reliability, VPN software. This also adds a dubious coupling: the Linux user space is also the router and its LAN, rebooting Linux reboots the router.
+6. [RemoteXY](https://arduinouserinterface.com/products/remotexy), [Blynk IoT](https://play.google.com/store/apps/details?id=cloud.blynk&hl=en&gl=US&pli=1) mobile apps. Blynk I have placed above, while RemoteXY is [very limited](https://arduinouserinterface.com/products/remotexy). However, it does have a free web app docker container that one could host somewhere and then use it to control an ESP32 device. It seems to be more suitable for [LAN](https://www.youtube.com/watch?v=dyEnOyQS1w8&t=1s) rather than global connectivity.
 
-The fifth option is my choice. It is the most reliable and versatile, but it demands an extra PC/Linux board (PC-1 shown in the figure above). This is not ideal if one simply wants to fire up a mobile phone app to control an ESP32 globally from anywhere, directly. However, I just do not want to deal with Wireguard on ESP32 or the ESP RainMaker cloud when the connectivity errors start to appear. Running an MQTT broker on [OpenWrt](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/) or [RutOS](https://teltonika-networks.com/lt/resursai/webinarai/rutos-an-extensive-introduction) is also not the option as I do not want to touch a router and tiny custom Linux unless I absolutely have to.
+7. Connecting an ESP32 device to a PC/Linux board over Wi-Fi that runs an MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
 
-In order to establish remote PC connections, I have tested [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both of them are FOSS (written in Go) based on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p) which stems from [kubo](https://github.com/ipfs/kubo) (go-ipfs). This stack provides [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md) without an external 3rd party service or static IP. It is very useful for the ability to ssh into almost any remote computer.
+8. Similar to option No.7, except running an MQTT broker on a router, e.g. [OpenWrt Linux](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/): [1](https://www.onetransistor.eu/2019/05/run-local-mqtt-broker-on-openwrt-router.html), [2](https://esp8266.ru/esp8266-openwrt-mosquitto-mqttwarn-thingspeak-email-android-ios-twitter-cloudmqtt/) or [RutOS](https://teltonika-networks.com/lt/resursai/webinarai/rutos-an-extensive-introduction)... These router OSes (6-8MB .bin image size) are too custom and limiting.
+
+The 7th option is my choice. It is the most reliable and versatile, but it demands an extra PC/Linux board (PC-1 shown in the figure above).
+
+In order to establish remote PC connections, I have tested [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both of them are FOSS (written in Go) based on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p). This stack provides [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md) without an external 3rd party service or static IP. It is very useful for the ability to ssh into any remote computer.
 
 Do these tools always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
-## The Wild World of Computer Networks
+## Other Rejected Ideas
 
-EdgeVPN solves the problem of external connections without a public IP/3rd party. However, the connection will typically be very slow. It is fast enough to establish an ssh connection, exchange MQTT messages between the broker and ESP32 within a LAN, and logout. However, the solution is not ideal. In a long run, it is better to have a more solid VPN, preferably with a static public IP. Numerous options exist, though nothing too exciting:
+EdgeVPN solves the problem of external connections without a public IP/3rd party. However, the connection will typically be very slow. It is fast enough to establish an ssh connection, run Linux commands, monitor messages. In a long run, it is better to have a more solid VPN, preferably with a static public IP. Or not.
 
 - [Google IoT Core](https://news.ycombinator.com/item?id=32475298) is being retired. AWS IoT, ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In, Zerynth Cloud Core...  
 
   "All your stupid ideals You've got your head in the clouds" - Depeche Mode, Useless, 1997
 
-- [Heroku](https://twitter.com/heroku/status/1562817050565054469) has no free plans anymore.
+- Building a webapp to communicate with ESP32 via [HTTP(S)](https://randomnerdtutorials.com/control-esp32-esp8266-gpios-from-anywhere/), e.g. [RemoteXY](https://arduinouserinterface.com/products/remotexy) with a fixed concrete frontend made with, say, React. This is expensive and cumbersome, and ESP32 is unlikely to be a reliable HTTP client. Many new cloud services/CMSes/databases/VPNs do provide free hosting plans, but how long will they last and are they scalable? [Heroku](https://twitter.com/heroku/status/1562817050565054469) has no free plans anymore.
 
 - Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. "UbuntuDesk" with a solid NAT punching, please.
 
@@ -72,7 +79,7 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
 - [Freifunk, FunkFeuer, NYC Mesh](https://github.com/redecentralize/alternative-internet#networking) and other local community/city/country-wide radio p2p networks. [B.A.T.M.A.N.](https://en.wikipedia.org/wiki/B.A.T.M.A.N.) [routing](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/) at the OSI layer 2 (Data link) rather than 3 (Network). [This is actually very interesting](https://www.youtube.com/watch?v=DrXJ9_ezSy4). The free internet built with only "line of sight" devices, mostly routers with OpenWrt. Tools to mesh WLANs and LANs, BATMAN-based and traditional, with certain [use cases](https://youtu.be/t4A0kfg2olo?t=134).
 
-- [Meshtastic](https://www.youtube.com/watch?v=TY6m6fS8bxU) is like Freifunk, but limited to/focused on the LoRa radio communication. Its main use seems to be remote rural areas, crowded rock festivals, animal tracking, where telecom operators do not work well and satellite services are too expensive. LoRa (LoRaWAN) alternatives include [NB-IoT, Sigfox, and Wi-Fi HaLow](https://www.hackster.io/news/the-ttgo-t-beam-an-esp32-lora-board-d44b08f18628).
+- [Meshtastic](https://www.youtube.com/watch?v=TY6m6fS8bxU) is like Freifunk, but focused on the LoRa radio communication. Its main use seems to be remote rural areas, crowded rock festivals and other animal tracking, where telecom operators do not work well and satellite services are too expensive. LoRa (LoRaWAN) alternatives include [NB-IoT, Sigfox, and Wi-Fi HaLow](https://www.hackster.io/news/the-ttgo-t-beam-an-esp32-lora-board-d44b08f18628).
 
 - [v2ray](https://www.quora.com/How-do-I-bypass-the-GFW-of-China-without-a-VPN): [1](https://www.reddit.com/r/dumbclub/comments/106aomk/how_to_install_and_setup_v2ray/), [2](https://www.reddit.com/r/dumbclub/comments/ydfpr7/why_v2ray_doesnt_work_on_games/), [3](https://www.reddit.com/r/dumbclub/comments/11q8nhn/v2ray_xray_vps/), [4](https://www.reddit.com/r/dumbclub/comments/100g8ei/best_v2ray_config_for_gaming/), and [the Great Firewall of China](https://en.wikipedia.org/wiki/Great_Firewall):
 
@@ -227,9 +234,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Conclusions
 
-- DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a longer reach to its sensors, minus economy and reliability.
-   
-- [ESP32](https://en.wikipedia.org/wiki/ESP32) is much better than [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml), but I would not use any of them unless I absolutely have to. Tiny RAM = obscure networking software.
+- DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a slightly longer reach to its sensors, minus economy and reliability. [ESP32](https://en.wikipedia.org/wiki/ESP32) is much better than [Atmega with ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml), but I would not use any of them unless I absolutely have to. Tiny RAM = obscure software.
   
 - The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs of "Wi-Fi-enabled" sensors, where each node failure is non-critical, e.g. [waste bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/). Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the types of [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them within a LAN.
 
