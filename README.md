@@ -31,7 +31,7 @@ There are a lot of ways to set up this Espressif MCU, but nothing too impressive
 
 2. [Husarnet](https://husarnet.com/docs/tutorial-esp32-platformio) is organized as a thin VPN service, and thus it is quite [developer-friendly](https://github.com/husarnet/esp32-internet-ota), though the ESP32 client properties are similarly unknown and the service is generally not free. Interestingly, one can expose the ESP32 as an HTTP server: [1](https://www.hackster.io/donowak/esp32-web-server-using-bootstrap-4-and-websockets-0bf950), [2](https://www.hackster.io/donowak/host-web-page-over-the-internet-on-esp32-using-sd-card-e4c72b), [3](https://www.hackster.io/donowak/esp32-to-esp32-communication-over-the-internet-9799df) within the Husarnet VPN, or even use [Nginx Proxy Manager](https://husarnet.com/blog/reverse-proxy-gui) to make such a server accessible globally and seamlessly. One would still need an extra Linux machine or VPS in the latter case. 
 
-  I prefer the MQTT over the HTTP(S) as the primary communication transport for the ESP32 devices, so these architectures/examples are not very useful to me.
+    I prefer the MQTT over the HTTP(S) as the primary communication transport for the ESP32 devices, so these architectures/examples are not very useful to me.
 
 3. The MQTT cloud brokers. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
 
