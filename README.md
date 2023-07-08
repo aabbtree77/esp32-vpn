@@ -41,7 +41,7 @@ There are a lot of ways to set up this Espressif MCU, but nothing too impressive
 
 6. [RemoteXY](https://arduinouserinterface.com/products/remotexy), [Blynk IoT](https://play.google.com/store/apps/details?id=cloud.blynk&hl=en&gl=US&pli=1) mobile apps. Blynk I have placed above, while RemoteXY is [very limited](https://arduinouserinterface.com/products/remotexy). However, it does have a free web app docker container that one could host somewhere and then use it to control an ESP32 device. It seems to be more suitable for [LAN](https://www.youtube.com/watch?v=dyEnOyQS1w8&t=1s) rather than global connectivity.
 
-7. Connecting an ESP32 device to a PC/Linux board over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
+7. Connecting the ESP32 board to the Linux PC over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
 
 8. Similar to option No.7, except running the MQTT broker on a router, e.g. [OpenWrt Linux](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/): [1](https://www.onetransistor.eu/2019/05/run-local-mqtt-broker-on-openwrt-router.html), [2](https://esp8266.ru/esp8266-openwrt-mosquitto-mqttwarn-thingspeak-email-android-ios-twitter-cloudmqtt/) or [RutOS](https://teltonika-networks.com/lt/resursai/webinarai/rutos-an-extensive-introduction)... These router OSes (6-8MB .bin image size) are too limiting.
 
