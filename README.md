@@ -27,17 +27,17 @@ Eventually this little project transformed into my personal research on global w
 
 There are a lot of ways to set up this Espressif MCU, but nothing too impressive to be honest:
 
-1. The ESP32-specific cloud called [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, unclear stability, [unclear pricing](https://esp32.com/viewtopic.php?t=29325). [Firebase](https://randomnerdtutorials.com/firebase-control-esp32-gpios/) and [Blynk](https://blynk.io/blog/esp32-blynk-iot-platform-for-your-connected-product) also provide their own ESP32 client software whose properties are unknown (reboots, resilience?).
+1. [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, unclear stability, [unclear pricing](https://esp32.com/viewtopic.php?t=29325). [Firebase](https://randomnerdtutorials.com/firebase-control-esp32-gpios/) and [Blynk](https://blynk.io/blog/esp32-blynk-iot-platform-for-your-connected-product) also provide their own ESP32 client software whose properties are unknown (reboots, resilience?).
 
 2. [Husarnet](https://husarnet.com/docs/tutorial-esp32-platformio) is organized as a thin VPN service, and thus it is quite [developer-friendly](https://github.com/husarnet/esp32-internet-ota), though the ESP32 client properties are similarly unknown and the service is generally not free. Interestingly, one can expose the ESP32 as an HTTP server: [1](https://www.hackster.io/donowak/esp32-web-server-using-bootstrap-4-and-websockets-0bf950), [2](https://www.hackster.io/donowak/host-web-page-over-the-internet-on-esp32-using-sd-card-e4c72b), [3](https://www.hackster.io/donowak/esp32-to-esp32-communication-over-the-internet-9799df) within the Husarnet VPN, or even use [Nginx Proxy Manager](https://husarnet.com/blog/reverse-proxy-gui) to make such a server accessible globally and seamlessly. One would still need an extra Linux machine or VPS in the latter case. 
 
     I prefer the MQTT over the HTTP(S) as the primary communication transport for the ESP32 devices, so these architectures/examples are not very useful to me.
 
-3. The MQTT cloud brokers. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
+3. MQTT cloud brokers. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
 
 4. [Amazon API Gateway with Websockets](https://www.youtube.com/watch?v=z53MkVFOnIo). Vendor lock-in. Most likely one of the better services out there, but it is not free.
 
-5. [Wireguard for ESP-IDF](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. The properties of this specific ESP32 client library remain unlear (Wi-Fi resilience? NAT punching?). The user base is too tiny to trust it, there might be some [low level magic](https://github.com/esphome/feature-requests/issues/1444) needed to get it working.
+5. Wireguard on the ESP32: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. Wireguard on the ESP32 also needs courage since the user base is tiny, the properties (Wi-Fi resilience, NAT punching) are unknown, and there might be some [low level magic](https://github.com/esphome/feature-requests/issues/1444) needed to get it working.
 
 6. [RemoteXY](https://arduinouserinterface.com/products/remotexy), [Blynk IoT](https://play.google.com/store/apps/details?id=cloud.blynk&hl=en&gl=US&pli=1) mobile apps. Blynk I have placed above, while RemoteXY is [very limited](https://arduinouserinterface.com/products/remotexy). However, it does have a free web app docker container that one could host somewhere and then use it to control an ESP32 device. It seems to be more suitable for [LAN](https://www.youtube.com/watch?v=dyEnOyQS1w8&t=1s) rather than global connectivity.
 
