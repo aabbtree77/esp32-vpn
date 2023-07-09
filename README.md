@@ -41,31 +41,33 @@ There are several different ways to connect the ESP32 boards globally:
 
 3. Something similar, but with the MQTT replacing the HTTP. Again, only the board needs to know the URL or the IP address of the "MQTT app". I prefer the MQTT for two reasons.
 
-    Firstly, in my experience, the MQTT client libs are more reliable that their HTTP counterparts in the ESP32 world. I never had to deal with crashes and hangings with the MQTT messaging in MicroPython, but my HTTP codes had to be littered with a lot of exceptions. However, I could not get the async MQTT codes of Peter Hinch to work, so it depends.
+    Firstly, in my experience, the MQTT client libs are more reliable than their HTTP counterparts in the ESP32 world. I never had to deal with crashes and hangings with the MQTT messaging in MicroPython, but my HTTP codes had to be littered with a lot of exceptions, though these were the ESP8266 times. However, I could not get the async MQTT codes of Peter Hinch to work, so it depends.
 
-    Secondly, there is no need to write a web app to send and receive data to the board. One can simply run the Linux MQTT broker as the "MQTT app" and use "Mosquitto_pub"/"Mosquitto_sub" commands w.r.t. the MQTT topics that the board will pub/sub to.
+    Secondly, there is no need to write a web app to send and receive data to the board. One can simply run the Mosquitto broker as an "MQTT app" and use "mosquitto_pub/sub" commands w.r.t. the MQTT topics that the board will pub/sub to.
 
 4. Connecting the ESP32 to the Linux PC over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
 
-The last option is my choice. It is the most reliable one, but it demands an extra PC/Linux board (PC-1 shown in the figure above). One can run the MQTT broker on a router, e.g. with [OpenWrt Linux](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/): [1](https://www.onetransistor.eu/2019/05/run-local-mqtt-broker-on-openwrt-router.html), [2](https://esp8266.ru/esp8266-openwrt-mosquitto-mqttwarn-thingspeak-email-android-ios-twitter-cloudmqtt/) or [RutOS](https://teltonika-networks.com/lt/resursai/webinarai/rutos-an-extensive-introduction), but these router OSes (6-8MB .bin image size) are too limiting. Removing a battle-tested Ubuntu machine introduces the need to deal with a custom obscure Linux stack.
+The last option is my choice. It is the most reliable one, but it demands an extra PC/Linux board (PC-1 shown in the figure above). 
+
+One can run the MQTT broker on a router, e.g. with [OpenWrt Linux](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/): [1](https://www.onetransistor.eu/2019/05/run-local-mqtt-broker-on-openwrt-router.html), [2](https://esp8266.ru/esp8266-openwrt-mosquitto-mqttwarn-thingspeak-email-android-ios-twitter-cloudmqtt/) or [RutOS](https://teltonika-networks.com/lt/resursai/webinarai/rutos-an-extensive-introduction), but these router OSes (6-8MB .bin image size) are too limiting.
 
 In order to establish remote PC connections, I have tested [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94) and [EdgeVPN](https://github.com/mudler/edgevpn/issues/25). Both of them are FOSS (written in Go) based on the MIT-licensed stack called [go-libp2p](https://github.com/libp2p/go-libp2p). This stack provides [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md) without an external 3rd party service or static IP. It is very useful for the ability to ssh into any remote computer!
 
 Do these tools always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
-## Advanced Themes/Some Other Services To Think About
+## Some Other Things To Think About
 
 - EdgeVPN solves the problem of external connections without a public IP/3rd party. However, the connection will typically be slow, albeit fast enough to establish an ssh connection, run Linux commands, monitor messages. In a long run, is it better to have a more solid VPN, preferably with a static public IP?
 
-- There are a lot of cloud services which connect Linux boards and PCs: ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In... This number could be sufficiently large to start using their free plans for hobby purposes, hopping on a new platform every time user/device list expands or a free plan disappears.
+- There are a lot of cloud services which connect Linux boards and PCs: ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In... This number could be sufficiently large to start using their free plans for hobby purposes, hopping on a new platform every time user/device list expands or a free plan disappears ;).
 
 - Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. "UbuntuDesk" with a solid NAT punching, please.
 
-- [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) game streaming services provide responsive VPNs, but they are not free.
+- [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) game streaming services might provide the most responsive VPNs.
 
-- The role of the Wireguard VPN: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard), [3](https://github.com/esphome/feature-requests/issues/1444) in the IoT remains unclear to me. Is this used to make the ESP32 completely independent as the global network node on par to Linux boards? To remove any assisting Linux PC/router/LAN? Is this possible, is this reliable, or is this for something special like the OTA firmware updates? What difference does it make that Wireguard is built on top of the UDP, but not TCP?
+- The role of the Wireguard VPN: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard), [3](https://github.com/esphome/feature-requests/issues/1444) in the IoT remains unclear to me. Is this used to make the ESP32 completely independent as the global network node on par to Linux boards? To remove any assisting Linux PC/router/LAN? Is this for something special like remote OTA firmware updates?
 
-    Some Linux Wireguard helpers to bookmark: [pivpn](https://github.com/pivpn/pivpn), [wg-easy](https://github.com/wg-easy/wg-easy), [firezone](https://github.com/firezone/firezone), overall process of setting up the VPN: [1](https://www.youtube.com/watch?v=5Aql0V-ta8A), [2](https://www.youtube.com/watch?v=_hiYI7ABnQI).
+    Some Linux Wireguard helpers to bookmark: [pivpn](https://github.com/pivpn/pivpn), [wg-easy](https://github.com/wg-easy/wg-easy), [firezone](https://github.com/firezone/firezone), youtube: [1](https://www.youtube.com/watch?v=5Aql0V-ta8A), [2](https://www.youtube.com/watch?v=_hiYI7ABnQI).
 
 - Tailscale, Nebula, NetBird, Netmaker, headscale, innernet, [ZeroTier](https://www.youtube.com/watch?v=sA55fcuJSQQ), tinc, [Hamachi](https://news.ycombinator.com/item?id=29479503)... A long list of "[overlay](https://github.com/search?l=Go&o=desc&q=wireguard&s=stars&type=Repositories) [mesh](https://github.com/cedrickchee/awesome-wireguard) [network](https://wiki.nikiv.dev/networking/vpn/wireguard)" software built on top of Wireguard, mostly, but not always. Quite a few services with free plans.
 
