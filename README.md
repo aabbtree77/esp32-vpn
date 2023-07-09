@@ -59,7 +59,7 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
   "All your stupid ideals <br> 
   You've got your head in the clouds" <br> 
-  - Depeche Mode, Useless, 1997
+  &#8211; Depeche Mode, Useless, 1997
 
 - Building a webapp to communicate with the ESP32 via the [HTTP(S)](https://randomnerdtutorials.com/control-esp32-esp8266-gpios-from-anywhere/). This is cumbersome and hosting costs. The ESP32 is unlikely to be a reliable HTTP server/client. Many new cloud services/CMSes/databases/VPNs do provide free hosting plans, but how long will they last and are they scalable? [Heroku](https://twitter.com/heroku/status/1562817050565054469) has no free plans anymore.
 
