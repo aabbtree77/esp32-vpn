@@ -21,17 +21,17 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 Initially, the goal was to use the ESP32 board for remote plant watering. This goal was achieved. However, we also found code-free solutions based on the Clas Ohlson WiFi Smart Plug which could be operated with their mobile app. The latter are cheap (10-20 euro) and easy to use, but one must rely on the Clas Ohlson servers. The smart plugs are also very limited in that they do not provide any feedback, one presses "on"/"off" with the hope it all works on the other end.
 
-Eventually this little project transformed into my personal research on global ways to connect things, which I keep updating from time to time here.
+Eventually this little project transformed into my personal research on global ways to connect things, which I keep updating from time to time here. My ideal here is about a reliable coder-friendly Linux-centric global communication whose tech-stack one can completely own/understand and whose parts are replaceable/customizable like lego blocks. 
 
 ## ESP32 and IoT
 
-There are a lot of ways to set up this Espressif MCU, but nothing too impressive to be honest:
+There are a lot of ways to connect the ESP32 boards globally, but nothing too impressive, to be honest:
 
-1. [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96). Vendor lock-in, unclear stability, [unclear pricing](https://esp32.com/viewtopic.php?t=29325). [Firebase](https://randomnerdtutorials.com/firebase-control-esp32-gpios/) and [Blynk](https://blynk.io/blog/esp32-blynk-iot-platform-for-your-connected-product) also provide their own ESP32 client software whose properties are unknown (reboots, resilience?).
+1. IoT clouds that support the ESP32: [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [Firebase](https://randomnerdtutorials.com/firebase-control-esp32-gpios/), [Blynk](https://blynk.io/blog/esp32-blynk-iot-platform-for-your-connected-product), [Arduino IoT Cloud](https://www.youtube.com/watch?v=rcCxGcRwCVk), [Yaler.net](https://yaler.net/). 
 
-2. [Husarnet](https://husarnet.com/docs/tutorial-esp32-platformio) is organized as a thin VPN service, and thus it is quite [developer-friendly](https://github.com/husarnet/esp32-internet-ota), though the ESP32 client properties are similarly unknown and the service is generally not free. Interestingly, one can expose the ESP32 as an HTTP server: [1](https://www.hackster.io/donowak/esp32-web-server-using-bootstrap-4-and-websockets-0bf950), [2](https://www.hackster.io/donowak/host-web-page-over-the-internet-on-esp32-using-sd-card-e4c72b), [3](https://www.hackster.io/donowak/esp32-to-esp32-communication-over-the-internet-9799df) within the Husarnet VPN, or even use [Nginx Proxy Manager](https://husarnet.com/blog/reverse-proxy-gui) to make such a server accessible globally and seamlessly. One would still need an extra Linux machine or VPS in the latter case. 
+    Vendor lock-in, unclear uptime, breaking changes, [unclear pricing](https://esp32.com/viewtopic.php?t=29325), tiny fractured communities. Endless connectivity and configuration issues. Some of these delegate too much to the cloud, e.g. the Arduino IoT Cloud provides a full "code-free" solution akin to the site builders/CMSes, but it also integrates remote code editor, stores your Wi-Fi password for the OTA updates...
 
-    I prefer the MQTT over the HTTP(S) as the primary communication transport for the ESP32 devices, so these architectures/examples are not very useful to me.
+2. [Husarnet](https://husarnet.com/docs/tutorial-esp32-platformio), which is a paid VPN service, unfortunately. What is good here is that it is also [an open source code](https://husarnet.com/business/open-source) and Dominik Nowak, the CTO of the company, is mildly active on [hackster.io](https://www.hackster.io/donowak/projects), [github](https://github.com/husarnet) and [the company blog](https://husarnet.com/blog/reverse-proxy-gui). There is way too much positivity about the ESP32 as the HTTP(S) server/client in these blogs and on the internet. I prefer the MQTT, and only within the LAN.
 
 3. MQTT cloud brokers. [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4)... Vendor lock-in, phased-out plans, issues.
 
@@ -39,9 +39,9 @@ There are a lot of ways to set up this Espressif MCU, but nothing too impressive
 
 5. Wireguard on the ESP32: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard). Wireguard is a very solid FOSS VPN, but it needs a public static IP. Wireguard on the ESP32 also needs courage since the user base is tiny, the properties (Wi-Fi resilience, NAT punching) are unknown, and there might be some [low level magic](https://github.com/esphome/feature-requests/issues/1444) needed to get it working.
 
-6. [RemoteXY](https://arduinouserinterface.com/products/remotexy), [Blynk IoT](https://play.google.com/store/apps/details?id=cloud.blynk&hl=en&gl=US&pli=1) mobile apps. Blynk I have placed above, while RemoteXY is [very limited](https://arduinouserinterface.com/products/remotexy). However, it does have a free web app docker container that one could host somewhere and then use it to control an ESP32 device. It seems to be more suitable for [LAN](https://www.youtube.com/watch?v=dyEnOyQS1w8&t=1s) rather than global connectivity.
+6. [RemoteXY](https://arduinouserinterface.com/products/remotexy), [Blynk IoT](https://play.google.com/store/apps/details?id=cloud.blynk&hl=en&gl=US&pli=1) mobile apps. Blynk IoT is just a mobile frontend to the Blynk cloud service, see my comments above. RemoteXY is mildly interesting as it provides a free web app docker container that one could host somewhere and then use it to control the ESP32. It seems to be more suitable for [LAN](https://www.youtube.com/watch?v=dyEnOyQS1w8&t=1s) rather than global connectivity.
 
-7. Connecting the ESP32 board to the Linux PC over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
+7. Connecting the ESP32 to the Linux PC over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
 
 8. Similar to option No.7, except running the MQTT broker on a router, e.g. [OpenWrt Linux](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/): [1](https://www.onetransistor.eu/2019/05/run-local-mqtt-broker-on-openwrt-router.html), [2](https://esp8266.ru/esp8266-openwrt-mosquitto-mqttwarn-thingspeak-email-android-ios-twitter-cloudmqtt/) or [RutOS](https://teltonika-networks.com/lt/resursai/webinarai/rutos-an-extensive-introduction)... These router OSes (6-8MB .bin image size) are too limiting.
 
@@ -57,9 +57,11 @@ EdgeVPN solves the problem of external connections without a public IP/3rd party
 
 - [Google IoT Core](https://news.ycombinator.com/item?id=32475298) is being retired. AWS IoT, ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In, Zerynth Cloud Core...  
 
-  "All your stupid ideals You've got your head in the clouds" - Depeche Mode, Useless, 1997
+  "All your stupid ideals <br> 
+  You've got your head in the clouds" <br> 
+  - Depeche Mode, Useless, 1997
 
-- Building a webapp to communicate with the ESP32 via the [HTTP(S)](https://randomnerdtutorials.com/control-esp32-esp8266-gpios-from-anywhere/). This is expensive and cumbersome, and the ESP32 is unlikely to be a reliable HTTP server/client. Many new cloud services/CMSes/databases/VPNs do provide free hosting plans, but how long will they last and are they scalable? [Heroku](https://twitter.com/heroku/status/1562817050565054469) has no free plans anymore.
+- Building a webapp to communicate with the ESP32 via the [HTTP(S)](https://randomnerdtutorials.com/control-esp32-esp8266-gpios-from-anywhere/). This is cumbersome and hosting costs. The ESP32 is unlikely to be a reliable HTTP server/client. Many new cloud services/CMSes/databases/VPNs do provide free hosting plans, but how long will they last and are they scalable? [Heroku](https://twitter.com/heroku/status/1562817050565054469) has no free plans anymore.
 
 - Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. "UbuntuDesk" with a solid NAT punching, please.
 
