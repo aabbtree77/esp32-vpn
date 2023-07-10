@@ -287,11 +287,11 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - Wi-Fi is limited to 10-40m without repeaters. [LoRa](https://en.wikipedia.org/wiki/LoRa) (via e.g. the [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU)) may reach [1-166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). The ESP32 seems to be suboptimal regarding its power consumption, which is critical in [mobile p2p radio networking](https://meshtastic.discourse.group/t/real-world-use-cases/175).
 
-- Useful ESP32 applications may not require the global internet connectivity at all: this NAT router: [1](https://github.com/martin-ger/esp32_nat_router/tree/master), [2](https://github.com/dchristl/esp32_nat_router_extended/tree/master/src), [the GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/)...  
-
 - [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind NAT without any 3rd party service and static IP. The connection may be slow, but it is free and works as long as the libp2p network has any connected peers. According to [Max Inden, 2022](https://archive.fosdem.org/2022/schedule/event/libp2p/attachments/audio/4917/export/events/attachments/libp2p/audio/4917/slides.pdf), the libp2p network "powers the IPFS, Ethereum 2, Filecoin and Polkadot network and there are ~100K libp2p based nodes online at any given time".
 
 - [Wireguard](https://www.youtube.com/watch?v=5Aql0V-ta8A) is another remarkable FOSS VPN. It may produce faster than EdgeVPN connections, but it demands a public static IP, which means monthly payments, dependency on 3rd party services. Web2 philosophy.
+
+- Useful ESP32 applications may not require the global internet connectivity, see e.g. this NAT router: [1](https://github.com/martin-ger/esp32_nat_router/tree/master), [2](https://github.com/dchristl/esp32_nat_router_extended/tree/master/src), or [the GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/).
 
 ## References
 
