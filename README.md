@@ -17,15 +17,15 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 ## Introduction
 
-[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi, the BLE and ESP-NOW. One can connect it to [a lot of sensors](https://esphome.io/#sensor-components) with ready-made drivers. The challenge is to control such a board globally, via the internet.
+[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi, Bluetooth LE, and ESP-NOW. One can connect it to [a lot of sensors](https://esphome.io/#sensor-components) with ready-made drivers. The challenge is to control such a board globally, via the internet.
 
-Initially, the goal was to use the ESP32 board for remote plant watering. This goal was achieved. However, we also found code-free solutions based on the Clas Ohlson WiFi Smart Plug which could be operated with their mobile app. The latter are cheap (10-20 euro) and easy to use, but one must rely on the Clas Ohlson servers. The smart plugs are also very limited in that they do not provide any feedback, one presses "on"/"off" with the hope it all works on the other end.
+Initially, the goal was to use the ESP32 board for remote plant watering. This goal was achieved. However, we also found code-free solutions based on the Clas Ohlson WiFi Smart Plug which could be operated with their mobile app. The latter are cheap (10-20 euro) and easy to use, but one must rely on the Clas Ohlson servers. Smart plugs are limited: It is a one way communication.
 
-Eventually this little project transformed into my personal research on global ways to connect things, which I keep updating from time to time here. My ideal is a reliable coder-friendly Linux-centric global communication whose tech-stack one can completely own/dissect and whose parts are replaceable/customizable like lego blocks.
+Eventually this little project transformed into my personal research on global ways to connect things, which I keep updating from time to time here. My ideal is reliable developer-friendly Linux-centric global communication.
 
 ## ESP32 and IoT
 
-There are several different ways to connect the ESP32 boards globally:
+There are several ways to connect the ESP32 globally:
 
 1. Cloud services: [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [Firebase](https://randomnerdtutorials.com/firebase-control-esp32-gpios/), [Blynk](https://blynk.io/blog/esp32-blynk-iot-platform-for-your-connected-product), [Arduino IoT Cloud](https://www.youtube.com/watch?v=rcCxGcRwCVk), [Yaler.net](https://yaler.net/), [Amazon API Gateway with Websocket API](https://www.youtube.com/watch?v=z53MkVFOnIo), [Amazon API Gateway with RESTful API](https://aws.amazon.com/blogs/compute/building-an-aws-iot-core-device-using-aws-serverless-and-an-esp32/), [Husarnet](https://husarnet.com/docs/tutorial-esp32-platformio), [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4), [RemoteXY](https://www.youtube.com/watch?v=dyEnOyQS1w8&t=1s), [Google Cloud IoT](https://www.elementzonline.com/blog/Connecting-ESP32-to-Google-Cloud-IoT), Viper/Zerynth: [1](https://zerynth.com/blog/python-on-esp32-getting-started/), [2](https://lemariva.com/blog/2021/12/zerynth-esp32-google-iot-core-part-1-sending-data-to-the-cloud), [3](https://zerynth.com/customers/case-studies/zerynth-powered-smart-iot-display/)... 
 
@@ -35,9 +35,9 @@ There are several different ways to connect the ESP32 boards globally:
     
     - [Free plans come and go](https://twitter.com/heroku/status/1562817050565054469).
     
-    - Husarnet is the only one from the listed above which provides [its open source code](https://husarnet.com/business/open-source). I also like a lot its approach/philosophy about being a thin VPN (connection as a service) which is also programmer-centric. Contrast this to the Arduino IoT Cloud which is a complete platform with all these drag and drop GUI and remote code editors, prompts for Wi-Fi credentials that include your Wi-Fi password (!) to make the ESP32 code OTA updates. 
+    - Husarnet is the only one from the listed above which provides [its open source code](https://husarnet.com/business/open-source).
     
-2. Making and hosting a classical web app which will communicate with the ESP32 via the HTTP requests: [1](https://randomnerdtutorials.com/control-esp32-esp8266-gpios-from-anywhere/), [2](https://randomnerdtutorials.com/esp32-esp8266-mysql-database-php/). Notice that the board needs to know the URL or the IP address of the web app to send GET/POST requests, but the web app does not need to know the address of the board.
+2. Classical web apps which will communicate with the ESP32 via the HTTP requests: [1](https://randomnerdtutorials.com/control-esp32-esp8266-gpios-from-anywhere/), [2](https://randomnerdtutorials.com/esp32-esp8266-mysql-database-php/). Notice that the board needs to know the URL or the IP address of the web app to send GET/POST requests, but the web app does not need to know the address of the board.
 
 3. Something similar, but with the MQTT replacing the HTTP. Again, only the board needs to know the URL or the IP address of the "MQTT app". I prefer the MQTT for two reasons.
 
@@ -59,13 +59,13 @@ Do these tools always work though, are they equally good? EdgeVPN may have an [e
 
 - EdgeVPN solves the problem of external connections without a public IP/3rd party. However, the connection will typically be slow, albeit fast enough to establish an ssh connection, run Linux commands, monitor messages. In a long run, is it better to have a more solid VPN, preferably with a static public IP?
 
-- There are a lot of cloud services which connect Linux boards and PCs: ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In... This number could be sufficiently large to start using their free plans for hobby purposes, hopping on a new platform every time user/device list expands or a free plan disappears ;).
+- There are a lot of cloud services which connect Linux boards: ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, Tunnel In... This number could be sufficiently large to start using their free plans for hobby purposes, hopping on a new platform every time user/device list expands or a free plan disappears ;).
 
 - Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. "UbuntuDesk" with a solid NAT punching, please.
 
 - [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) and other game streaming services might provide the most responsive VPNs.
 
-- The role of the Wireguard VPN: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard), [3](https://github.com/esphome/feature-requests/issues/1444) in the IoT remains unclear to me. Can Wireguard make the ESP32 completely independent global network node on par to Linux boards? Is this for something special like remote OTA firmware updates?
+- Wireguard on the ESP32: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard), [3](https://github.com/esphome/feature-requests/issues/1444) remains unclear to me. Can it make the ESP32 completely independent, on par with Linux boards? Is it for something special like remote OTA firmware updates?
 
     Some Linux Wireguard helpers to bookmark: [pivpn](https://github.com/pivpn/pivpn), [wg-easy](https://github.com/wg-easy/wg-easy), [firezone](https://github.com/firezone/firezone), youtube: [1](https://www.youtube.com/watch?v=5Aql0V-ta8A), [2](https://www.youtube.com/watch?v=_hiYI7ABnQI).
 
@@ -91,7 +91,7 @@ Do these tools always work though, are they equally good? EdgeVPN may have an [e
 
 - "v2ray" and "Shadowsocks" related software that helps to get through firewalls: [Outline VPN](https://www.youtube.com/watch?v=O9jGg6tE7nY), [udp2raw](https://github.com/wangyu-/udp2raw), [hysteria](https://github.com/apernet/hysteria), [trojan](https://github.com/trojan-gfw/trojan), [clash](https://github.com/Dreamacro/clash), [gost](https://github.com/ginuerzh/gost/blob/master/README_en.md), [naiveproxy](https://github.com/klzgrad/naiveproxy), [pi-hole](https://github.com/pi-hole/pi-hole). Outline VPN needs to be installed as a server on DigitalOcean/Hostinger, and it is free just like Wireguard, but it might have stronger hole-punching properties. The other tools mentioned here are less clear to me.
 
-- Discussions around the VPN concept may go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling) and [on](https://changelog.complete.org/archives/10231-recovering-our-lost-free-will-online-tools-and-techniques-that-are-available-now)... with some phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/), [5](https://shufflingbytes.com/posts/ripping-off-professional-criminals-by-fermenting-onions-phishing-darknet-users-for-bitcoins/)...
+- Discussions around the VPN concept go [on](https://news.ycombinator.com/item?id=24893615) and [on](https://news.ycombinator.com/item?id=27672715) and [on](https://github.com/anderspitman/awesome-tunneling) and [on](https://changelog.complete.org/archives/10231-recovering-our-lost-free-will-online-tools-and-techniques-that-are-available-now)... with some phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/), [5](https://shufflingbytes.com/posts/ripping-off-professional-criminals-by-fermenting-onions-phishing-darknet-users-for-bitcoins/)...
 
 - There exist tools built to attack your own IoT networks for testing purposes: [1](https://github.com/ElectronicCats/CatSniffer), [2](https://github.com/SpacehuhnTech/esp8266_deauther), [3](https://www.youtube.com/watch?v=I0N2KpwGETI).
 
