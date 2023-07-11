@@ -211,9 +211,28 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
   ```console
   ssh username@10.1.0.8
+  username@10.1.0.8's password: 
+  Last login: Mon Jul 10 15:13:34 2023 from 10.1.0.4
+  
+  ...
+  
+  exit
+  logout
+  Connection to 10.1.0.8 closed.
   ```
   
-  The broker becomes visible as if the VPN were a LAN, so you can run mosquitto_pub/sub commands directly even without ssh-ing to the machine that runs the MQTT broker. 
+  The broker becomes visible as if the VPN were a LAN, so you can run mosquitto_pub/sub commands directly even without ssh-ing to the machine that runs the MQTT broker.
+  
+  When you are able to connect from A to B, A's ./edgevpn --log-level debug will show a lot of information including the following lines:
+  
+  ```
+  {"level":"DEBUG","time":"2023-07-11T14:44:39.455+0300","caller":"discovery/dht.go:204","message":" Announcing ourselves..."}
+  {"level":"DEBUG","time":"2023-07-11T14:44:56.542+0300","caller":"discovery/dht.go:207","message":" Successfully announced!"}
+  {"level":"DEBUG","time":"2023-07-11T14:44:56.542+0300","caller":"discovery/dht.go:210","message":" Searching for other peers..."}
+  {"level":"DEBUG","time":"2023-07-11T14:44:56.583+0300","caller":"discovery/dht.go:230","message":" Known peer (already connected):
+  ```
+  
+  followed by the list of ip4 addresses of known/connected peers which will be global or local. While being on the A side, you should be able to see the local LAN address of B assigned to B by its encompassing router on the B side, remarkably. It should be in that ip4 list whose preamble I have just shown here.
   
 ## ESP32 and MicroPython
 
@@ -283,6 +302,8 @@ What a mess! All this gigantic Connectivity-as-a-Service activity just because A
 [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind CGNAT without any 3rd party service and static IP. The connection may be slow, but it is free and works as long as the libp2p network has any connected peers. According to [Max Inden, 2022](https://archive.fosdem.org/2022/schedule/event/libp2p/attachments/audio/4917/export/events/attachments/libp2p/audio/4917/slides.pdf), the libp2p network "powers the IPFS, Ethereum 2, Filecoin and Polkadot network and there are ~100K libp2p based nodes online at any given time".
 
 So we do connect A and B, but there is no 100% guarantee; and this is all evolving and Web2-Web3-schizoidal. The complexity is staggering. [EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go plus [go-libp2p](https://github.com/libp2p/go-libp2p) which is another 67 KLOC of Go (!) that implement a fairly tricky hole punching p2p system. [wireguard-go](https://github.com/WireGuard/wireguard-go): 13 KLOC. All this effort just to give your hardware a proper/virtual IP address.
+
+Remarkably, people are pushing Wireguard everywhere including the ESP32, but EdgeVPN runs only on [big common OSes](https://github.com/mudler/edgevpn/releases/tag/v0.23.1). The edgevpn executable on Linux is 34MB. In the logs of my runs I also see at least 2MB UDP buffer sizes requested for the UDP inside [QUIC](https://github.com/quic-go/quic-go/wiki/UDP-Buffer-Sizes). See [a complete list of protocols used by the libp2p](https://github.com/libp2p/specs), it is very interesting to see what it takes to give a node a virtual IP address. This looks hopeless for the ESP32 and similar tiny RAM IoT, but that does not preclude their use in the libp2p network. It is just that they are unlikely to serve directly as independent global libp2p nodes, but they could still be paired with a Linux board, see [this LoRa for libp2p example](https://github.com/RTradeLtd/libp2p-lora-transport) which first connects the LoRa shield bridge to ATmega2560 and then uses the serial interface to bail out to Linux for the libp2p part. 
 
 ## References
 
