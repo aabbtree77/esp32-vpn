@@ -282,11 +282,7 @@ What a mess! All this gigantic Connectivity-as-a-Service activity just because A
 
 [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind CGNAT without any 3rd party service and static IP. The connection may be slow, but it is free and works as long as the libp2p network has any connected peers. According to [Max Inden, 2022](https://archive.fosdem.org/2022/schedule/event/libp2p/attachments/audio/4917/export/events/attachments/libp2p/audio/4917/slides.pdf), the libp2p network "powers the IPFS, Ethereum 2, Filecoin and Polkadot network and there are ~100K libp2p based nodes online at any given time".
 
-So we do connect A and B, but the complexity is worth mentioning. Running cloc on the most relevant dependencies yields:
-
-[EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go. It relies on [go-libp2p](https://github.com/libp2p/go-libp2p) which is another 67 KLOC of Go (!) with some fairly tricky hole punching and p2p stuff.
-
-[wireguard-go](https://github.com/WireGuard/wireguard-go): 13 KLOC! And all this effort just to give you a proper/virtual IP address.
+So we do connect A and B, but there is no 100% guarantee; and this is all evolving and Web2-Web3-schizoidal. The complexity is staggering. [EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go. It relies on [go-libp2p](https://github.com/libp2p/go-libp2p) which is another 67 KLOC of Go (!) with some fairly tricky hole punching p2p. [wireguard-go](https://github.com/WireGuard/wireguard-go): 13 KLOC. All this effort just to give your hardware a proper/virtual IP address.
 
 ## References
 
