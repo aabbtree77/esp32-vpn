@@ -260,7 +260,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 ESP32:
 
-- DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a longer reach to its sensors, plus a lot of convenience (e.g. MicroPython), minus economy and reliability. The [ESP32](https://en.wikipedia.org/wiki/ESP32) is much better than sending UDP packets with [Atmega and the ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). However, tiny RAM = yet another custom tech stack, which is so unnecessary in the year 2023. I would not use ESP32s for anything other than transmitting sensor values/control within a LAN, via MQTT. Bail out to the Linux space ASAP.
+- DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a longer reach to its sensors, plus a lot of convenience (e.g. MicroPython), minus economy and reliability. The [ESP32](https://en.wikipedia.org/wiki/ESP32) is much better than sending UDP packets with [Atmega and the ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). However, tiny RAM = yet another custom tech stack, which is so unnecessary in the year 2023. I would not use the ESP32 for anything other than transmitting sensor values/control within a LAN. Bail out to the Linux space ASAP.
   
 - The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs of "Wi-Fi-enabled" sensors, where node failures are not critical, e.g. [waste bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/). Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them in the LAN.
 
@@ -282,7 +282,7 @@ What a mess! All this gigantic Connectivity-as-a-Service activity just because A
 
 [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind CGNAT without any 3rd party service and static IP. The connection may be slow, but it is free and works as long as the libp2p network has any connected peers. According to [Max Inden, 2022](https://archive.fosdem.org/2022/schedule/event/libp2p/attachments/audio/4917/export/events/attachments/libp2p/audio/4917/slides.pdf), the libp2p network "powers the IPFS, Ethereum 2, Filecoin and Polkadot network and there are ~100K libp2p based nodes online at any given time".
 
-So we do connect A and B, but there is no 100% guarantee; and this is all evolving and Web2-Web3-schizoidal. The complexity is staggering. [EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go. It relies on [go-libp2p](https://github.com/libp2p/go-libp2p) which is another 67 KLOC of Go (!) with some fairly tricky hole punching p2p. [wireguard-go](https://github.com/WireGuard/wireguard-go): 13 KLOC. All this effort just to give your hardware a proper/virtual IP address.
+So we do connect A and B, but there is no 100% guarantee; and this is all evolving and Web2-Web3-schizoidal. The complexity is staggering. [EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go plus [go-libp2p](https://github.com/libp2p/go-libp2p) which is another 67 KLOC of Go (!) that implement a fairly tricky hole punching p2p system. [wireguard-go](https://github.com/WireGuard/wireguard-go): 13 KLOC. All this effort just to give your hardware a proper/virtual IP address.
 
 ## References
 
