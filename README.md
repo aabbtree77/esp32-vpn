@@ -49,19 +49,17 @@ Do these tools always work though, are they equally good? EdgeVPN may have an [e
 
 EdgeVPN solves the problem of remote connections without a public IP/3rd party. However, the libp2p network is a relatively new (Web3) world with all sorts of pros and cons, e.g. the connections will not be the fastest possible. This hardly matters in the context of the ESP32, but I will bookmark here a few other options, something to think about:
 
-- Renting the VPS with a public static IP on, say, DigitalOcean or Hostinger, followed by the set up of Wireguard: [1](https://www.youtube.com/watch?v=5Aql0V-ta8A), [2](https://www.youtube.com/watch?v=_hiYI7ABnQI) or [Outline VPN](https://www.youtube.com/watch?v=O9jGg6tE7nY). There are many more VPNs to host, but these two are somewhat outstanding.
- 
-    Wireguard is the most common VPN, but it could be weaker w.r.t. hole-punching (google for Layer 2 vs. 3 tunnels, CGNAT, mDNS, it's all dark science to me). Wireguard helpers to bookmark: [pivpn](https://github.com/pivpn/pivpn), [wg-easy](https://github.com/wg-easy/wg-easy), [firezone](https://github.com/firezone/firezone).
+- Renting any VPS with a public static IP and running WireGuard: [1](https://www.youtube.com/watch?v=5Aql0V-ta8A), [2](https://www.youtube.com/watch?v=_hiYI7ABnQI) or any of its alternatives with self-hosting: Nebula, Headscale, innernet, Tinc, [VpnCloud](https://vpncloud.ddswd.de/), [Outline VPN](https://www.youtube.com/watch?v=O9jGg6tE7nY)... The VpnCloud website is very educational, see e.g. [this VPN comparison](https://vpncloud.ddswd.de/features/comparison/).
     
     Outline VPN is based on [shadowsocks](https://www.quora.com/How-do-I-bypass-the-GFW-of-China-without-a-VPN), the tech used to bypass [the Great Firewall of China](https://en.wikipedia.org/wiki/Great_Firewall):
 
     "the developer of shadowsocksR being asked to police station,the code on github was deleted by unimagable mean. so v2ray come out in the world. Which is stronger than shadowsocks (or in another way v2ray contains shadowsocks),the establish method is same with shadowsocks.U can search 一键搭建v2ray on YouTube..."
 
-- Tailscale and related CaaS: Nebula, NetBird, Netmaker, headscale, innernet, [ZeroTier](https://www.youtube.com/watch?v=sA55fcuJSQQ), tinc, [Hamachi](https://news.ycombinator.com/item?id=29479503), Tunnel In, [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/)... Some of these are open sourced and can be hosted on your own machines or VPS. 
+- Tailscale and related CaaS: Defined Networking, NetBird, Netmaker, [ZeroTier](https://www.youtube.com/watch?v=sA55fcuJSQQ), [Hamachi](https://news.ycombinator.com/item?id=29479503), Tunnel In, [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/)...
 
 - More (IoT/Raspberry Pi/Linux)-centric CaaS: ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, NetFoundry: [1](https://netfoundry.io/edge-and-iot-zero-trust-networking/), [2](https://www.reddit.com/r/openziti/comments/xpe01b/need_some_guidance/)...
 
-- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina demands port forwarding which is very limited and unreliable. "UbuntuDesk" with a solid CGNAT punching, please.
+- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina does not punch through CGNAT. Others are either paid services or rely on a static IP. "UbuntuDesk" with a free CGNAT punching, please.
 
 - [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) and other game streaming services might provide the most responsive VPNs.
 
@@ -293,7 +291,7 @@ ESP32
 
 - Wi-Fi is limited to 10...50m without repeaters. [LoRa](https://en.wikipedia.org/wiki/LoRa) (e.g. [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU)) may reach [1...166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). The ESP32 could be suboptimal w.r.t. its power consumption, which is critical in [mobile p2p radio networks](https://meshtastic.discourse.group/t/real-world-use-cases/175).
 
-- Useful ESP32 applications may not require global connectivity (see e.g. this router: [1](https://github.com/martin-ger/esp32_nat_router/tree/master), [2](https://github.com/dchristl/esp32_nat_router_extended/tree/master/src)), or even local connectivity (see e.g. [the GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/)).
+- Useful ESP32 applications may not require global connectivity (see e.g. this router: [1](https://github.com/martin-ger/esp32_nat_router/tree/master), [2](https://github.com/dchristl/esp32_nat_router_extended/tree/master/src)), or even local connectivity (see e.g. [the GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/)). The [ESP32](https://www.youtube.com/@ESP32WiPhone/videos) [WiPhone](https://news.ycombinator.com/item?id=32762767)?
 
 Global Connectivity
 
