@@ -291,6 +291,15 @@ ESP32
 
 - Useful ESP32 applications may not require global connectivity (see e.g. this router: [1](https://github.com/martin-ger/esp32_nat_router/tree/master), [2](https://github.com/dchristl/esp32_nat_router_extended/tree/master/src)), or even local connectivity (see e.g. [the GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/)). The [ESP32](https://www.youtube.com/@ESP32WiPhone/videos) [WiPhone](https://news.ycombinator.com/item?id=32762767)?
 
+- This is where ESP32 shines perhaps, i.e. quick prototyping for early research:
+
+    [Real Time IOT based Non-invasive Glucobin Monitor for Diabetes
+    Patients, by Azra Anjum, Mythri, and Dr. Niranjan K., 2021](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf)
+
+    The paper uses the ESP32 with the Near Infrared (NIR) sensor (940nm wavelength) to monitor blood glucose levels.
+    
+    Some researchers cobble up cheap magnetic field sensors in mechanics studies before investing in expensive ones.
+
 Global Connectivity
 
 - All this gigantic CaaS/VPN activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message? Go study OSI and the seven dwarfs, TCP meltdown, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, CGNAT, ARP, ICMP, mDNS, subnet masks, gateways, port forwarding, Linux kernel routes, CIDR, hosts, DHCP, interfaces, firewalls, routers... [B.A.T.M.A.N.](https://en.wikipedia.org/wiki/B.A.T.M.A.N.)  
