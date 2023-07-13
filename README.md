@@ -45,7 +45,7 @@ In order to establish remote PC connections, I have tested [Hyprspace](https://g
 
 Do these tools always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
-## Alternative Ways to Achieve Global Connectivity
+## Alternative Ways to Achieve Global Connectivity: P2P vs Cloud Computing
 
 EdgeVPN solves the problem of remote connections without a public IP/3rd party. However, the libp2p network is a relatively new (Web3) world with all sorts of pros and cons, e.g. the connections will not be the fastest possible. This hardly matters in the context of the ESP32, but I will bookmark here a few other options, something to think about:
 
@@ -69,7 +69,7 @@ EdgeVPN solves the problem of remote connections without a public IP/3rd party. 
  
   "It's easier to setup a Tor hidden service than it is to set up a server with a domain. You don't have to know anything about DNS or firewalls. I'm surprised that they aren't more common."
 
-- [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [CJDNS](https://news.ycombinator.com/item?id=16135341)/Hyperboria, ZeroNet, I2P, Scuttlebutt and other global p2p networks. I have little initiative to try these networks out as the libp2p network (with EdgeVPN) solves the problem, but it is worth noting that p2p networks are ideal for low MQTT traffic, they are totally free to use and do not demand a public static IP. [This 2022 report](https://cheapskatesguide.org/articles/yggdrasil.html) delves deeper into Yggdrasil and provides some interesting details, e.g. the number of public peers in the US.
+- [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [CJDNS](https://news.ycombinator.com/item?id=16135341)/Hyperboria, ZeroNet, I2P, Secure Scuttlebutt, [Spacemesh](https://platform.spacemesh.io/docs/next/protocol/p2p/overview/), [Hyperswarm](https://news.ycombinator.com/item?id=18077538) and other global p2p networks. I have little motivation here to test some of these alternatives to the libp2p network as EdgeVPN solves the problem. No doubt these are outstanding highly ambitious complex projects. [This 2022 report](https://cheapskatesguide.org/articles/yggdrasil.html) delves deeper into Yggdrasil.
 
 - [Freifunk, FunkFeuer, NYC Mesh](https://github.com/redecentralize/alternative-internet#networking) and other local community/city/country-wide radio p2p networks. [B.A.T.M.A.N.](https://en.wikipedia.org/wiki/B.A.T.M.A.N.) [routing](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/) at the OSI layer 2 (Data link) rather than 3 (Network). [This will be relevant to the world after nuclear war](https://www.youtube.com/watch?v=DrXJ9_ezSy4). The free internet built with only "line of sight" devices, mostly routers with OpenWrt. Tools to mesh WLANs and LANs, BATMAN-based and traditional, with certain [use cases](https://youtu.be/t4A0kfg2olo?t=134).
 
@@ -216,9 +216,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   logout
   Connection to 10.1.0.8 closed.
   ```
-  
-  The broker becomes visible as if the VPN were a LAN, so you can run mosquitto_pub/sub commands directly even without ssh-ing to the machine that runs the MQTT broker.
-  
+    
   When you are able to connect from A to B, A's ./edgevpn --log-level debug will show a lot of information including the following lines:
   
   ```
@@ -228,8 +226,8 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   {"level":"DEBUG","time":"2023-07-11T14:44:56.583+0300","caller":"discovery/dht.go:230","message":" Known peer (already connected):
   ```
   
-  followed by the list of ip4 addresses of known/connected peers which will be global or local. While being on the A side, you should be able to see the local LAN address of B assigned to B by its encompassing router on the B side, remarkably. It should be in that ip4 list whose preamble I have just shown here.
-  
+  followed by the list of so called multiaddresses of known/connected peers which will include global or local IPv4. While being on the A side, you should be able to see the local LAN IPv4 address of B assigned to B by its encompassing router on the B side!
+   
 ## ESP32 and MicroPython
 
 - **Hardware errors.** When the DHT sensor is detached from the chip's pin, executing the line "dht_sensor.measure()" or "dht_sensor.start()" 
@@ -289,16 +287,16 @@ ESP32
 
 - Wi-Fi is limited to 10...50m without repeaters. [LoRa](https://en.wikipedia.org/wiki/LoRa) (e.g. [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU)) may reach [1...166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). The ESP32 could be suboptimal w.r.t. its power consumption, which is critical in [mobile p2p radio networks](https://meshtastic.discourse.group/t/real-world-use-cases/175).
 
-- Useful ESP32 applications may not require global connectivity (see e.g. this router: [1](https://github.com/martin-ger/esp32_nat_router/tree/master), [2](https://github.com/dchristl/esp32_nat_router_extended/tree/master/src)), or even local connectivity (see e.g. [the GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/)). The [ESP32](https://www.youtube.com/@ESP32WiPhone/videos) [WiPhone](https://news.ycombinator.com/item?id=32762767)?
+- Useful ESP32 applications may not require global connectivity (see e.g. this router: [1](https://github.com/martin-ger/esp32_nat_router/tree/master), [2](https://github.com/dchristl/esp32_nat_router_extended/tree/master/src)), or even local connectivity (see e.g. [the GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/)), but also take a look at the [ESP32](https://www.youtube.com/@ESP32WiPhone/videos) [WiPhone](https://news.ycombinator.com/item?id=32762767).
 
-- This is where ESP32 shines perhaps, i.e. quick prototyping for early research:
+- This is where ESP32 shines, namely, rapid prototyping:
 
-    [Real Time IOT based Non-invasive Glucobin Monitor for Diabetes
-    Patients, by Azra Anjum, Mythri, and Dr. Niranjan K., 2021](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf)
-
-    The paper uses the ESP32 with the Near Infrared (NIR) sensor (940nm wavelength) to monitor blood glucose levels.
+    [Azra Anjum et. al. Real Time IOT based Non-invasive Glucobin Monitor for Diabetes
+    Patients, 2021](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf)
     
-    Some researchers cobble up cheap magnetic field sensors in mechanics studies before investing in expensive ones.
+    [Chuchart Pintavirooj et. al. Noninvasive Portable Hemoglobin Concentration Monitoring System Using Optical Sensor for Anemia Disease, 2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/)
+    
+    Both papers pair the ESP32 with inexpensive LED-photodiode-based sensors to measure the blood glucose or hemoglobin concentration non-invasively. See also [Aminah Hina and Wala Saadeh. Noninvasive Blood Glucose Monitoring Systems Using Near-Infrared Technology—A Review, 2022].
 
 Global Connectivity
 
@@ -308,9 +306,9 @@ Global Connectivity
 
 - So we do connect A and B, but there is no 100% guarantee. [More like 50% - 80%](https://www.youtube.com/watch?v=bzL7Y1wYth8). The complexity is staggering. [EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go plus [go-libp2p](https://github.com/libp2p/go-libp2p) which is another 67 KLOC of Go (!) that implement a fairly tricky hole punching p2p system. [wireguard-go](https://github.com/WireGuard/wireguard-go): 13 KLOC. All this effort just to give your hardware a proper/virtual IP address.
 
-- Wireguard can run on the ESP32, but EdgeVPN runs only on [big common OSes](https://github.com/mudler/edgevpn/releases/tag/v0.23.1). The edgevpn executable on Linux is 34MB. In the logs of my runs I also see at least 2MB UDP buffer sizes requested for the UDP inside [QUIC](https://github.com/quic-go/quic-go/wiki/UDP-Buffer-Sizes). See [a complete list of protocols used by the libp2p](https://github.com/libp2p/specs). 
-
-    It is unlikely that applications such as EdgeVPN will ever get ported to the ESP32 and similar tiny RAM IoT. These devices are better paired with a Linux board. See [this LoRa for libp2p example](https://github.com/RTradeLtd/libp2p-lora-transport) which first connects the LoRa shield bridge to ATmega2560 and then uses the serial interface to bail out to Linux for the libp2p part. 
+- Wireguard can run on the ESP32, but EdgeVPN runs only on Linux and [big desktop OSes](https://github.com/mudler/edgevpn/releases/tag/v0.23.1). The edgevpn executable on Linux is 34MB. In the logs of my runs I also see at least 2MB UDP buffer sizes requested for the UDP inside [QUIC](https://github.com/quic-go/quic-go/wiki/UDP-Buffer-Sizes). See [a complete list of protocols used by the libp2p](https://github.com/libp2p/specs). Therefore, I doubt that porting EdgeVPN or similar p2p applications to the ESP32 could be reasonable. These devices are better paired with a Linux board. See [this LoRa for libp2p example](https://github.com/RTradeLtd/libp2p-lora-transport) which first connects the LoRa shield bridge to ATmega2560 and then uses the serial interface to bail out to Linux for the libp2p part.
+    
+    What is lacking is the [Android port of EdgeVPN](https://github.com/mudler/edgevpn/issues/20). [awl?](https://github.com/anywherelan/awl)
 
 ## References
 
