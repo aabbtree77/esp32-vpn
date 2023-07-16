@@ -1,12 +1,9 @@
-> “An operating system is a collection of things that don't fit into a language. <br>
-There shouldn't be one.”<br> &ndash; Dan Ingalls
-
 
 > “...the bullshit piled up so fast... you needed wings to stay above it.”<br> &ndash; Apocalypse Now, 1979
 
 <table align="center">
     <tr>
-    <th align="center"> ESP32 as an MQTT Client in the Context of IoT</th>
+    <th align="center"> ESP32 as an MQTT Client in the IoT</th>
     </tr>
     <tr>
     <td>
@@ -19,9 +16,9 @@ There shouldn't be one.”<br> &ndash; Dan Ingalls
 
 [DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi, Bluetooth LE, and ESP-NOW. One can connect it to [a lot of sensors](https://esphome.io/#sensor-components) with ready-made drivers. The challenge is to control such a board globally, via the internet.
 
-Initially, the goal was to use the ESP32 board for remote plant watering. This goal was achieved. However, we also found code-free solutions based on the Clas Ohlson WiFi Smart Plug which could be operated with their mobile app. The latter are cheap (10-20 euro) and easy to use, but one must rely on the Clas Ohlson servers. Smart plugs are limited: It is a one way communication from a mobile phone to an electrical relay via 3rd party servers.
+Initially, the goal was to use the ESP32 board for remote plant watering. This goal was achieved. However, we also found code-free solutions based on the Clas Ohlson WiFi Smart Plug which could be dissected and controlled with their mobile app. The latter are cheap (10-20 euro) and easy to use, but one must rely on the Clas Ohlson servers. Smart plugs are limited: It is a one way communication from a mobile phone to an electrical relay via 3rd party servers.
 
-Eventually this little project transformed into my personal research on global/remote connectivity, which I keep updating from time to time here. My ideal is reliable developer-friendly Linux-centric global communication.
+Eventually this little project transformed into my personal research on global/remote connectivity, which I keep updating from time to time here. My ideal is reliable developer-friendly Linux-centric global open free communication.
 
 ## ESP32 and IoT
 
@@ -45,37 +42,51 @@ In order to establish remote PC connections, I have tested [Hyprspace](https://g
 
 Do these tools always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25).
 
-## Alternative Ways to Achieve Global Connectivity: P2P vs Cloud Computing
+## P2P vs. Cloud
 
-EdgeVPN solves the problem of remote connections without a public IP/3rd party. However, the libp2p network is a relatively new (Web3) world with all sorts of pros and cons, e.g. the connections will not be the fastest possible. This hardly matters in the context of the ESP32, but I will bookmark here a few other options, something to think about:
+EdgeVPN solves the problem of remote connections without a public IP/3rd party. However, hole punching is not always guaranteed, and the libp2p connections will not be the fastest possible. EdgeVPN also does not run on Android. Therefore, it is good to keep an eye on other ways.
 
-- Renting any VPS with a public static IP and running WireGuard: [1](https://www.youtube.com/watch?v=5Aql0V-ta8A), [2](https://www.youtube.com/watch?v=_hiYI7ABnQI) or any of its alternatives with self-hosting: Nebula, Headscale, innernet, Tinc, [VpnCloud](https://vpncloud.ddswd.de/), [Outline VPN](https://www.youtube.com/watch?v=O9jGg6tE7nY)... The VpnCloud website is very educational, see e.g. [this VPN comparison](https://vpncloud.ddswd.de/features/comparison/).
+- Renting any VPS with a public static IP and running WireGuard: [1](https://www.youtube.com/watch?v=5Aql0V-ta8A), [2](https://www.youtube.com/watch?v=_hiYI7ABnQI) or any of its alternatives with self-hosting: Nebula, Headscale, innernet, openp2p.cn, Tinc, [VpnCloud](https://vpncloud.ddswd.de/), [Outline VPN](https://www.youtube.com/watch?v=O9jGg6tE7nY)... 
+
+    The VpnCloud website is [very educational with useful comparisons](https://vpncloud.ddswd.de/features/comparison/).
+    
+    [openp2p.cn](https://github.com/openp2p-cn/openp2p) provides the VPN code and access to their server for free. This completely solves the problem, if you trust the server. 
     
     Outline VPN is based on [shadowsocks](https://www.quora.com/How-do-I-bypass-the-GFW-of-China-without-a-VPN), the tech used to bypass [the Great Firewall of China](https://en.wikipedia.org/wiki/Great_Firewall):
 
     "the developer of shadowsocksR being asked to police station,the code on github was deleted by unimagable mean. so v2ray come out in the world. Which is stronger than shadowsocks (or in another way v2ray contains shadowsocks),the establish method is same with shadowsocks.U can search 一键搭建v2ray on YouTube..."
 
-- Tailscale and related CaaS: Defined Networking, NetBird, Netmaker, [ZeroTier](https://www.youtube.com/watch?v=sA55fcuJSQQ), [Hamachi](https://news.ycombinator.com/item?id=29479503), Tunnel In, [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/)...
+- This is quite an M.Sc. thesis:
 
-- More (IoT/Raspberry Pi/Linux)-centric CaaS: ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, NetFoundry: [1](https://netfoundry.io/edge-and-iot-zero-trust-networking/), [2](https://www.reddit.com/r/openziti/comments/xpe01b/need_some_guidance/)...
+    ["Design and Implementation of SoftEther VPN" by Daiyuu Nobori, Univ. of Tsukuba, Japan. 2013.](https://www.softether.org/4-docs/9-research/Design_and_Implementation_of_SoftEther_VPN)
 
-- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, Screego... Remmina does not punch through CGNAT. Others are either paid services or rely on a static IP. "UbuntuDesk" with a free CGNAT punching, please.
+    A lot of protocols and acronyms. 396,867 LOC in C++. 10.3K Github stars, over 1K issues, 827 closed. It seems to be [active](https://github.com/SoftEtherVPN/SoftEtherVPN).
+    
+- Tailscale and related Connectivity-as-a-Service (CaaS) clouds: Defined Networking, NetBird, Netmaker, [ZeroTier](https://www.youtube.com/watch?v=sA55fcuJSQQ), [Hamachi](https://news.ycombinator.com/item?id=29479503), Tunnel In, [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/)... More (IoT/Raspberry Pi/Linux)-centric CaaS: ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, NetFoundry: [1](https://netfoundry.io/edge-and-iot-zero-trust-networking/), [2](https://www.reddit.com/r/openziti/comments/xpe01b/need_some_guidance/)... Vendor lock-in.
 
-- [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) and other game streaming services might provide the most responsive VPNs.
+- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, [Screego](https://github.com/screego/server)... Remmina does not punch through CGNAT. Others are either paid services or rely on a static IP. [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) and other paid game streaming services might provide the most responsive VPNs. "UbuntuDesk" with a free CGNAT punching, please.
 
-- Wireguard on the ESP32: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard), [3](https://github.com/esphome/feature-requests/issues/1444). This is probably for some advanced optimistic uses where the ESP32 becomes an independent node on a par with Linux boards.
+- Wireguard on the ESP32: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard), [3](https://github.com/esphome/feature-requests/issues/1444). This is for some overly optimistic uses where the ESP32 becomes an independent node on a par with Linux boards.
 
 - The Onion Router: [1](https://www.maths.tcd.ie/~fionn/misc/ssh_hidden_service/), [2](https://www.techjail.net/raspberry-iotlinux-devices.html), [3](https://golb.hplar.ch/2019/01/expose-server-tor.html), [4](https://community.torproject.org/onion-services/setup/), [5](https://www.reddit.com/r/Freenet/comments/9w4do9/demo_public_darknet_on_the_tor_onioncat_ipv6/), [6](https://null-byte.wonderhowto.com/how-to/host-your-own-tor-hidden-service-with-custom-onion-address-0180159/), [7](https://opensource.com/article/19/8/how-create-vanity-tor-onion-address), [8](https://shufflingbytes.com/posts/ripping-off-professional-criminals-by-fermenting-onions-phishing-darknet-users-for-bitcoins/).
  
-  "It's easier to setup a Tor hidden service than it is to set up a server with a domain. You don't have to know anything about DNS or firewalls. I'm surprised that they aren't more common."
+    "It's easier to setup a Tor hidden service than it is to set up a server with a domain. You don't have to know anything about DNS or firewalls. I'm surprised that they aren't more common."
+  
+    "The most popular method for pairing Tor & VPN is by connecting to a VPN server first, then using the Tor Browser. With the 'Tor over VPN' method, your real IP address is hidden from your Tor entry node. Moreover, your ISP won't know you're using Tor. This is the easier Tor VPN configuration to achieve of the two."
 
-- [Yggdrasil](https://news.ycombinator.com/item?id=27580995), [CJDNS](https://news.ycombinator.com/item?id=16135341)/Hyperboria, ZeroNet, I2P, Secure Scuttlebutt, [Spacemesh](https://platform.spacemesh.io/docs/next/protocol/p2p/overview/), [Hyperswarm](https://news.ycombinator.com/item?id=18077538) and other global p2p networks. I have little motivation here to test some of these alternatives to the libp2p network as EdgeVPN solves the problem. No doubt these are outstanding highly ambitious complex projects. [This 2022 report](https://cheapskatesguide.org/articles/yggdrasil.html) delves deeper into Yggdrasil.
+- weron: [1](https://news.ycombinator.com/item?id=31297917), [2](https://www.reddit.com/r/golang/comments/ukm5a2/weron_a_peertopeer_vpn_based_on_webrtc_written_in/), [3](https://github.com/pojntfx/weron#usage). One still needs to host a so called signaling server, "while it is possible and reasonably private (in addition to TLS, connection information is encrypted using the --key flag of clients) to use the hosted signaling server at wss://weron.up.railway.app/".
 
-- [Freifunk, FunkFeuer, NYC Mesh](https://github.com/redecentralize/alternative-internet#networking) and other local community/city/country-wide radio p2p networks. [B.A.T.M.A.N.](https://en.wikipedia.org/wiki/B.A.T.M.A.N.) [routing](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/) at the OSI layer 2 (Data link) rather than 3 (Network). [This will be relevant to the world after nuclear war](https://www.youtube.com/watch?v=DrXJ9_ezSy4). The free internet built with only "line of sight" devices, mostly routers with OpenWrt. Tools to mesh WLANs and LANs, BATMAN-based and traditional, with certain [use cases](https://youtu.be/t4A0kfg2olo?t=134).
+- Yggdrasil: [1](https://news.ycombinator.com/item?id=27580995), [2](https://cheapskatesguide.org/articles/yggdrasil.html), [CJDNS](https://news.ycombinator.com/item?id=16135341)/Hyperboria, ZeroNet, I2P, n2n: [1](https://news.ycombinator.com/item?id=31297917), [2](https://github.com/ntop/n2n/issues/1058), nnet (the NKN blockchain): [1](https://nkn.org/community/blog/introducing-nnet/), [2](https://github.com/nknorg/nnet), Secure Scuttlebutt, [Spacemesh](https://platform.spacemesh.io/docs/next/protocol/p2p/overview/), [Hyperswarm](https://news.ycombinator.com/item?id=18077538) and other global p2p network alternatives to the go-libp2p stack. 
 
-- [Meshtastic](https://www.youtube.com/watch?v=TY6m6fS8bxU) is like Freifunk, but focused on LoRa. Its main use is in remote rural areas: Crowded rock festivals and related animal tracking. LoRa (LoRaWAN) alternatives include [NB-IoT, Sigfox, and Wi-Fi HaLow](https://www.hackster.io/news/the-ttgo-t-beam-an-esp32-lora-board-d44b08f18628).
+    No doubt these are some outstanding highly ambitious complex code bases and it would be a tough useful project to compare them. I would be interested in: (i) hole-punching success probability, (ii) average connection speed, and (iii) (optionally) scaling as the number of nodes increases. Everything real-life based, no models. 
 
-- Phishing attacks to consider: [1](https://news.drweb.com/show/?i=14451), [2](https://www.reddit.com/r/crowdstrike/comments/tjh602/query_hunt_for_reverse_proxy_tunnel_tools/), [3](https://thestack.technology/ransomware-attack-bitlocker/), [4](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/ipfs-the-new-hotbed-of-phishing/), [5](https://shufflingbytes.com/posts/ripping-off-professional-criminals-by-fermenting-onions-phishing-darknet-users-for-bitcoins/)... Some tools built so you can attack your own IoT networks, for testing purposes: [1](https://github.com/ElectronicCats/CatSniffer), [2](https://github.com/SpacehuhnTech/esp8266_deauther), [3](https://www.youtube.com/watch?v=I0N2KpwGETI).
+- Applications atop go-libp2p to try/compare: EdgeVPN, hyprspace, [awl](https://github.com/anywherelan/awl). [safe-network](https://github.com/maidsafe/safe_network) atop rust-libp2p.
+
+- Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2) "is a free, open-source, peer-to-peer file synchronization", relies on community-contributed relay and discovery servers. 
+
+    It could be used to communicate with messages, i.e. share/sync a folder and read/update text files of messages, one per node A, B, C... The only problem is that it does not run on the ESP32. One would need to write, say, a Python script that would read/update the "ESP message file" in the LAN based on Ubuntu mosquitto-clients. 
+    
+    A good thing about Syncthing is that it is popular. Therefore, the bugs get spotted faster, it runs on Android, it evolves, there is [a forum](https://forum.syncthing.net/). Unlike in the case of EdgeVPN and its cousins. 
 
 ## Some Photos
 
@@ -275,19 +286,15 @@ ESP32
 
 - DOIT DEvKit V1 ESP32-WROOM-32 is roughly an ATmega board, only with a longer reach to its sensors, plus a lot of convenience (e.g. MicroPython), minus economy and reliability. The [ESP32](https://en.wikipedia.org/wiki/ESP32) is much better than sending UDP packets with [Atmega and the ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). However, tiny RAM = yet another custom tech stack, which is so unnecessary in the year 2023. I would not use the ESP32 for anything other than transmitting sensor values/control within a LAN. Bail out to the Linux space ASAP.
   
-- The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs of "Wi-Fi-enabled" sensors, where node failures are not critical, e.g. [waste bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/). Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them in the LAN.
-
-- Consider economics: DOIT DEVIT V1 ESP32-WROOM-32 vs Raspberry Pi Zero W bought on, say, anodas.lt in Vilnius, May 23rd, 2023. The former costs 12.70€, while the latter is 23.90€ plus a 32GB MicroSD card sold as low as 4.90€. A typical hobbyist will only need a dozen of such devices in a life time, and the cost of 2-4x higher priced Raspberry Pi Zero W will be negligible compared to the pain one will experience with scarce network software and tiny kilobyte RAM of ESP32. [Andreas Spiess](https://www.youtube.com/watch?v=rXc_zGRYhLo&t=389s) even suggests getting an old used laptop on ebay instead of a new Raspberry Pi.  
+- The [ESP32](https://en.wikipedia.org/wiki/ESP32) niche could be massive LANs of "Wi-Fi-enabled" sensors, where node failures are not critical, e.g. [waste bin level sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/). Contrary to popular belief, these chips are very suboptimal for hobby networking, compared to, say, Raspberry Pi Zero W. I would look more into the [ESP32-ready sensors](https://esphome.io/#sensor-components) and think of distributing them in the LAN. 
 
 - A bus card reader? We used to have some early low RAM devices here in Vilnius for about 5-10 years. They would produce occasional errors and that is how I know that their memory was kilobytes, it would be displayed in the error message on the screen. This year (2023) the bus card readers got replaced with Estonian Ridango devices which, I suspect, run Linux. 
 
-- The [ESP32](https://en.wikipedia.org/wiki/ESP32) provides small distance communication via the BLE and ESP-NOW protocols. In theory, this could be used to implement electronic bike shifting, remove low power electric control wires whenever possible. "But hold on a second, did you know that you never need to update the firmware on a mechanical derailleur?" 
-
-- The combo of the [ESP32](https://en.wikipedia.org/wiki/ESP32) and MicroPython achieves hassle-free ADC and easy ROM address scanning (whenever one needs to pin a lot of temperature sensors on a single wire input). This is a lot messier in the ATmega world. There is no need to deal with the fuse bits, makefiles and C shenanigans. This brings convenience, but MicroPython wastes RAM and dynamic typing is very prone to typos and all sorts of hidden bugs, which is a huge problem.
-
 - Wi-Fi is limited to 10...50m without repeaters. [LoRa](https://en.wikipedia.org/wiki/LoRa) (e.g. [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU)) may reach [1...166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). The ESP32 could be suboptimal w.r.t. its power consumption, which is critical in [mobile p2p radio networks](https://meshtastic.discourse.group/t/real-world-use-cases/175).
 
-- Useful ESP32 applications may not require global connectivity (see e.g. this router: [1](https://github.com/martin-ger/esp32_nat_router/tree/master), [2](https://github.com/dchristl/esp32_nat_router_extended/tree/master/src)), or even local connectivity (see e.g. [the GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/)), but also take a look at the [ESP32](https://www.youtube.com/@ESP32WiPhone/videos) [WiPhone](https://news.ycombinator.com/item?id=32762767).
+- Useful ESP32 applications may not require global connectivity (see e.g. this router: [1](https://github.com/martin-ger/esp32_nat_router/tree/master), [2](https://github.com/dchristl/esp32_nat_router_extended/tree/master/src)), or even local (Wi-Fi) connectivity (see e.g. [the GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/)).
+
+- [ESP32](https://www.youtube.com/@ESP32WiPhone/videos) [WiPhone](https://news.ycombinator.com/item?id=32762767)?? Even much beefier Linux PinePhone is [too limiting](https://www.reddit.com/r/linux/comments/xy00ox/anyone_tried_pinephone/).
 
 - This is where ESP32 shines, namely, rapid prototyping:
 
@@ -297,14 +304,16 @@ ESP32
     [Chuchart Pintavirooj et. al. Noninvasive Portable Hemoglobin Concentration Monitoring System Using Optical Sensor for Anemia Disease, 2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/)
     
     Both papers pair the ESP32 with inexpensive LED-photodiode-based sensors to measure the blood glucose or hemoglobin concentration non-invasively. See also [Aminah Hina and Wala Saadeh. Noninvasive Blood Glucose Monitoring Systems Using Near-Infrared Technology—A Review, 2022].
+    
+    Mapping out minefields? See [1]((https://youtu.be/suxLa6kWsrw?t=2000) and [2](https://cepdnaclk.github.io/e17-3yp-Landmine-Detector/) for two completely different systems. The first one presents a classified mini-radar/camera mounted on the Danish military drone, while the second one is a Colpitts oscillator-based metal detector on a four-wheel robot.
 
 Global Connectivity
 
-- All this gigantic CaaS/VPN activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message? Go study OSI and the seven dwarfs, TCP meltdown, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, CGNAT, ARP, ICMP, mDNS, subnet masks, gateways, port forwarding, Linux kernel routes, CIDR, hosts, DHCP, interfaces, firewalls, routers... [B.A.T.M.A.N.](https://en.wikipedia.org/wiki/B.A.T.M.A.N.)  
+- All this gigantic VPN activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message? Go study OSI and the seven dwarfs, TCP meltdown, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, CGNAT, ARP, ICMP, mDNS, subnet masks, gateways, port forwarding, Linux kernel routes, CIDR, hosts, DHCP, interfaces, firewalls, routers... [B.A.T.M.A.N.](https://en.wikipedia.org/wiki/B.A.T.M.A.N.)? It is the [routing protocol](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/) at the OSI layer 2 (Data link) rather than 3 (Network).  
 
-- [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind CGNAT without any 3rd party service and static IP. The connection may be slow, but it is free and works as long as the libp2p network has any connected peers. According to [Max Inden, 2022](https://archive.fosdem.org/2022/schedule/event/libp2p/attachments/audio/4917/export/events/attachments/libp2p/audio/4917/slides.pdf), the libp2p network "powers the IPFS, Ethereum 2, Filecoin and Polkadot network and there are ~100K libp2p based nodes online at any given time".
+- [EdgeVPN](https://github.com/mudler/edgevpn/issues/25) is a remarkable FOSS VPN which could be used to ssh globally to any computer behind CGNAT without any 3rd party service and static IP. The connection may be slow, if it works at all, but the whole libp2p network is at our disposal. According to [Max Inden, 2022](https://archive.fosdem.org/2022/schedule/event/libp2p/attachments/audio/4917/export/events/attachments/libp2p/audio/4917/slides.pdf), the libp2p network "powers the IPFS, Ethereum 2, Filecoin and Polkadot network and there are ~100K libp2p based nodes online at any given time".
 
-- So we do connect A and B, but there is no 100% guarantee. [More like 50% - 80%](https://www.youtube.com/watch?v=bzL7Y1wYth8). The complexity is staggering. [EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go plus [go-libp2p](https://github.com/libp2p/go-libp2p) which is another 67 KLOC of Go (!) that implement a fairly tricky hole punching p2p system. [wireguard-go](https://github.com/WireGuard/wireguard-go): 13 KLOC. All this effort just to give your hardware a proper/virtual IP address.
+- So we do connect A and B, but there is no 100% guarantee. [More like 50% - 80%](https://www.youtube.com/watch?v=bzL7Y1wYth8). The complexity is staggering. [EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go plus [go-libp2p](https://github.com/libp2p/go-libp2p) which is another 67 KLOC of Go (!) that implement a fairly tricky hole punching p2p system. [wireguard-go](https://github.com/WireGuard/wireguard-go): 13 KLOC. All this effort to give your hardware a proper/virtual IP address.
 
 - Wireguard can run on the ESP32, but EdgeVPN runs only on Linux and [big desktop OSes](https://github.com/mudler/edgevpn/releases/tag/v0.23.1). The edgevpn executable on Linux is 34MB. In the logs of my runs I also see at least 2MB UDP buffer sizes requested for the UDP inside [QUIC](https://github.com/quic-go/quic-go/wiki/UDP-Buffer-Sizes). See [a complete list of protocols used by the libp2p](https://github.com/libp2p/specs). Therefore, I doubt that porting EdgeVPN or similar p2p applications to the ESP32 could be reasonable. These devices are better paired with a Linux board. See [this LoRa for libp2p example](https://github.com/RTradeLtd/libp2p-lora-transport) which first connects the LoRa shield bridge to ATmega2560 and then uses the serial interface to bail out to Linux for the libp2p part.
     
