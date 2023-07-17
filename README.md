@@ -84,7 +84,7 @@ EdgeVPN solves the problem of remote connections without a public IP/3rd party. 
 
 - Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2) "is a free, open-source, peer-to-peer file synchronization", relies on community-contributed relay and discovery servers. 
 
-    It could be used to communicate with messages, i.e. share/sync a folder and read/update text files of messages, one per node A, B, C... The only problem is that it does not run on the ESP32. One would need to write, say, a Python script that would read/update the "ESP message file" in the LAN based on Ubuntu mosquitto-clients. Forget about any of this and create a decentralized MQTT?
+    It could be used to communicate with messages, i.e. share/sync a folder and read/update text files of messages, one per node A, B, C... The only problem is that it does not run on the ESP32. One would need to write, say, a Python script that would read/update the "ESP message file" in the LAN based on Ubuntu mosquitto-clients.
     
     A good thing about Syncthing is that it is popular. Therefore, the bugs get spotted faster, it runs on Android, it evolves, there is [a forum](https://forum.syncthing.net/). Unlike in the case of EdgeVPN and its cousins. 
 
@@ -309,7 +309,7 @@ ESP32
 
 Global Connectivity
 
-- All this gigantic VPN activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message? Go study OSI and the seven dwarfs, TCP meltdown, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, CGNAT, ARP, ICMP, mDNS, subnet masks, gateways, port forwarding, Linux kernel routes, CIDR, hosts, DHCP, interfaces, firewalls, routers... [B.A.T.M.A.N.](https://en.wikipedia.org/wiki/B.A.T.M.A.N.)? It is the [routing protocol](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/) at the OSI layer 2 (Data link) rather than 3 (Network).  
+- All this gigantic VPN activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message? Go study OSI and the seven dwarfs, TCP meltdown, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, CGNAT, ARP, ICMP, mDNS, subnet masks, gateways, port forwarding, Linux kernel routes, CIDR, hosts, DHCP, interfaces, firewalls, routers... [B.A.T.M.A.N.](https://en.wikipedia.org/wiki/B.A.T.M.A.N.)? One still needs to think whether to work with the [routing protocol](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/) at the OSI layer 2 (Data link) rather than 3 (Network), etc. 
 
 - So we do connect A and B, but there is no 100% guarantee. [More like 50% - 80%](https://www.youtube.com/watch?v=bzL7Y1wYth8). The complexity is staggering. [EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go plus [go-libp2p](https://github.com/libp2p/go-libp2p) which is another 67 KLOC of Go (!) that implement a fairly tricky hole punching p2p system. [wireguard-go](https://github.com/WireGuard/wireguard-go): 13 KLOC. All this effort to give your hardware a proper/virtual IP address.
 
