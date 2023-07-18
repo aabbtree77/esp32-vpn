@@ -302,7 +302,7 @@ ESP32
 
 - Useful ESP32 applications may not require Wi-Fi connectivity, see e.g. 
 
-  1. [The GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/)).
+  1. [The GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/).
 
   2. [Azra Anjum et. al. Real Time IOT based Non-invasive Glucobin Monitor for Diabetes
     Patients, 2021](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf)
