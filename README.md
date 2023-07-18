@@ -235,7 +235,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
   followed by the list of so called multiaddresses of known/connected peers which will include global or local IPv4. While being on the A side, you should be able to see the local LAN IPv4 address of B assigned to B by its encompassing router on the B side!
   
-  - [awl](https://github.com/anywherelan/awl)
+- [awl](https://github.com/anywherelan/awl):
   
   There is [one unsolved issue](https://github.com/mudler/edgevpn/issues/137) with edgevpn that occurs on the long, 24/7 runs, so we switched to awl which seems to be more reliable. 
   
