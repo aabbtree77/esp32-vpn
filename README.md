@@ -42,7 +42,7 @@ In order to establish remote PC connections, I have tested [Hyprspace](https://g
 
 According to [Max Inden, 2022](https://archive.fosdem.org/2022/schedule/event/libp2p/attachments/audio/4917/export/events/attachments/libp2p/audio/4917/slides.pdf), the libp2p network "powers the IPFS, [Ethereum 2](https://blog.libp2p.io/libp2p-and-ethereum/#how-ethereum-beacon-nodes-use-libp2p-%F0%9F%94%8D), Filecoin and Polkadot network and there are ~100K libp2p based nodes online at any given time".
 
-Do these tools always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25) over Hyprspace. Lately, we use [awl](https://github.com/anywherelan/awl) as it is more reliable with longer runs and also more convenient (Desktop browser GUI to add nodes that runs on Android as well).
+Do these tools always work though, are they equally good? EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25) over Hyprspace. Lately, we use [awl](https://github.com/anywherelan/awl) as it is more reliable with longer runs and also more convenient (desktop browser GUI to add nodes, runs on Android).
 
 ## P2P vs. Cloud
 
@@ -78,17 +78,11 @@ Do these tools always work though, are they equally good? EdgeVPN may have an [e
 
 - weron: [1](https://news.ycombinator.com/item?id=31297917), [2](https://www.reddit.com/r/golang/comments/ukm5a2/weron_a_peertopeer_vpn_based_on_webrtc_written_in/), [3](https://github.com/pojntfx/weron#usage). One still needs to host a so called signaling server, "while it is possible and reasonably private (in addition to TLS, connection information is encrypted using the --key flag of clients) to use the hosted signaling server at wss://weron.up.railway.app/".
 
-- Yggdrasil: [1](https://news.ycombinator.com/item?id=27580995), [2](https://cheapskatesguide.org/articles/yggdrasil.html), [CJDNS](https://news.ycombinator.com/item?id=16135341)/Hyperboria, ZeroNet, I2P, n2n: [1](https://news.ycombinator.com/item?id=31297917), [2](https://github.com/ntop/n2n/issues/1058), nnet (the NKN blockchain): [1](https://nkn.org/community/blog/introducing-nnet/), [2](https://github.com/nknorg/nnet), Secure Scuttlebutt, [Spacemesh](https://platform.spacemesh.io/docs/next/protocol/p2p/overview/), [Hyperswarm](https://news.ycombinator.com/item?id=18077538), Ethereum devp2p: [1](https://github.com/ethereum/devp2p), [2](https://www.reddit.com/r/ethdev/comments/ul8dck/how_does_an_ethereum_transaction_work_at_the/), [3](https://github.com/memo/eco-nft), [4](https://blog.libp2p.io/libp2p-and-ethereum/#how-ethereum-beacon-nodes-use-libp2p-%F0%9F%94%8D) and other global p2p network alternatives to the go-libp2p stack. 
+- Yggdrasil: [1](https://news.ycombinator.com/item?id=27580995), [2](https://cheapskatesguide.org/articles/yggdrasil.html), [CJDNS](https://news.ycombinator.com/item?id=16135341)/Hyperboria, ZeroNet, I2P, n2n: [1](https://news.ycombinator.com/item?id=31297917), [2](https://github.com/ntop/n2n/issues/1058), nnet (the NKN blockchain): [1](https://nkn.org/community/blog/introducing-nnet/), [2](https://github.com/nknorg/nnet), Secure Scuttlebutt, [Spacemesh](https://platform.spacemesh.io/docs/next/protocol/p2p/overview/), [Hyperswarm](https://news.ycombinator.com/item?id=18077538), Ethereum devp2p: [1](https://github.com/ethereum/devp2p), [2](https://www.reddit.com/r/ethdev/comments/ul8dck/how_does_an_ethereum_transaction_work_at_the/), [3](https://github.com/memo/eco-nft), [4](https://blog.libp2p.io/libp2p-and-ethereum/#how-ethereum-beacon-nodes-use-libp2p-%F0%9F%94%8D) and other global p2p network stacks. 
 
-    No doubt these are some outstanding highly ambitious complex tech stacks and it would be a tough useful project to compare them. I would be interested in: (i) hole-punching success probability, (ii) average connection speed, and (iii) (optionally) scaling as the number of nodes increases. Everything real-life based, no models. Perhaps this is too much to ask, and also too little/low level/no longer relevant. Pick one of these and move on? 
+    No doubt these are some outstanding highly ambitious community projects. At the lowest level, one would be interested to know: (i) hole-punching success probability, (ii) average connection speed, and (iii) scaling as the number of nodes increases. Perhaps this is too much to ask. Focus on go-libp2p, or even [Ethereum 2.0](https://blog.libp2p.io/libp2p-and-ethereum/)?! 
 
-- Non-crypto applications atop go-libp2p: EdgeVPN, hyprspace, [awl](https://github.com/anywherelan/awl), Syncthing. [safe-network](https://github.com/maidsafe/safe_network) atop rust-libp2p. Surprisingly not that many.
-
-- Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2) "is a free, open-source, peer-to-peer file synchronization", relies on community-contributed relay and discovery servers. 
-
-    It could be used to communicate with messages, i.e. share/sync a folder and read/update text files of messages, one per node A, B, C... The only problem is that it does not run on the ESP32. One would need to write, say, a Python script that would read/update the "ESP message file" in the LAN based on Ubuntu mosquitto-clients.
-    
-    A good thing about Syncthing is that it is popular. Therefore, the bugs get spotted faster, it runs on Android, it evolves, there is [a forum](https://forum.syncthing.net/). Unlike in the case of EdgeVPN and its cousins. 
+- Code atop go-libp2p to peek into: EdgeVPN, hyprspace, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2). [safe-network](https://github.com/maidsafe/safe_network) atop rust-libp2p.
 
 ## Some Photos
 
