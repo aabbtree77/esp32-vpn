@@ -325,17 +325,15 @@ The ESP32: Is it really that useful?!
  
     6. [A smart walking cane for the blind](https://github.com/manishmeganathan/smartwalkingcane).    
     
-- Wi-Fi is limited to 10...50m without repeaters. [LoRa](https://en.wikipedia.org/wiki/LoRa) may reach [1...166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). One can use a complete [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU) or connect the LoRa shield bridge to ATmega first and then to the PC, or connect the shield bridge directly to the Raspberry Pi boards, see [this LoRa for libp2p example](https://github.com/RTradeLtd/libp2p-lora-transport).
-
-  [Mobile radio network uses](https://meshtastic.discourse.group/t/real-world-use-cases/175) are very demanding w.r.t. a device power consumption. The ESP32 could be suboptimal here.
+- Wi-Fi is limited to 10...50m without repeaters. [LoRa](https://en.wikipedia.org/wiki/LoRa) may reach [1...166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). One can use a complete [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU) or connect the LoRa shield bridge to ATmega first and then to the PC, or connect the shield bridge directly to the Raspberry Pi boards, see [this LoRa for libp2p example](https://github.com/RTradeLtd/libp2p-lora-transport). [Mobile radio network uses](https://meshtastic.discourse.group/t/real-world-use-cases/175) are very demanding w.r.t. power consumption. The ESP32 could be suboptimal here.
 
 Global Connectivity
 
 - All this gigantic VPN activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message? Expect to have to deal with the OSI model, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, TCP meltdown, CGNAT, SOCKS5, ARP, ICMP, subnet masks, CIDR, gateways, port forwarding, host names, DNS and mDNS, DHCP, virtual interfaces, firewalls, Linux kernel routes, routers and routing...
 
-- We do connect A and B, and it is finally free thanks to the progress on p2p, but there is still no 100% guarantee. [More like 50% - 80%](https://www.youtube.com/watch?v=bzL7Y1wYth8). The complexity is staggering. 70+ KLOC of Go just to give your computer a proper global address so that you can ssh or use Remmina. Syncing a folder? You may double these 70+ thousand lines of code.
+- We do connect A and B, and it is finally free, but there is still no 100% guarantee. [More like 50% - 80%](https://www.youtube.com/watch?v=bzL7Y1wYth8). The complexity is staggering. 70+ KLOC of Go just to give your computer a proper global address so that you can ssh or use Remmina. Syncing a folder? Double these 70+ thousand lines of code.
 
-- Some pretty basic services are so complex underneath. Humanity has not yet automated the elections, though there is a certain [technological progress](https://hackmd.io/@juincc/B1QV5NN5S).
+- Some pretty basic services are very complex underneath. Humanity has not yet automated elections, though there is a certain [progress](https://hackmd.io/@juincc/B1QV5NN5S).
 
 - Code atop go-libp2p to peek into: EdgeVPN, Hyprspace, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2). [safe-network](https://github.com/maidsafe/safe_network) atop rust-libp2p.
 
