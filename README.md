@@ -316,14 +316,14 @@ The ESP32: Is it really that useful?!
 
     4. [The GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/).
 
-    6. [Azra Anjum et. al. Real Time IOT based Non-invasive Glucobin Monitor for Diabetes
+    5. [Azra Anjum et. al. Real Time IOT based Non-invasive Glucobin Monitor for Diabetes
     Patients, 2021](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf)
     
-      [Chuchart Pintavirooj et. al. Noninvasive Portable Hemoglobin Concentration Monitoring System Using Optical Sensor for Anemia Disease, 2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/)
+        [Chuchart Pintavirooj et. al. Noninvasive Portable Hemoglobin Concentration Monitoring System Using Optical Sensor for Anemia Disease, 2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/)
     
       Both works pair the ESP32 with inexpensive LED-photodiode-based sensors to measure the blood glucose or hemoglobin concentration non-invasively. See also [Aminah Hina and Wala Saadeh. Noninvasive Blood Glucose Monitoring Systems Using Near-Infrared Technology—A Review, 2022].
  
-    7. [A smart walking cane for the blind](https://github.com/manishmeganathan/smartwalkingcane).    
+    6. [A smart walking cane for the blind](https://github.com/manishmeganathan/smartwalkingcane).    
     
 - Wi-Fi is limited to 10...50m without repeaters. [LoRa](https://en.wikipedia.org/wiki/LoRa) may reach [1...166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). One can use a complete [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU) or connect the LoRa shield bridge to ATmega first and then to the PC, or connect the shield bridge directly to the Raspberry Pi boards, see [this LoRa for libp2p example](https://github.com/RTradeLtd/libp2p-lora-transport).
 
