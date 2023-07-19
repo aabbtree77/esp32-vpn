@@ -321,7 +321,7 @@ The ESP32: Is it really that useful?!
     
         [Chuchart Pintavirooj et. al. Noninvasive Portable Hemoglobin Concentration Monitoring System Using Optical Sensor for Anemia Disease, 2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/)
     
-        Both works pair the ESP32 with inexpensive LED-photodiode-based sensors to measure the blood glucose or hemoglobin concentration non-invasively. See also [Aminah Hina and Wala Saadeh. Noninvasive Blood Glucose Monitoring Systems Using Near-Infrared Technology—A Review, 2022].
+        Both works pair the ESP32 with inexpensive LED-photodiode-based sensors to measure the blood glucose or hemoglobin concentration non-invasively. See also [Aminah Hina and Wala Saadeh. Noninvasive Blood Glucose Monitoring Systems Using Near-Infrared Technology—A Review, 2022](https://www.mdpi.com/1424-8220/22/13/4855).
  
     6. [A smart walking cane for the blind](https://github.com/manishmeganathan/smartwalkingcane).    
     
@@ -335,7 +335,7 @@ Global Connectivity
 
 - We do connect A and B, and it is finally free thanks to the progress on p2p, but there is still no 100% guarantee. [More like 50% - 80%](https://www.youtube.com/watch?v=bzL7Y1wYth8). The complexity is staggering. 70+ KLOC of Go just to give your computer a proper global address so that you can ssh or use Remmina. Syncing a folder? You may double these 70+ thousand lines of code.
 
-- Some pretty basic services are so complex to implement presently, paradoxically. Humanity has not yet automated the elections, though there is a certain [low level progress](https://hackmd.io/@juincc/B1QV5NN5S).
+- Some pretty basic services are so complex underneath. Humanity has not yet automated the elections, though there is a certain [technological progress](https://hackmd.io/@juincc/B1QV5NN5S).
 
 - Code atop go-libp2p to peek into: EdgeVPN, Hyprspace, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2). [safe-network](https://github.com/maidsafe/safe_network) atop rust-libp2p.
 
