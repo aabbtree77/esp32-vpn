@@ -3,7 +3,7 @@
 
 <table align="center">
     <tr>
-    <th align="center"> The ESP32 in the IoT</th>
+    <th align="center"> Towards Reliable IoT</th>
     </tr>
     <tr>
     <td>
@@ -32,7 +32,9 @@ There are several ways to connect the ESP32 globally:
 
 3. Something similar, but with the MQTT replacing the HTTP. Again, only the board needs to know the URL or the IP address of the "MQTT app". The MQTT is preferable for two reasons: (i) the MQTT client libs are more reliable than their HTTP counterparts in the ESP world, and (ii) there is no need to write a web app to send/receive data. One can simply run the Mosquitto broker as an "MQTT app" and use "mosquitto_pub/sub" commands w.r.t. the MQTT topics that the board will pub/sub to.
 
-4. Connecting the ESP32 to the Linux PC over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
+4. Wireguard on the ESP32: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard), [3](https://github.com/esphome/feature-requests/issues/1444). This is for some overly optimistic uses where the ESP32 becomes an independent node on a par with Linux boards. Wireguard still needs a public static IP.
+
+5. Connecting the ESP32 to the Linux PC over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
 
 The last option is my choice. It is the most reliable one, but it demands an extra PC/Linux board (PC-1 shown in the figure above). 
 
@@ -55,45 +57,7 @@ Do these tools always work though, are they equally good?
   [Syncthing](https://github.com/syncthing/syncthing/tree/main): 110 KLOC of Go, 37.5 KLOC of Js, 10.6 KLOC of CSS. Irrelevant here, but this is what it takes to sync a folder.
 
 
-EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25) over Hyprspace, but there is [a problem with long runs](https://github.com/mudler/edgevpn/issues/137). [awl](https://github.com/anywherelan/awl) is more reliable and also more convenient (desktop browser GUI for one-click handshakes, runs on Android), but not always. If for some reason one has to reinstall the Android app, the latter generates a new peer id which then needs to be confirmed again on the other end, by the remote node. This will be possible only by being physically present at the remote node, or via some other node that has access to the remote node in question. Thus, awl needs an extra redundancy in such a case whereas the EdgeVPN way of simply sharing a secret file would not demand repeating any handshakes if that file has not been lost. 
-
-## P2P vs. Cloud
-
-[awl](https://github.com/anywherelan/awl) solves the problem of remote connections without a public IP/3rd party. However, hole punching is not always guaranteed, and the libp2p connections will not be the fastest possible. Therefore, it is good to keep an eye on other ways, though to be honest the cloud seems to be a goner.
-
-- Renting any VPS with a public static IP and running WireGuard: [1](https://www.youtube.com/watch?v=SMF301vQqJo), [2](https://www.youtube.com/watch?v=5Aql0V-ta8A), [3](https://www.youtube.com/watch?v=_hiYI7ABnQI) or any of its alternatives with self-hosting: Nebula, Headscale, innernet, openp2p.cn, Tinc, [VpnCloud](https://vpncloud.ddswd.de/), [Outline VPN](https://www.youtube.com/watch?v=O9jGg6tE7nY)... 
-
-    The VpnCloud website is [very educational with useful comparisons](https://vpncloud.ddswd.de/features/comparison/).
-    
-    [openp2p.cn](https://github.com/openp2p-cn/openp2p) provides the VPN code and access to their server for free. This completely solves the problem, if you trust the server. 
-    
-    Outline VPN is based on [shadowsocks](https://www.quora.com/How-do-I-bypass-the-GFW-of-China-without-a-VPN), the tech used to bypass [the Great Firewall of China](https://en.wikipedia.org/wiki/Great_Firewall):
-
-    "the developer of shadowsocksR being asked to police station,the code on github was deleted by unimagable mean. so v2ray come out in the world. Which is stronger than shadowsocks (or in another way v2ray contains shadowsocks),the establish method is same with shadowsocks.U can search 一键搭建v2ray on YouTube..."
-
-- This is quite an M.Sc. thesis:
-
-    ["Design and Implementation of SoftEther VPN" by Daiyuu Nobori, Univ. of Tsukuba, Japan. 2013.](https://www.softether.org/4-docs/9-research/Design_and_Implementation_of_SoftEther_VPN)
-
-    A lot of protocols and acronyms. [396,867 LOC in C++. 10.3K Github stars, over 1K issues.](https://github.com/SoftEtherVPN/SoftEtherVPN).
-    
-- Tailscale and related Connectivity-as-a-Service (CaaS) clouds: Defined Networking, NetBird, Netmaker, [ZeroTier](https://www.youtube.com/watch?v=sA55fcuJSQQ), [Hamachi](https://news.ycombinator.com/item?id=29479503), Tunnel In, [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/)... More (IoT/Raspberry Pi/Linux)-centric CaaS: ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, NetFoundry: [1](https://netfoundry.io/edge-and-iot-zero-trust-networking/), [2](https://www.reddit.com/r/openziti/comments/xpe01b/need_some_guidance/)... Vendor lock-in.
-
-- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, [Screego](https://github.com/screego/server)... Remmina does not punch through CGNAT, it needs to run inside the VPN. It works well on Ubuntu 22.04 with the VNC protocol and the VPN addresses of [awl](https://github.com/anywherelan/awl). The other tools listed here are either paid services or rely on a static IP/VPN just like Remmina. [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) and other paid game streaming services might provide the most responsive VPNs. "UbuntuDesk" with a free CGNAT punching, please.
-
-- Wireguard on the ESP32: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard), [3](https://github.com/esphome/feature-requests/issues/1444). This is for some overly optimistic uses where the ESP32 becomes an independent node on a par with Linux boards. Wireguard needs a public static IP.
-
-- The Onion Router: [1](https://www.maths.tcd.ie/~fionn/misc/ssh_hidden_service/), [2](https://www.techjail.net/raspberry-iotlinux-devices.html), [3](https://golb.hplar.ch/2019/01/expose-server-tor.html), [4](https://community.torproject.org/onion-services/setup/), [5](https://www.reddit.com/r/Freenet/comments/9w4do9/demo_public_darknet_on_the_tor_onioncat_ipv6/), [6](https://null-byte.wonderhowto.com/how-to/host-your-own-tor-hidden-service-with-custom-onion-address-0180159/), [7](https://opensource.com/article/19/8/how-create-vanity-tor-onion-address), [8](https://shufflingbytes.com/posts/ripping-off-professional-criminals-by-fermenting-onions-phishing-darknet-users-for-bitcoins/).
- 
-    "It's easier to setup a Tor hidden service than it is to set up a server with a domain. You don't have to know anything about DNS or firewalls. I'm surprised that they aren't more common."
-  
-    "The most popular method for pairing Tor & VPN is by connecting to a VPN server first, then using the Tor Browser. With the 'Tor over VPN' method, your real IP address is hidden from your Tor entry node. Moreover, your ISP won't know you're using Tor. This is the easier Tor VPN configuration to achieve of the two."
-
-- weron: [1](https://news.ycombinator.com/item?id=31297917), [2](https://www.reddit.com/r/golang/comments/ukm5a2/weron_a_peertopeer_vpn_based_on_webrtc_written_in/), [3](https://github.com/pojntfx/weron#usage). One still needs to host a so called signaling server, "while it is possible and reasonably private (in addition to TLS, connection information is encrypted using the --key flag of clients) to use the hosted signaling server at wss://weron.up.railway.app/".
-
-- Yggdrasil: [1](https://news.ycombinator.com/item?id=27580995), [2](https://cheapskatesguide.org/articles/yggdrasil.html), [CJDNS](https://news.ycombinator.com/item?id=16135341)/Hyperboria, ZeroNet, I2P, n2n: [1](https://news.ycombinator.com/item?id=31297917), [2](https://github.com/ntop/n2n/issues/1058), nnet (the NKN blockchain): [1](https://nkn.org/community/blog/introducing-nnet/), [2](https://github.com/nknorg/nnet), Secure Scuttlebutt, [Spacemesh](https://platform.spacemesh.io/docs/next/protocol/p2p/overview/), [Hyperswarm](https://news.ycombinator.com/item?id=18077538), Ethereum devp2p: [1](https://github.com/ethereum/devp2p), [2](https://www.reddit.com/r/ethdev/comments/ul8dck/how_does_an_ethereum_transaction_work_at_the/), [3](https://github.com/memo/eco-nft), [4](https://blog.libp2p.io/libp2p-and-ethereum/#how-ethereum-beacon-nodes-use-libp2p-%F0%9F%94%8D) and other global p2p network stacks. 
-
-    No doubt these are some outstanding highly ambitious community projects. At the lowest level, one would be interested to know: (i) hole-punching success probability, (ii) average connection speed, and (iii) scaling as the number of nodes increases. Perhaps this is too much to ask. Focus on go-libp2p, or even [Ethereum 2.0](https://blog.libp2p.io/libp2p-and-ethereum/)?!
+EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25) over Hyprspace, but there is [a problem with longer runs](https://github.com/mudler/edgevpn/issues/137). [awl](https://github.com/anywherelan/awl) is more reliable and also more convenient (desktop browser GUI for one-click handshakes, runs on Android), but not always. If for some reason one has to reinstall the Android app, the latter generates a new peer id which then needs to be confirmed again on the other end. EdgeVPN simply shares the same secret file and has no handshakes.
 
 ## Some Photos
 
@@ -252,10 +216,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
   Download the [awl-tray binary](https://github.com/anywherelan/awl/releases) and run it, see [1](https://github.com/anywherelan/awl#desktopandroid) and [2](https://github.com/anywherelan/awl#desktop-awl-tray) for more details.
   
-  awl is nice in that once you start it on Android, you can then run an SSH app such as [JuiceSSH](https://play.google.com/store/apps/details?id=com.sonelli.juicessh&hl=en&gl=US) and get a remote access to your Linux terminal. Make sure the VPN by awl has no overlapping/duplicated addresses and delete all the previous connections on JuiceSSH before connecting. awl is not very polished yet so you can sometimes mess up virtual addresses with many-to-one connections or loops, but these situations are avoidable more or less.
-  
-  For Ubuntu 22.04 to Ubuntu 22.04 Remmina with VNC works on the awl addresses pretty much without any extra configuration, so one gets a remote desktop control for free this way. 
-  If older versions of Ubuntu, firewalls, Windows and RDP are involved, Remmina starts losing her charm, the SSH is less of a hassle.
+  awl is nice in that once you start it on Android, you can then run an SSH app such as [JuiceSSH](https://play.google.com/store/apps/details?id=com.sonelli.juicessh&hl=en&gl=US) and get the remote access to your Linux terminal. Make sure the VPN by awl has no overlapping/duplicated addresses and delete all the previous connections on JuiceSSH before connecting. awl is not very polished yet so you can sometimes mess up virtual addresses with many-to-one connections or loops, but these situations are avoidable more or less.
    
 ## ESP32 and MicroPython
 
@@ -300,17 +261,13 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Final Remarks
 
-- The [ESP32](https://en.wikipedia.org/wiki/ESP32) is better than sending UDP packets with [Atmega and the ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). However, tiny RAM = obscure evolving software and yet another community fracturing, limited global connectivity options. The ESP32 niche is about distributing the [ESP32-ready sensors](https://esphome.io/#sensor-components) within a LAN, rapid hardware prototyping? 
+- The [ESP32](https://en.wikipedia.org/wiki/ESP32) is better than sending UDP packets with [Atmega and the ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). 15 years bring some progress. One can even reach a certain Wi-Fi resilience and distribute the [ESP32-ready sensors](https://esphome.io/#sensor-components) within a LAN with some mild confidence. However, tiny RAM = very limited software, esp. very limited global connectivity options. With some painful acrobatics one may run "Wireguard" on the ESP32, but the go-libp2p apps are beyond the reach of these boards.
     
-- Wi-Fi is limited to 10...50m without repeaters. [LoRa](https://en.wikipedia.org/wiki/LoRa) may reach [1...166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). One can use a complete [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU) or connect the LoRa shield bridge to ATmega first and then to the PC, or connect the shield bridge directly to the Raspberry Pi boards, see [this LoRa for libp2p example](https://github.com/RTradeLtd/libp2p-lora-transport). [Mobile radio network uses](https://meshtastic.discourse.group/t/real-world-use-cases/175) are very demanding w.r.t. power consumption. The ESP32 could be suboptimal here.
+- All this gigantic Web2 VPN service activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message to a board/PC? It is a mess as one must deal with the OSI model, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, TCP meltdown, CGNAT, SOCKS5, ARP, ICMP, subnet masks, CIDR, gateways, port forwarding, host names, DNS and mDNS, DHCP, virtual interfaces, firewalls, Linux kernel routes, routers and routing... Good luck with Remmina...
 
-- All this gigantic VPN activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message to a board/PC? Expect to have to deal with the OSI model, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, TCP meltdown, CGNAT, SOCKS5, ARP, ICMP, subnet masks, CIDR, gateways, port forwarding, host names, DNS and mDNS, DHCP, virtual interfaces, firewalls, Linux kernel routes, routers and routing...
+- The new Web3 (p2p) way is remarkable in that the tools such as Hyprspace, EdgeVPN, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2) solve the global connectivity problem without a need to rent the VPS with a static IP.
 
-- We do connect A and B, and it is finally free, but there is still no 100% guarantee. [More like 50% - 80%](https://www.youtube.com/watch?v=bzL7Y1wYth8). The complexity is staggering. 70+ KLOC of Go just to give your computer a proper global address so that you can ssh or use Remmina. Syncing a folder? Double these 70+ thousand lines of code.
-
-- Some pretty basic services are very complex underneath. Humanity has not yet automated elections, though there is a certain [progress](https://hackmd.io/@juincc/B1QV5NN5S).
-
-- Code atop go-libp2p to peek into: EdgeVPN, Hyprspace, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2). [safe-network](https://github.com/maidsafe/safe_network) atop rust-libp2p. 
+- Either way, some pretty basic services are so complex underneath. 70 KLOC of go-libp2p just to give your computer a global address, mostly. Syncing a folder? Double these seventy thousand lines of code. Humanity has not yet automated elections, and no doubt the solution is going to be [quite an architecture](https://hackmd.io/@juincc/B1QV5NN5S).
 
 ## Some ESP32 References
 
