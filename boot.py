@@ -14,6 +14,7 @@ import dht
 ssid = 'Wi-Fi name'
 password = 'Wi-FI password'
 mqtt_server = 'Local IP address of a PC that runs the Mosquitto broker'
+# e.g. mqtt_server = '192.168.1.107'
 
 client_id = ubinascii.hexlify(machine.unique_id())
 topic_sub = b'output'

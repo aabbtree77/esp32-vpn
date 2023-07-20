@@ -3,11 +3,11 @@
 
 <table align="center">
     <tr>
-    <th align="center"> ESP32 as an MQTT Client in the IoT</th>
+    <th align="center"> The ESP32 as the MQTT Client</th>
     </tr>
     <tr>
     <td>
-    <img src="./images/mermaid-diagram-2022-08-20-161912.png"  alt="ESP32 in the Operating Mode)" width="100%" >
+    <img src="./images/mermaid-diagram-2023-07-20-162627.png"  alt="ESP32 in the Operating Mode)" width="100%" >
     </td>
     </tr>
 </table>
