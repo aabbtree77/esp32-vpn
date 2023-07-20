@@ -3,7 +3,7 @@
 
 <table align="center">
     <tr>
-    <th align="center"> The ESP32 as the MQTT Client</th>
+    <th align="center"> The ESP32 in the IoT</th>
     </tr>
     <tr>
     <td>
@@ -44,15 +44,15 @@ According to [Max Inden, 2022](https://archive.fosdem.org/2022/schedule/event/li
 
 Do these tools always work though, are they equally good? 
 
-    [hyprspace](https://github.com/hyprspace/hyprspace): 895 LOC of Go. Minimal, but weaker hole punching.
+  [hyprspace](https://github.com/hyprspace/hyprspace): 895 LOC of Go. Minimal, but weaker hole punching.
   
-    [awl](https://github.com/anywherelan/awl): 6.5 KLOC of Go. Just about right.
+  [awl](https://github.com/anywherelan/awl): 6.5 KLOC of Go. Just about right.
   
-    [EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go. Solid punching, but problems with 24/7 runs. No Android support. 
+  [EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go. Solid punching, but problems with 24/7 runs. No Android support. 
 
-    [go-libp2p](https://github.com/libp2p/go-libp2p): 67 KLOC of Go. The base layer for the three above.
+  [go-libp2p](https://github.com/libp2p/go-libp2p): 67 KLOC of Go. The base layer for the three above.
   
-    [Syncthing](https://github.com/syncthing/syncthing/tree/main): 110 KLOC of Go, 37.5 KLOC of Js, 10.6 KLOC of CSS. Irrelevant here, but this is what it takes to sync a folder.
+  [Syncthing](https://github.com/syncthing/syncthing/tree/main): 110 KLOC of Go, 37.5 KLOC of Js, 10.6 KLOC of CSS. Irrelevant here, but this is what it takes to sync a folder.
 
 
 EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25) over Hyprspace, but there is [a problem with long runs](https://github.com/mudler/edgevpn/issues/137). [awl](https://github.com/anywherelan/awl) is more reliable and also more convenient (desktop browser GUI for one-click handshakes, runs on Android).
@@ -79,9 +79,7 @@ EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25) over Hyp
     
 - Tailscale and related Connectivity-as-a-Service (CaaS) clouds: Defined Networking, NetBird, Netmaker, [ZeroTier](https://www.youtube.com/watch?v=sA55fcuJSQQ), [Hamachi](https://news.ycombinator.com/item?id=29479503), Tunnel In, [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/)... More (IoT/Raspberry Pi/Linux)-centric CaaS: ShellHub, RemoteIoT, DataPlicity, PiTunnel, SocketXP, NetFoundry: [1](https://netfoundry.io/edge-and-iot-zero-trust-networking/), [2](https://www.reddit.com/r/openziti/comments/xpe01b/need_some_guidance/)... Vendor lock-in.
 
-- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, [Screego](https://github.com/screego/server)... Remmina does not punch through CGNAT. Others are either paid services or rely on a static IP. [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) and other paid game streaming services might provide the most responsive VPNs. "UbuntuDesk" with a free CGNAT punching, please. 
-
-    Remmina works well on Ubuntu 22.04 with the VNC protocol and the VPN addresses such as those of [awl](https://github.com/anywherelan/awl).
+- Remmina, Chrome Remote Desktop, TeamViewer, AnyDesk, RustDesk, [Screego](https://github.com/screego/server)... Remmina does not punch through CGNAT, it needs to run inside the VPN. It works well on Ubuntu 22.04 with the VNC protocol and the VPN addresses of [awl](https://github.com/anywherelan/awl). The other tools listed here are either paid services or rely on a static IP/VPN just like Remmina. [Parsec, Rainway, Steam Remote Play](https://news.ycombinator.com/item?id=29479503) and other paid game streaming services might provide the most responsive VPNs. "UbuntuDesk" with a free CGNAT punching, please.
 
 - Wireguard on the ESP32: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard), [3](https://github.com/esphome/feature-requests/issues/1444). This is for some overly optimistic uses where the ESP32 becomes an independent node on a par with Linux boards. Wireguard needs a public static IP.
 
@@ -257,7 +255,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   awl is nice in that once you start it on Android, you can then run an SSH app such as [JuiceSSH](https://play.google.com/store/apps/details?id=com.sonelli.juicessh&hl=en&gl=US) and get a remote access to your Linux terminal. Make sure the VPN by awl has no overlapping/duplicated addresses and delete all the previous connections on JuiceSSH before connecting. awl is not very polished yet so you can sometimes mess up virtual addresses with many-to-one connections or loops, but these situations are avoidable more or less.
   
   For Ubuntu 22.04 to Ubuntu 22.04 Remmina with VNC works on the awl addresses pretty much without any extra configuration, so one gets a remote desktop control for free this way. 
-  If older versions of Ubuntu, firewalls, Windows and RDP are involved, Remmina starts losing her charm, the SSH is more reliable.
+  If older versions of Ubuntu, firewalls, Windows and RDP are involved, Remmina starts losing her charm, the SSH is less of a hassle.
    
 ## ESP32 and MicroPython
 
@@ -300,46 +298,23 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - After a long search and disappointment the resilience w.r.t. the Wi-Fi loss was reached thanks to this [code by Rui and Sara Santos][micropython-Rui-Santos].
   
-## Conclusions
+## Final Remarks
 
-The ESP32: Is it really that useful?!
-
-- The [ESP32](https://en.wikipedia.org/wiki/ESP32) is better than sending UDP packets with [Atmega and the ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). However, tiny RAM = obscure evolving software and yet another community fracturing, limited global connectivity options. The ESP32 niche is about distributing the [ESP32-ready sensors](https://esphome.io/#sensor-components) within a LAN:
-
-    1. [Waste bin level detectors based on ultrasonic distance sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/)?
-
-    2. A bus card reader? We used to have some early low RAM devices here in Vilnius for about 5-10 years. This year (2023) the bus card readers got replaced with Estonian Ridango devices which, I suspect, run Linux.
-    
-    3. Mapping out minefields? See [1](https://youtu.be/suxLa6kWsrw?t=2000) and [2](https://cepdnaclk.github.io/e17-3yp-Landmine-Detector/) for two completely different systems. The first one presents a radar mounted on a drone, while the second one is a Colpitts oscillator-based metal detector on a four-wheel robot. 
-
-- A few more useful applications (these do not even require Wi-Fi connectivity):
-
-    4. [The GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/).
-
-    5. [Azra Anjum et. al. Real Time IOT based Non-invasive Glucobin Monitor for Diabetes
-    Patients, 2021](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf)
-    
-        [Chuchart Pintavirooj et. al. Noninvasive Portable Hemoglobin Concentration Monitoring System Using Optical Sensor for Anemia Disease, 2021](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/)
-    
-        Both works pair the ESP32 with inexpensive LED-photodiode-based sensors to measure the blood glucose or hemoglobin concentration non-invasively. See also [Aminah Hina and Wala Saadeh. Noninvasive Blood Glucose Monitoring Systems Using Near-Infrared Technology—A Review, 2022](https://www.mdpi.com/1424-8220/22/13/4855).
- 
-    6. [A smart walking cane for the blind](https://github.com/manishmeganathan/smartwalkingcane).    
+- The [ESP32](https://en.wikipedia.org/wiki/ESP32) is better than sending UDP packets with [Atmega and the ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). However, tiny RAM = obscure evolving software and yet another community fracturing, limited global connectivity options. The ESP32 niche is about distributing the [ESP32-ready sensors](https://esphome.io/#sensor-components) within a LAN, rapid hardware prototyping? 
     
 - Wi-Fi is limited to 10...50m without repeaters. [LoRa](https://en.wikipedia.org/wiki/LoRa) may reach [1...166km](https://meshtastic.discourse.group/t/practical-range-test-results/692/47?page=2). One can use a complete [LILYGO TTGO T-Beam ESP32 board](https://www.youtube.com/watch?v=TY6m6fS8bxU) or connect the LoRa shield bridge to ATmega first and then to the PC, or connect the shield bridge directly to the Raspberry Pi boards, see [this LoRa for libp2p example](https://github.com/RTradeLtd/libp2p-lora-transport). [Mobile radio network uses](https://meshtastic.discourse.group/t/real-world-use-cases/175) are very demanding w.r.t. power consumption. The ESP32 could be suboptimal here.
 
-Global Connectivity
-
-- All this gigantic VPN activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message? Expect to have to deal with the OSI model, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, TCP meltdown, CGNAT, SOCKS5, ARP, ICMP, subnet masks, CIDR, gateways, port forwarding, host names, DNS and mDNS, DHCP, virtual interfaces, firewalls, Linux kernel routes, routers and routing...
+- All this gigantic VPN activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message to a board/PC? Expect to have to deal with the OSI model, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, TCP meltdown, CGNAT, SOCKS5, ARP, ICMP, subnet masks, CIDR, gateways, port forwarding, host names, DNS and mDNS, DHCP, virtual interfaces, firewalls, Linux kernel routes, routers and routing...
 
 - We do connect A and B, and it is finally free, but there is still no 100% guarantee. [More like 50% - 80%](https://www.youtube.com/watch?v=bzL7Y1wYth8). The complexity is staggering. 70+ KLOC of Go just to give your computer a proper global address so that you can ssh or use Remmina. Syncing a folder? Double these 70+ thousand lines of code.
 
 - Some pretty basic services are very complex underneath. Humanity has not yet automated elections, though there is a certain [progress](https://hackmd.io/@juincc/B1QV5NN5S).
 
-- Code atop go-libp2p to peek into: EdgeVPN, Hyprspace, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2). [safe-network](https://github.com/maidsafe/safe_network) atop rust-libp2p.
+- Code atop go-libp2p to peek into: EdgeVPN, Hyprspace, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2). [safe-network](https://github.com/maidsafe/safe_network) atop rust-libp2p. 
 
-## References
+## Some ESP32 References
 
-The ESP32 Essentials:
+Essentials:
 
 - [MicroPython firmware]
 - [micropython-Rui-Santos]
@@ -373,3 +348,17 @@ Optional (problems to be aware of):
 [umqtt.simple socket behaviour when WiFi is degraded #103]: https://github.com/micropython/micropython-lib/issues/103
 [unstable MQTT on ESP8266 (4+ days) #2568]: https://github.com/micropython/micropython/issues/2568
 [umqtt cannot import MQTTClient #250]: https://github.com/micropython/micropython-lib/issues/250
+
+Appendix: Useful Applications where the ESP32 Could Be Relevant (Or Not)
+
+    1. [Waste bin level detectors based on ultrasonic distance sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/)?
+
+    2. A bus card reader? We used to have some early low RAM devices here in Vilnius for about 5-10 years. This year (2023) the bus card readers got replaced with Estonian Ridango devices which, I suspect, run Linux.
+    
+    3. Mapping out minefields? See [1](https://youtu.be/suxLa6kWsrw?t=2000) and [2](https://cepdnaclk.github.io/e17-3yp-Landmine-Detector/) for two completely different systems. The first one presents a radar mounted on a drone, while the second one is a Colpitts oscillator-based metal detector on a four-wheel robot. 
+
+    4. [The GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/).
+
+    5. Non-invasive blood glucose or hemoglobin monitoring: [1](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/), [3](https://www.mdpi.com/1424-8220/22/13/4855).
+ 
+    6. [A smart walking cane for the blind](https://github.com/manishmeganathan/smartwalkingcane). 
