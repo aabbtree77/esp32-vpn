@@ -16,10 +16,6 @@
 
 [DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi, Bluetooth LE, and ESP-NOW. One can connect it to [a lot of sensors](https://esphome.io/#sensor-components) with ready-made drivers. The challenge is to control such a board globally, via the internet.
 
-Initially, the goal was to use the ESP32 board for remote plant watering. This goal was achieved. However, we also found code-free solutions based on the Clas Ohlson WiFi Smart Plug which could be dissected and controlled with their mobile app. The latter are cheap (10-20 euro) and easy to use, but one must rely on the Clas Ohlson servers. Smart plugs are limited: It is a one way communication from a mobile phone to an electrical relay via 3rd party servers.
-
-The ideal is reliable developer-friendly Linux-centric global open free communication.
-
 ## ESP32 and IoT
 
 There are several ways to connect the ESP32 globally:
@@ -40,7 +36,7 @@ The last option is our choice here. It is the most reliable one, but it demands 
 
 One can run the MQTT broker on a router, e.g. with [OpenWrt Linux](https://cgomesu.com/blog/Mesh-networking-openwrt-batman/): [1](https://www.onetransistor.eu/2019/05/run-local-mqtt-broker-on-openwrt-router.html), [2](https://esp8266.ru/esp8266-openwrt-mosquitto-mqttwarn-thingspeak-email-android-ios-twitter-cloudmqtt/) or [RutOS](https://teltonika-networks.com/lt/resursai/webinarai/rutos-an-extensive-introduction), but these router OSes (6-8MB .bin image size) are too limiting.
 
-In order to establish remote PC connections, we have tested [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94), [EdgeVPN](https://github.com/mudler/edgevpn/issues/25), and [awl](https://github.com/anywherelan/awl). All of them are built on top of [go-libp2p](https://github.com/libp2p/go-libp2p) which is both, the FOSS code, and the actual running network with the focus on a [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md). This stack is very useful for the ability to ssh into a remote computer without a public static IP.
+In order to establish remote PC connections, we have tested [Hyprspace](https://github.com/hyprspace/hyprspace/issues/94), [EdgeVPN](https://github.com/mudler/edgevpn/issues/25), and [awl](https://github.com/anywherelan/awl). All of them are built on top of [go-libp2p](https://github.com/libp2p/go-libp2p) which is both, the FOSS code, and the actual running network with [NAT](https://discuss.libp2p.io/t/how-nat-traversal-and-hole-punching-work-in-ipfs/1422) [traversal](https://github.com/ipfs/camp/blob/master/DEEP_DIVES/40-better-nat-traversal-so-that-relay-servers-are-a-last-not-first-resort.md). This software allows to ssh into a remote computer without a public static IP.
 
 According to [Max Inden, 2022](https://archive.fosdem.org/2022/schedule/event/libp2p/attachments/audio/4917/export/events/attachments/libp2p/audio/4917/slides.pdf), the libp2p network "powers the IPFS, [Ethereum 2](https://blog.libp2p.io/libp2p-and-ethereum/#how-ethereum-beacon-nodes-use-libp2p-%F0%9F%94%8D), Filecoin and Polkadot network and there are ~100K libp2p based nodes online at any given time".
 
@@ -57,7 +53,7 @@ Do these tools always work though, are they equally good?
   [Syncthing](https://github.com/syncthing/syncthing/tree/main): 110 KLOC of Go, 37.5 KLOC of Js, 10.6 KLOC of CSS. Irrelevant here, but this is what it takes to sync a folder.
 
 
-EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25) over Hyprspace, but there is [a problem with longer runs](https://github.com/mudler/edgevpn/issues/137). [awl](https://github.com/anywherelan/awl) is more reliable and also more convenient (desktop browser GUI for one-click handshakes, runs on Android), but not always. If for some reason one has to reinstall the Android app, the latter generates a new peer id which then needs to be confirmed again on the other end. EdgeVPN simply shares the same secret file and has no handshakes.
+EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25) over Hyprspace, but there is [a problem with longer runs](https://github.com/mudler/edgevpn/issues/137). [awl](https://github.com/anywherelan/awl) is more reliable. It is also more convenient (desktop browser GUI for one-click handshakes, runs on Android), but not always. If for some reason one has to reinstall the Android app, the latter generates a new peer id which then needs to be confirmed again on the other end. EdgeVPN simply shares the same secret file and has no handshakes.
 
 ## Some Photos
 
@@ -261,13 +257,13 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Final Remarks
 
-- The [ESP32](https://en.wikipedia.org/wiki/ESP32) is better than sending UDP packets with [Atmega and the ENC28J60](http://tuxgraphics.org/electronics/200606/article06061.shtml). 15 years bring some progress. One can even reach a certain Wi-Fi resilience and distribute the [ESP32-ready sensors](https://esphome.io/#sensor-components) within a LAN with some mild confidence. However, tiny RAM = very limited software, esp. very limited global connectivity options. With some painful acrobatics one may run "Wireguard" on the ESP32, but the go-libp2p apps are beyond the reach of these boards.
+- Tiny ESP32 RAM = very limited software, esp. limited global connectivity options. With some acrobatics one may run "Wireguard" on the ESP32, but the go-libp2p apps are beyond the reach of these boards.
     
-- All this gigantic Web2 VPN service activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message to a board/PC? It is a mess as one must deal with the OSI model, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, TCP meltdown, CGNAT, SOCKS5, ARP, ICMP, subnet masks, CIDR, gateways, port forwarding, host names, DNS and mDNS, DHCP, virtual interfaces, firewalls, Linux kernel routes, routers and routing... Good luck with Remmina...
+- All this gigantic Web2 VPN service activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message to a board/PC? One must deal with the OSI model, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, TCP meltdown, CGNAT, SOCKS5, ARP, ICMP, subnet masks, CIDR, gateways, port forwarding, host names, DNS and mDNS, DHCP, virtual interfaces, firewalls, Linux kernel routes, routers and routing... Good luck with Remmina.
 
-- The new Web3 (p2p) way is remarkable in that the tools such as Hyprspace, EdgeVPN, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2) solve the global connectivity problem without a need to rent the VPS with a static IP.
+- The new Web3 (p2p) way is remarkable in that the tools such as Hyprspace, EdgeVPN, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2) solve the global connectivity problem without inflicting needless registrations and extra monthly payments.
 
-- Either way, some pretty basic services are so complex underneath. 70 KLOC of go-libp2p just to give your computer a global address, mostly. Syncing a folder? Double these seventy thousand lines of code. Humanity has not yet automated elections, and no doubt the solution is going to be [quite an architecture](https://hackmd.io/@juincc/B1QV5NN5S).
+- Some of the most basic services can also be the hardest to implement. 70 KLOC of go-libp2p to give your computer a proper VPN address. Syncing a folder? Double these lines of code. [Automated elections?](https://hackmd.io/@juincc/B1QV5NN5S)
 
 ## Some ESP32 References
 
@@ -306,7 +302,7 @@ Optional (problems to be aware of):
 [unstable MQTT on ESP8266 (4+ days) #2568]: https://github.com/micropython/micropython/issues/2568
 [umqtt cannot import MQTTClient #250]: https://github.com/micropython/micropython-lib/issues/250
 
-## Appendix: Useful Applications to Consider
+## Appendix: Non-Toy Applications to Consider
 
 1. [Waste bin level detectors based on ultrasonic distance sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/)?
 
@@ -319,3 +315,5 @@ Optional (problems to be aware of):
 5. Non-invasive blood glucose and hemoglobin monitoring: [1](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/), [3](https://www.mdpi.com/1424-8220/22/13/4855).
  
 6. [A smart walking cane for the blind](https://github.com/manishmeganathan/smartwalkingcane). 
+
+7. [Extending the lifetime of a factory machine](https://github.com/aabbtree77/adast).
