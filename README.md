@@ -7,7 +7,7 @@
     </tr>
     <tr>
     <td>
-    <img src="./images/mermaid-diagram-2023-08-02-170035.png"  alt="ESP32 in the context of IoT)" width="100%" >
+    <img src="./images/mermaid-diagram-2023-08-02-173839.png"  alt="ESP32 in the context of IoT)" width="100%" >
     </td>
     </tr>
 </table>
