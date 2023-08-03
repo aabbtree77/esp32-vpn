@@ -212,7 +212,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
   Download the [awl-tray binary](https://github.com/anywherelan/awl/releases) and run it, see [1](https://github.com/anywherelan/awl#desktopandroid) and [2](https://github.com/anywherelan/awl#desktop-awl-tray) for more details.
   
-  awl is nice in that once you start it on Android, you can then run an SSH app such as [JuiceSSH](https://play.google.com/store/apps/details?id=com.sonelli.juicessh&hl=en&gl=US) and get the remote access to your Linux terminal. Make sure the awl VPN has no overlapping/duplicated addresses and delete all the previous connections on JuiceSSH before connecting. awl is not very polished yet so one can sometimes mess up virtual addresses with many-to-one connections or loops, but these situations are avoidable.
+  awl is nice in that once you start it on Android, you can then run an SSH app such as [JuiceSSH](https://play.google.com/store/apps/details?id=com.sonelli.juicessh&hl=en&gl=US) and get the remote access to your Linux terminal. Make sure the awl VPN has no overlapping/duplicated addresses and delete all the previous connections on JuiceSSH before connecting. awl is not very polished yet so one can sometimes mess up virtual addresses with many-to-one connections and loops.
    
 ## ESP32 and MicroPython
 
@@ -247,9 +247,9 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   "MemoryError: memory allocation failed, allocating 6632 bytes" (breaks at "#import gui.fonts.arial35 as arial35").
   ```
 - **Low quality sensors**, see e.g. this [discussion](https://www.youtube.com/watch?v=IGP38bz-K48) of Capacitive Soil Moisture Sensor v1.2.
-  The solutions based on the electrical resistance are worse due to a rapid corrosion of the electrodes. Contrary to some existing recommendations, submerging them into a cheap construction-site gypsum does not work as this kills their moisture sensitivity.
+  The solutions based on the electrical resistance are worse due to a rapid corrosion of the electrodes. We have tried submerging them into a cheap industrial gypsum, but that did not work at all.
   
-- Monitoring soil moisture is a much harder problem than sensing air humidity. Perhaps the best way is to set up a camera and observe the ground surface. It is doubtful whether the ESP32 could be a good platform for capturing and sending images.     
+- Monitoring soil moisture is a much harder problem than sensing air humidity. Perhaps the best way is to set up a camera and observe the ground surface, but that goes out of the scope of the low RAM ESP32.     
   
 - Despite all the amazing work by Peter Hinch, the device could only send the MQTT messages, the receiving did not work.
 
@@ -257,13 +257,15 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 ## Final Remarks
 
-- Tiny ESP32 RAM = very limited software, esp. limited global connectivity options. With some acrobatics one may run "Wireguard" on the ESP32, but the go-libp2p apps are beyond the reach of these boards.
+- Tiny ESP32 RAM = very limited software, esp. limited global connectivity options. With some acrobatics one may run "Wireguard" on the ESP32, but the go-libp2p apps are beyond the reach.
     
 - All this gigantic Web2 VPN service activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message to a board/PC? One must deal with the OSI model, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), STUN/TURN/ICE, TCP meltdown, CGNAT, SOCKS5, ARP, ICMP, subnet masks, CIDR, gateways, port forwarding, host names, DNS and mDNS, DHCP, virtual interfaces, iptables/firewalls, Linux kernel routes, routers and routing...
 
 - The Web3 (p2p) way is remarkable in that the tools such as Hyprspace, EdgeVPN, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2) solve the global connectivity problem without inflicting needless registration with monthly payments.
 
-- The most basic services are the hardest to implement, paradoxically. 70 KLOC of go-libp2p to give your computer a proper VPN address. Double these lines to sync a folder. [Automated elections?](https://hackmd.io/@juincc/B1QV5NN5S)
+- Connect a webcam to a remote Ubuntu PC, install ffmpeg. Run awl-tray followed by [this one liner](https://unix.stackexchange.com/questions/2302/can-i-pipe-dev-video-over-ssh) with an mplayer. It worked in the year 2010, it still works in 2023.
+
+- The most basic services are the hardest to implement. 70 KLOC of go-libp2p to give your computer a proper VPN address. Double these lines to sync a folder. [Automated elections?](https://hackmd.io/@juincc/B1QV5NN5S) We are not there yet.
 
 ## Some ESP32 References
 
@@ -302,7 +304,7 @@ Optional (problems to be aware of):
 [unstable MQTT on ESP8266 (4+ days) #2568]: https://github.com/micropython/micropython/issues/2568
 [umqtt cannot import MQTTClient #250]: https://github.com/micropython/micropython-lib/issues/250
 
-## Appendix: Non-Toy Applications to Consider
+## Appendix: Some Non-Toy Applications of Low RAM Devices
 
 1. [Waste bin level detectors based on ultrasonic distance sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/)?
 
@@ -316,4 +318,4 @@ Optional (problems to be aware of):
  
 6. [A smart walking cane for the blind](https://github.com/manishmeganathan/smartwalkingcane). 
 
-7. [Extending the lifetime of a factory machine](https://github.com/aabbtree77/adast).
+7. [Motor control](https://github.com/aabbtree77/adast).
