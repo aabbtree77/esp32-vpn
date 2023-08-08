@@ -240,8 +240,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   >>> 
   ```
 - **Too little RAM.** ESP12e/ESP8266 has a [pathetic amount of RAM](https://github.com/espressif/esp-rainmaker/issues/8), but ESP32 is no cake either. Importing the font arial35 from Peter Hinch's ssd1306 lib along with freesans20 
-  is still possible when running the DHT measurement with the display without the networking stack. Adding the async networking and the MQTT libs exposes an 
-  insufficient RAM: 
+  is still possible when running the DHT measurement with the display without the networking stack. Adding the async networking and the MQTT libs exposes insufficient RAM: 
   
   ```console
   "MemoryError: memory allocation failed, allocating 6632 bytes" (breaks at "#import gui.fonts.arial35 as arial35").
@@ -264,6 +263,10 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 - The Web3 (p2p) way is remarkable in that the tools such as Hyprspace, EdgeVPN, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2) solve the global connectivity problem without inflicting needless registration with monthly payments.
 
 - Connect a webcam to a remote Ubuntu PC, install ffmpeg. Run awl-tray followed by [this one liner](https://unix.stackexchange.com/questions/2302/can-i-pipe-dev-video-over-ssh) with an mplayer. It worked in the year 2010, it still works in 2023.
+
+- Keeping the laptop on independently 24/7 gives certain back thoughts about Web2 and renting VPS. The "server mode" with the monitor shut off consumes about 0.036A electric current at 220V, which amounts to 7.92W power. Given 720 hours in a month, the laptop will demand 5.702 kWh of energy. The present price of electricity in Lithuania (2023) goes at the rate of 0.30euro per 1kWh, which results in a monthly fee of 1.71euro. If the monitor turns on and the laptop runs an intense application such as youtube in the browser, the power consumption may increase 5x, consider this as an upper bound. VPS-1 with a static public IP on Hostinger costs 3.99$. 
+
+- There are ways to push down the power consumption though. [Raspberry Pi Zero W 2](https://www.pidramble.com/wiki/benchmarks/power-consumption) may demand only 0.7W power and [awl](https://github.com/anywherelan/awl/releases) should run on ARM.
 
 - The most basic services are the hardest to implement. 70 KLOC of go-libp2p to give your computer a proper VPN address. Double these lines to sync a folder. [Automated elections?](https://hackmd.io/@juincc/B1QV5NN5S) We are not there yet.
 
