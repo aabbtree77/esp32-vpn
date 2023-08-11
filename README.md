@@ -264,7 +264,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - Connect a webcam to a remote Ubuntu PC, install ffmpeg. Run awl-tray followed by [this one liner](https://unix.stackexchange.com/questions/2302/can-i-pipe-dev-video-over-ssh) with an mplayer. It worked in the year 2010, it still works in 2023.
 
-- 24/7 concerns: Idle mode with a monitor shut off consumes about 0.036A electric current at 220V, which amounts to 7.92W power. 720-hour monthly run will demand 5.7 kWh of energy. The rate of 0.30€ per 1kWh will induce a monthly electricity fee of **1.71€**. For non-Idle mode, consider the worst case upper bound which is running perpetually youtube in the browser: It will increase the power consumption **5x**. 
+- 24/7 concerns: Idle mode with a monitor shut off consumes about 0.036A electric current at 220V, which amounts to 7.92W power. 720-hour monthly run will demand 5.7 kWh of energy. The rate of 0.30€ per 1kWh will induce a monthly electricity fee of **1.71€**. For non-Idle mode, consider the worst case upper bound which is running perpetually youtube in a browser with the laptop monitor on: It may increase the power consumption **5x**. 
 
 - [KVM1 on Hostinger](https://www.hostinger.lt/vps-serveriai) costs 4.99€ and one gets a public static IP and 1TB of bandwidth with it, but we do not want that in the IoT. There are ways to push down a personal IoT node power consumption. [Raspberry Pi Zero W 2](https://www.pidramble.com/wiki/benchmarks/power-consumption) may demand only 0.7W power, [awl](https://github.com/anywherelan/awl/releases) should run on ARM.
 
