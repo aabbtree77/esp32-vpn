@@ -264,11 +264,11 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - Connect a webcam to a remote Ubuntu PC, install ffmpeg. Run awl-tray followed by [this one liner](https://unix.stackexchange.com/questions/2302/can-i-pipe-dev-video-over-ssh) with an mplayer. It worked in the year 2010, it still works in 2023.
 
-- Keeping a laptop on 24/7 gives certain back thoughts about the chosen network architecture. Idle mode with a monitor shut off consumes about 0.036A electric current at 220V, which amounts to 7.92W power. Given 720 hours in a month, the laptop will demand 5.7 kWh of energy. Considering the electricity rate of 0.30€ per 1kWh, this results in a monthly fee of **1.71€**. An intense application, such as youtube in the browser, will increase the power consumption **5x**. [KVM1 on Hostinger](https://www.hostinger.lt/vps-serveriai) costs 4.99€ and one gets a public static IP and 1TB of bandwidth with it. 
+- 24/7 concerns: Idle mode with a monitor shut off consumes about 0.036A electric current at 220V, which amounts to 7.92W power. 720-hour monthly run will demand 5.7 kWh of energy. The rate of 0.30€ per 1kWh will induce a monthly electricity fee of **1.71€**. For non-Idle mode, consider the worst case upper bound which is running perpetually youtube in the browser: It will increase the power consumption **5x**. 
 
-- There are ways to push down the IoT server power consumption though. [Raspberry Pi Zero W 2](https://www.pidramble.com/wiki/benchmarks/power-consumption) may demand only 0.7W power and [awl](https://github.com/anywherelan/awl/releases) should run on ARM.
+- [KVM1 on Hostinger](https://www.hostinger.lt/vps-serveriai) costs 4.99€ and one gets a public static IP and 1TB of bandwidth with it, but we do not want that in the IoT. There are ways to push down a personal IoT node power consumption. [Raspberry Pi Zero W 2](https://www.pidramble.com/wiki/benchmarks/power-consumption) may demand only 0.7W power, [awl](https://github.com/anywherelan/awl/releases) should run on ARM.
 
-- The most basic services are the hardest to implement. 70 KLOC of go-libp2p to give your computer a proper VPN address. Double these lines to sync a folder. [Automated elections?](https://hackmd.io/@juincc/B1QV5NN5S) We are not there yet.
+- The most basic services are the hardest to implement. 70 KLOC of go-libp2p to give your computer a proper VPN address. Double these lines to sync a folder. [Automated elections?](https://hackmd.io/@juincc/B1QV5NN5S)
 
 ## Some ESP32 References
 
@@ -317,7 +317,7 @@ Optional (problems to be aware of):
 
 4. [A GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/).
 
-5. [AirTag]: [1](https://ldej.nl/post/sending-an-airtag-from-the-netherlands-to-india/), [2](https://www.pcmag.com/how-to/what-is-ultra-wideband-uwb).
+5. AirTag: [1](https://ldej.nl/post/sending-an-airtag-from-the-netherlands-to-india/), [2](https://www.pcmag.com/how-to/what-is-ultra-wideband-uwb), [3](https://screenrant.com/apple-airtag-track-mail-package-benefits-limitations-explained/).
 
 6. Non-invasive blood glucose and hemoglobin monitoring: [1](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/), [3](https://www.mdpi.com/1424-8220/22/13/4855).
  
