@@ -248,27 +248,27 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 - **Low quality sensors**, see e.g. this [discussion](https://www.youtube.com/watch?v=IGP38bz-K48) of Capacitive Soil Moisture Sensor v1.2.
   The solutions based on the electrical resistance are worse due to a rapid corrosion of the electrodes. We have tried submerging them into a cheap industrial gypsum, but that did not work at all.
   
-- Monitoring soil moisture is a much harder problem than sensing air humidity. Perhaps the best way is to set up a camera and observe the ground surface, but that goes out of the scope of the low RAM ESP32.     
+- Monitoring soil moisture is a much harder problem than sensing air humidity. Perhaps the best way is to set up a camera and observe the ground surface, but that is out of the scope of the low RAM devices.     
   
 - Despite all the amazing work by Peter Hinch, the device could only send the MQTT messages, the receiving did not work.
 
 - After a long search and disappointment the resilience w.r.t. the Wi-Fi loss was reached thanks to this [code by Rui and Sara Santos][micropython-Rui-Santos].
   
-## Final Remarks
+## Remarks
 
 - Tiny ESP32 RAM = very limited software, esp. limited global connectivity options. With some acrobatics one may run "Wireguard" on the ESP32, but the go-libp2p apps are beyond the reach.
     
 - All this gigantic Web2 VPN service activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message to a board/PC? One must deal with the OSI model, overlay mesh networks, proxies and reverse proxies, [tunneling and self-hosting](https://github.com/anderspitman/awesome-tunneling), TUN/TAP, STUN/TURN/ICE, TCP meltdown, CGNAT, SOCKS5, ARP, ICMP, subnet masks (CIDR), gateways, stream multiplexing, [vsock/socat](https://github.com/balena/go-libp2p-vpn/issues/3), ports aka socket numbers, port forwarding, host names, DNS and mDNS, DHCP, virtual interfaces, iptables/firewalls, Linux kernel routes, routers and routing...
 
-- The Web3 (p2p) way is remarkable in that the tools such as Hyprspace, EdgeVPN, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2) solve the global connectivity problem without inflicting paid centralized services.
+- The p2p tools such as Hyprspace, EdgeVPN, [awl](https://github.com/anywherelan/awl), Syncthing: [1](https://www.reddit.com/r/Syncthing/comments/1324xrm/how_reliable_is_synthing/), [2](https://forum.syncthing.net/t/how-syncthing-communicates-with-my-server-when-im-in-a-public-network/20437/2) solve the global connectivity problem without imposing paid services.
 
 - Connect a webcam to a remote Ubuntu PC, install ffmpeg. Run awl-tray followed by [this one liner](https://unix.stackexchange.com/questions/2302/can-i-pipe-dev-video-over-ssh) with an mplayer. It worked in the year 2010, it still works in 2023.
 
-- 24/7 concerns: Idle mode with a monitor shut off consumes about 0.036A electric current at 220V, which amounts to 7.92W power. 720-hour monthly run will demand 5.7 kWh of energy. The rate of 0.30€ per 1kWh will induce a monthly electricity fee of **1.71€**. For non-Idle mode, consider the worst case upper bound which is running perpetually youtube in a browser with the laptop monitor on: It may increase the power consumption **5x**. 
+- 24/7 concerns: Idle mode with a monitor shut off consumes about 0.036A electric current at 220V, which amounts to 7.92W power. 720-hour monthly run will demand 5.7 kWh of energy. The rate of 0.30€ per 1kWh will induce a monthly electricity fee of **1.71€**. Non-Idle mode: Consider the worst case upper bound which is running perpetually youtube in a browser with the laptop monitor on. It may increase the power consumption **5x**. 
 
-- [KVM1 on Hostinger](https://www.hostinger.lt/vps-serveriai) costs 4.99€ and one gets a public static IP and 1TB of bandwidth with it, but we do not want that in the IoT. There are ways to push down a personal IoT node power consumption. [Raspberry Pi Zero W 2](https://www.pidramble.com/wiki/benchmarks/power-consumption) may demand only 0.7W power, [awl](https://github.com/anywherelan/awl/releases) should run on ARM.
+- [KVM1 on Hostinger](https://www.hostinger.lt/vps-serveriai) costs 4.99€ and one gets a public static IP and 1TB of bandwidth with it, but we do not need that in the IoT. There are ways to push down power consumption. [Raspberry Pi Zero W 2](https://www.pidramble.com/wiki/benchmarks/power-consumption) may demand only 0.7W power, and notice that [awl](https://github.com/anywherelan/awl/releases) should run on both, ARM64 and ARM32 (hence Raspberry Pi Zero W and older models too). The problem is that these platforms are little tested with go-libp2p. awl may run on ARM32, but delve, the Go debugger, [may not](https://github.com/go-delve/delve/issues/2051).
 
-- The most basic services are the hardest to implement. 70 KLOC of go-libp2p to give your computer a proper VPN address. Double these lines to sync a folder. [Automated elections?](https://hackmd.io/@juincc/B1QV5NN5S)
+- The most basic services are the trickiest. 70 KLOC of go-libp2p to give your computer a proper VPN address. Double these lines to sync a folder. [Automated elections?](https://hackmd.io/@juincc/B1QV5NN5S)
 
 ## Some ESP32 References
 
@@ -319,7 +319,7 @@ Optional (problems to be aware of):
 
 5. AirTag: [1](https://ldej.nl/post/sending-an-airtag-from-the-netherlands-to-india/), [2](https://www.pcmag.com/how-to/what-is-ultra-wideband-uwb), [3](https://screenrant.com/apple-airtag-track-mail-package-benefits-limitations-explained/).
 
-6. Non-invasive blood glucose and hemoglobin monitoring: [1](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/), [3](https://www.mdpi.com/1424-8220/22/13/4855).
+6. Non-invasive blood glucose and hemoglobin monitoring: [1](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/), [3](https://www.mdpi.com/1424-8220/22/13/4855). Ketones, alcohol: [1](https://www.cnet.com/health/medical/wearable-sensors-that-track-glucose-ketones-and-alcohol-levels-are-the-future/). eCO2.
  
 7. [A smart walking cane for the blind](https://github.com/manishmeganathan/smartwalkingcane). 
 
