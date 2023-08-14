@@ -14,11 +14,11 @@
 
 ## Introduction
 
-[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15 euro) microcontroller board with Wi-Fi, Bluetooth LE, and ESP-NOW. One can connect it to [a lot of sensors](https://esphome.io/#sensor-components) with ready-made drivers. The challenge is to control such a board globally, via the internet.
+[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15€) microcontroller board with Wi-Fi, Bluetooth LE, and ESP-NOW. One can connect it to [a lot of sensors](https://esphome.io/#sensor-components) with ready-made drivers. The challenge is to control such a board globally, via the internet.
 
 ## ESP32 and IoT
 
-There are several ways to connect the ESP32 globally:
+There are several ways to make the ESP32 visible globally:
 
 1. Cloud services: [ESP RainMaker](https://github.com/espressif/esp-rainmaker/issues/96), [Firebase](https://randomnerdtutorials.com/firebase-control-esp32-gpios/), [Blynk](https://blynk.io/blog/esp32-blynk-iot-platform-for-your-connected-product), [Arduino IoT Cloud](https://www.youtube.com/watch?v=rcCxGcRwCVk), [Yaler.net](https://yaler.net/), [Amazon API Gateway with Websocket API](https://www.youtube.com/watch?v=z53MkVFOnIo), [Amazon API Gateway with RESTful API](https://aws.amazon.com/blogs/compute/building-an-aws-iot-core-device-using-aws-serverless-and-an-esp32/), [Husarnet](https://husarnet.com/docs/tutorial-esp32-platformio), [CloudMQTT](https://www.cloudmqtt.com/blog/cloudmqtt-cute-cat-free-plan-out-of-stock.html), [HiveMQ](https://community.hivemq.com/t/connection-fail-in-hivemq-cloud/579/4), [RemoteXY](https://www.youtube.com/watch?v=dyEnOyQS1w8&t=1s), [Google Cloud IoT](https://www.elementzonline.com/blog/Connecting-ESP32-to-Google-Cloud-IoT), Viper/Zerynth: [1](https://zerynth.com/blog/python-on-esp32-getting-started/), [2](https://lemariva.com/blog/2021/12/zerynth-esp32-google-iot-core-part-1-sending-data-to-the-cloud), [3](https://zerynth.com/customers/case-studies/zerynth-powered-smart-iot-display/)... 
 
@@ -49,9 +49,6 @@ Do these tools always work though, are they equally good?
   [EdgeVPN](https://github.com/mudler/edgevpn): 7.5 KLOC of Go. Solid punching, but problems with 24/7 runs. No Android support. 
 
   [go-libp2p](https://github.com/libp2p/go-libp2p): 67 KLOC of Go. The base layer for the three above.
-  
-  [Syncthing](https://github.com/syncthing/syncthing/tree/main): 110 KLOC of Go, 37.5 KLOC of Js, 10.6 KLOC of CSS. Irrelevant here, but this is what it takes to sync a folder.
-
 
 EdgeVPN may have an [edge](https://github.com/mudler/edgevpn/issues/25) over Hyprspace, but there is [a problem with longer runs](https://github.com/mudler/edgevpn/issues/137). [awl](https://github.com/anywherelan/awl) is more reliable. It is also more convenient (desktop browser GUI for one-click handshakes, runs on Android), but not always. If for some reason one has to reinstall the Android app, the latter generates a new peer id which then needs to be confirmed again on the other end. EdgeVPN simply shares the same secret file and has no handshakes.
 
@@ -254,7 +251,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - After a long search and disappointment the resilience w.r.t. the Wi-Fi loss was reached thanks to this [code by Rui and Sara Santos][micropython-Rui-Santos].
   
-## Remarks
+## Notes
 
 - Tiny ESP32 RAM = very limited software, esp. limited global connectivity options. With some acrobatics one may run "Wireguard" on the ESP32, but the go-libp2p apps are beyond the reach.
     
@@ -268,11 +265,27 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - [KVM1 on Hostinger](https://www.hostinger.lt/vps-serveriai) costs 4.99€ and one gets a public static IP and 1TB of bandwidth with it, but we do not need that in the IoT. There are ways to push down power consumption. [Raspberry Pi Zero W 2](https://www.pidramble.com/wiki/benchmarks/power-consumption) may demand only 0.7W power, and notice that [awl](https://github.com/anywherelan/awl/releases) should run on both, ARM64 and ARM32 (hence Raspberry Pi Zero W and older models too). The problem is that these platforms are little tested with go-libp2p. awl may run on ARM32, but delve, the Go debugger, [may not](https://github.com/go-delve/delve/issues/2051).
 
-- The most basic services are the trickiest. 70 KLOC of go-libp2p to give your computer a proper VPN address. Double these lines to sync a folder. [Automated elections?](https://hackmd.io/@juincc/B1QV5NN5S)
+- The most basic services are tricky. 70 KLOC of go-libp2p to give your computer a proper VPN address. 
 
+- Some go-libp2p-based FOSS efforts worth mentioning and the lines of code (LOC):
+
+  [Syncthing](https://github.com/syncthing/syncthing/tree/main): the p2p Dropbox. 110 KLOC of Go, 38 KLOC of Js, 11 KLOC of CSS.
+  
+  [Berty](https://github.com/berty/berty): the p2p messenger built with React Native, blocked in Iran. 80 KLOC of Go, 50 KLOC of TypeScript/Js, 5 KLOC of Java.
+
+  [functionland](https://github.com/functionland/): 
+
+    [functionland/FxFotos](https://github.com/functionland/fx-fotos): the p2p Google Photos, React Native. 11 KLOC of TypeScript.
+    [functionland/FxFiles](https://github.com/functionland/fx-files): another p2p Dropbox? 22 KLOC of C#, 5 KLOC of Sass. 
+    [functionland/go-fula](https://github.com/functionland/go-fula): the backend that supports the two frontends above. 6 KLOC of Go.  
+
+  [zkvote?](https://hackmd.io/@juincc/B1QV5NN5S): anonymous p2p voting based on zero-knowledge protocols. 4 KLOC of Go, 6 KLOC of Js.
+  
+  ...
+  
 ## Some ESP32 References
 
-Essentials:
+Essential:
 
 - [MicroPython firmware]
 - [micropython-Rui-Santos]
