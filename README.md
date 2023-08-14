@@ -267,21 +267,21 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - The most basic services are tricky. 70 KLOC of go-libp2p to give your computer a proper VPN address. 
 
-- Some go-libp2p-based FOSS efforts worth mentioning and the lines of code (LOC):
+- Some go-libp2p-based FOSS efforts worth mentioning, and the lines of code (LOC):
 
   [Syncthing](https://github.com/syncthing/syncthing/tree/main): the p2p Dropbox. 110 KLOC of Go, 38 KLOC of Js, 11 KLOC of CSS.
   
   [Berty](https://github.com/berty/berty): the p2p messenger built with React Native, blocked in Iran. 80 KLOC of Go, 50 KLOC of TypeScript/Js, 5 KLOC of Java.
 
-  [functionland](https://github.com/functionland/): 
-
-    [functionland/FxFotos](https://github.com/functionland/fx-fotos): the p2p Google Photos, React Native. 11 KLOC of TypeScript.
+  [functionland/FxFotos](https://github.com/functionland/fx-fotos): the p2p Google Photos, React Native. 11 KLOC of TypeScript.
     
-    [functionland/FxFiles](https://github.com/functionland/fx-files): another p2p Dropbox? 22 KLOC of C#, 5 KLOC of Sass.
+  [functionland/FxFiles](https://github.com/functionland/fx-files): another p2p Dropbox? 22 KLOC of C#, 5 KLOC of Sass.
      
-    [functionland/go-fula](https://github.com/functionland/go-fula): the backend that supports the two frontends above. 6 KLOC of Go.  
+  [functionland/go-fula](https://github.com/functionland/go-fula): the backend that supports the two frontends above. 6 KLOC of Go.  
 
   [zkvote?](https://hackmd.io/@juincc/B1QV5NN5S): anonymous p2p voting based on zero-knowledge protocols. 4 KLOC of Go, 6 KLOC of Js.
+  
+  Minimal (sub 1 KLOC of Go) working p2p Linux chat terminals to study: [peerchat](https://github.com/manishmeganathan/peerchat) (MIT), [cryptogram](https://github.com/gbaranski/cryptogram) (GPL3).  
   
   ...
   
