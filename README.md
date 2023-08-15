@@ -28,7 +28,7 @@ There are several ways to make the ESP32 visible globally:
 
 3. An MQTT web app. Again, only the board needs to know the URL or the IP address of the app. The MQTT is preferable for two reasons: (i) the client libs are more reliable than their HTTP counterparts in the ESP world, and (ii) there is no need to write a web app to send/receive data. One can simply run the Mosquitto broker as an "MQTT app" and use "mosquitto_pub/sub" commands w.r.t. the MQTT topics that the board will pub/sub to.
 
-4. Wireguard on the ESP32: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino), [2](https://github.com/trombik/esp_wireguard), [3](https://github.com/esphome/feature-requests/issues/1444). This is for some overly optimistic uses where the ESP32 becomes an independent node on a par with Linux boards. Wireguard still needs a public static IP.
+4. Wireguard on the ESP32: [1](https://github.com/ciniml/WireGuard-ESP32-Arduino/issues), [2](https://github.com/trombik/esp_wireguard/issues), [3](https://github.com/esphome/feature-requests/issues/1444). This is for some overly optimistic dubious uses where the ESP32 becomes a VPN node on a par with Linux boards. No MicroPython support, no ssh, a tiny fractured [LwIP](https://forum.micropython.org/viewtopic.php?t=7569) networking user base. Wireguard still needs a public static IP.
 
 5. Connecting the ESP32 to the Linux PC over Wi-Fi that runs the MQTT broker within its LAN, thus delegating the problem of global connectivity effectively to the PC space.
 
@@ -267,19 +267,13 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - Some go-libp2p-based FOSS efforts worth mentioning, and the lines of code (LOC):
 
-  [Syncthing](https://github.com/syncthing/syncthing/tree/main): the p2p Dropbox. 110 KLOC of Go, 38 KLOC of Js, 11 KLOC of CSS.
+  [Syncthing](https://github.com/syncthing/syncthing/tree/main): p2p Dropbox. 110 KLOC of Go, 38 KLOC of Js, 11 KLOC of CSS.
   
-  [Berty](https://github.com/berty/berty): the p2p messenger built with React Native, blocked in Iran. 80 KLOC of Go, 50 KLOC of TypeScript/Js, 5 KLOC of Java.
-
-  [functionland/FxFotos](https://github.com/functionland/fx-fotos): the p2p Google Photos, React Native. 11 KLOC of TypeScript.
-    
-  [functionland/FxFiles](https://github.com/functionland/fx-files): another p2p Dropbox? 22 KLOC of C#, 5 KLOC of Sass.
-     
-  [functionland/go-fula](https://github.com/functionland/go-fula): the backend that supports the two frontends above. 6 KLOC of Go.  
+  [Berty](https://github.com/berty/berty): p2p messenger built with React Native, blocked in Iran. 80 KLOC of Go, 50 KLOC of TypeScript/Js, 5 KLOC of Java.
 
   [zkvote?](https://hackmd.io/@juincc/B1QV5NN5S): anonymous p2p voting based on zero-knowledge protocols. 4 KLOC of Go, 6 KLOC of Js.
   
-  [peerchat](https://github.com/manishmeganathan/peerchat) (MIT), [cryptogram](https://github.com/gbaranski/cryptogram) (GPL3): Minimal (sub 1 KLOC of Go) working p2p Linux chat terminals to study.  
+  [peerchat](https://github.com/manishmeganathan/peerchat) (MIT), [cryptogram](https://github.com/gbaranski/cryptogram) (GPL3): Minimal (sub 1 KLOC of Go) working p2p Linux chat terminals.  
   
   ...
   
