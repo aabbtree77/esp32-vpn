@@ -247,7 +247,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   
 - Monitoring soil moisture is a harder problem than sensing air humidity. Perhaps the best way is to set up a camera and observe the ground surface, but that is out of the scope of the low RAM devices, unless one is content with [320x240@25FPS](https://github.com/cspwcspw/ESP32_CamToLCD).   
   
-- Despite all the amazing work by Peter Hinch, the device could only send the MQTT messages, the receiving did not work.
+- Despite all the amazing async MQTT lib work by Peter Hinch, the device could only send the MQTT messages, the receiving did not work. So we went back to umqttsimple.
 
 - After a long search and disappointment the resilience w.r.t. the Wi-Fi loss was reached thanks to this [code by Rui and Sara Santos][micropython-Rui-Santos].
   
