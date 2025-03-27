@@ -18,7 +18,7 @@
 
 <table align="center">
     <tr>
-    <th align="center">Platform Choices</th>
+    <th align="center">The ESP32's Promise</th>
     </tr>
     <tr>
     <td>
