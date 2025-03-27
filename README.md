@@ -7,14 +7,25 @@
     </tr>
     <tr>
     <td>
-    <img src="./images/mermaid-diagram-2023-08-02-173839.png"  alt="ESP32 in the context of IoT)" width="100%" >
+    <img src="./images/mermaid-diagram-2023-08-02-173839.png"  alt="ESP32 in the context of IoT" width="100%" >
     </td>
     </tr>
 </table>
 
 ## Introduction
 
-[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15€) microcontroller board with Wi-Fi, Bluetooth LE, and ESP-NOW. One can connect it to [a lot of sensors](https://esphome.io/#sensor-components) with ready-made drivers. The challenge is to control such a board globally, via the internet.
+[DOIT DEvKit V1 ESP32-WROOM-32](https://en.wikipedia.org/wiki/ESP32) is an inexpensive (15€) microcontroller board with Wi-Fi, Bluetooth LE, and ESP-NOW. One can connect it to [various sensors](https://esphome.io/#sensor-components) with ready-made drivers. The challenge is to control such a board globally, via the internet.
+
+<table align="center">
+    <tr>
+    <th align="center">Platform Choices</th>
+    </tr>
+    <tr>
+    <td>
+    <img src="./images/usavschina.jpg"  alt="USA vs China Meme: Fat man vs lightweight kungfu" width="100%" >
+    </td>
+    </tr>
+</table>
 
 ## ESP32 and IoT
 
@@ -320,18 +331,20 @@ Optional (problems to be aware of):
 
 ## Appendix: Some Non-Toy Applications of Low RAM Devices
 
-1. [Waste bin level detectors based on ultrasonic distance sensors](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/)?
+1. [Waste bin level detectors based on ultrasonic distance sensors?](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/)
 
-2. A bus card reader? We used to have some early low RAM devices here in Vilnius for about 5-10 years. This year (2023) the bus card readers got replaced with Estonian Ridango devices which, I suspect, run Linux.
+2. A bus card reader? We used to have some early low RAM devices here in Vilnius for about 5-10 years. In the year 2023 the bus card readers got replaced with Estonian Ridango devices which run Linux.
     
-3. Mapping out minefields? See [1](https://youtu.be/suxLa6kWsrw?t=2000) and [2](https://cepdnaclk.github.io/e17-3yp-Landmine-Detector/) for two completely different systems. The first one presents a radar mounted on a drone, while the second one is a Colpitts oscillator-based metal detector on a four-wheel robot. 
+3. Mapping out minefields? See [1](https://youtu.be/suxLa6kWsrw?t=2000) and [2](https://cepdnaclk.github.io/e17-3yp-Landmine-Detector/) for two completely different systems.
 
-4. [A GPS Tracker](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/).
+4. [GPS Trackers.](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/)
 
 5. AirTag: [1](https://ldej.nl/post/sending-an-airtag-from-the-netherlands-to-india/), [2](https://www.pcmag.com/how-to/what-is-ultra-wideband-uwb), [3](https://screenrant.com/apple-airtag-track-mail-package-benefits-limitations-explained/).
 
-6. Non-invasive blood glucose and hemoglobin monitoring: [1](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/), [3](https://www.mdpi.com/1424-8220/22/13/4855). Ketones, alcohol: [1](https://www.cnet.com/health/medical/wearable-sensors-that-track-glucose-ketones-and-alcohol-levels-are-the-future/). eCO2.
+6. Non-invasive blood glucose and hemoglobin monitoring: [1](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/), [3](https://www.mdpi.com/1424-8220/22/13/4855). Ketones, alcohol: [1](https://www.cnet.com/health/medical/wearable-sensors-that-track-glucose-ketones-and-alcohol-levels-are-the-future/), eCO2...
  
-7. [A smart walking cane for the blind](https://github.com/manishmeganathan/smartwalkingcane). 
+7. [A smart walking cane for the blind.](https://github.com/manishmeganathan/smartwalkingcane) 
 
-8. [Motor control](https://github.com/aabbtree77/adast).
+8. Morse/binary code interfaces: [1970](https://www.sciencedirect.com/science/article/abs/pii/S0020737370800037), [2019](https://www.ijrar.org/papers/IJRAR1CBP173.pdf), [2020](https://ieeexplore.ieee.org/document/9376479), [2021](https://www.irjet.net/archives/V8/i7/IRJET-V8I7505.pdf), [2023](https://www.irjet.net/archives/V10/i4/IRJET-V10I4149.pdf)...
+
+9. [Paper Guillotine Adast Maxima MS80.](https://github.com/aabbtree77/adast)
