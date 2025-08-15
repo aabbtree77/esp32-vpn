@@ -284,7 +284,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
   [Syncthing](https://github.com/syncthing/syncthing/tree/main): p2p Dropbox. 110 KLOC of Go, 38 KLOC of Js, 11 KLOC of CSS.
   
-  [Berty](https://github.com/berty/berty): p2p messenger built with React Native, blocked in Iran. 80 KLOC of Go, 50 KLOC of TypeScript/Js, 5 KLOC of Java.
+  [Berty](https://github.com/berty/berty): a p2p messenger built with React Native, blocked in Iran. 80 KLOC of Go, 50 KLOC of TypeScript/Js, 5 KLOC of Java. Edit 2025: A few relatively safe widely used messenger apps: [Session](https://en.wikipedia.org/wiki/Session_(software)) and [SimpleX](https://simplex.chat/).
 
   [zkvote?](https://hackmd.io/@juincc/B1QV5NN5S): anonymous p2p voting based on zero-knowledge protocols. 4 KLOC of Go, 6 KLOC of Js.
   
