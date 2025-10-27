@@ -18,7 +18,7 @@
 
 <table align="center">
     <tr>
-    <th align="center">The ESP32's Premise</th>
+    <th align="center">The Premise</th>
     </tr>
     <tr>
     <td>
