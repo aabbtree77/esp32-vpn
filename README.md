@@ -337,7 +337,7 @@ Optional (problems to be aware of):
     
 3. Mapping out minefields? See [1](https://youtu.be/suxLa6kWsrw?t=2000) and [2](https://cepdnaclk.github.io/e17-3yp-Landmine-Detector/) for two completely different systems.
 
-4. [GPS Trackers?](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/) AirTag: [1](https://ldej.nl/post/sending-an-airtag-from-the-netherlands-to-india/), [2](https://www.pcmag.com/how-to/what-is-ultra-wideband-uwb), [3](https://screenrant.com/apple-airtag-track-mail-package-benefits-limitations-explained/). This is essential for any bicyclist/biker, see [My motorcycle TRASHED & STOLEN in Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿 and this is how they did it](https://www.youtube.com/watch?v=ricNARC1H34) and compare it to the old tech tested in [Trying to Steal Our UN-STEAL-able Motorcycle.](https://www.youtube.com/watch?v=v_0DB3gBM3Y)
+4. [GPS Trackers?](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/) AirTag: [1](https://ldej.nl/post/sending-an-airtag-from-the-netherlands-to-india/), [2](https://www.pcmag.com/how-to/what-is-ultra-wideband-uwb), [3](https://screenrant.com/apple-airtag-track-mail-package-benefits-limitations-explained/). This is essential for any bicyclist/biker, see [My motorcycle TRASHED & STOLEN in Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿 and this is how they did it](https://www.youtube.com/watch?v=ricNARC1H34) and compare the tech to the one in [Trying to Steal Our UN-STEAL-able Motorcycle.](https://www.youtube.com/watch?v=v_0DB3gBM3Y)
 
 5. Non-invasive blood glucose and hemoglobin monitoring: [1](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/), [3](https://www.mdpi.com/1424-8220/22/13/4855). Ketones, alcohol: [1](https://www.cnet.com/health/medical/wearable-sensors-that-track-glucose-ketones-and-alcohol-levels-are-the-future/), eCO2... [ECG.](https://www.teltonika-telemedic.com/products/teltoheart)
  
@@ -345,12 +345,18 @@ Optional (problems to be aware of):
 
 7. Morse/binary code interfaces: [1970](https://www.sciencedirect.com/science/article/abs/pii/S0020737370800037), [2019](https://www.ijrar.org/papers/IJRAR1CBP173.pdf), [2020](https://ieeexplore.ieee.org/document/9376479), [2021](https://www.irjet.net/archives/V8/i7/IRJET-V8I7505.pdf), [2023](https://www.irjet.net/archives/V10/i4/IRJET-V10I4149.pdf)...
 
-8. All sorts of toys: [Rubik's cube solving](https://github.com/vindar/SARCASM/tree/main), [smart chess board](https://www.youtube.com/watch?v=Z92TdhsAWD4)...
+8. All sorts of toys/demos: [Rubik's cube solving](https://github.com/vindar/SARCASM/tree/main), [a smart chess board](https://www.youtube.com/watch?v=Z92TdhsAWD4)... [DIY Machines](https://www.youtube.com/@DIYMachines) include [Robotic Bartender.](https://www.youtube.com/watch?v=cvOpvPKHJvc)
 
 9. [Remote pet feeder?](https://github.com/PierceBrandies/PetFeeder)
 
-10. ADC with software-defined circuitry? [Ethernet](https://www.elektormagazine.com/news/rp2350-bit-bangs-100-mbit-ethernet), [radio](https://github.com/steve-m/librtlsdr)...
+10. ADC with software-defined circuitry? [Ethernet](https://www.elektormagazine.com/news/rp2350-bit-bangs-100-mbit-ethernet), AM/FM radio: [1](https://www.reddit.com/r/esp32/comments/1f2iptx/we_made_an_esp32_based_tef6686_amfm_receiver/), [2](https://github.com/steve-m/librtlsdr)...
 
-11. [Following.](https://www.youtube.com/shorts/aJRvCISl0jk)
+11. Prosthetic limbs [(Open Hand).](https://en.wikipedia.org/wiki/Open_Bionics)
 
-12. [DIY Machines](https://www.youtube.com/@DIYMachines) include [Robotic Bartender.](https://www.youtube.com/watch?v=cvOpvPKHJvc)
+12. [OpenEVSE WiFi Kit](https://store.openevse.com/products/openevse-wifi-kit?srsltid=AfmBOoq2klk-X3XrnTkcWK84L2WEi-MjvMuIc2uuQ4lmp_1kifABQeM-) connects its ESP32 board with a Universal Electric Vehicle Charging Station Controller.
+
+13. [DroneBridge for ESP32](https://github.com/DroneBridge/ESP32) to control drone swarms, "supports ESP-NOW LR enabling ranges of more than 1km with external receiving antennas".
+
+14. ESP32 mesh networks for long-range wildfire/environment monitoring (e.g. OpenForest, FireSense). ["The MQ2 gas sensor runs on 5 volts of DC power and uses about 800 milliwatts of energy. It can detect several types of gases, including LPG (liquefied petroleum gas), smoke, alcohol, propane, hydrogen, methane, and carbon monoxide. This sensor can detect these gases when their concentrations are between 200 and 10,000 parts per million (ppm)."](https://lastminuteengineers.com/mq2-gas-senser-arduino-tutorial/)
+
+15. [Following.](https://www.youtube.com/shorts/aJRvCISl0jk)
