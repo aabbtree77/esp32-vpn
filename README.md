@@ -349,7 +349,7 @@ Optional (problems to be aware of):
 
 9. [Remote pet feeder?](https://github.com/PierceBrandies/PetFeeder)
 
-10. An ADC followed by anything software-defined? [Ethernet](https://www.elektormagazine.com/news/rp2350-bit-bangs-100-mbit-ethernet), [radio])(https://github.com/steve-m/librtlsdr)...
+10. ADC with software-defined circuitry? [Ethernet](https://www.elektormagazine.com/news/rp2350-bit-bangs-100-mbit-ethernet), [radio](https://github.com/steve-m/librtlsdr)...
 
 11. [Following.](https://www.youtube.com/shorts/aJRvCISl0jk)
 
