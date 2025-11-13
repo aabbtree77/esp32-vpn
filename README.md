@@ -355,8 +355,18 @@ Optional (problems to be aware of):
 
 12. [OpenEVSE WiFi Kit](https://store.openevse.com/products/openevse-wifi-kit?srsltid=AfmBOoq2klk-X3XrnTkcWK84L2WEi-MjvMuIc2uuQ4lmp_1kifABQeM-) connects its ESP32 board with a Universal Electric Vehicle Charging Station Controller.
 
-13. [DroneBridge for ESP32](https://github.com/DroneBridge/ESP32) to control drone swarms, "supports ESP-NOW LR enabling ranges of more than 1km with external receiving antennas".
+13. [🛜 ESPectre 👻 - Motion detection system based on Wi-Fi spectre analysis (CSI), with Home Assistant integration.](https://github.com/francescopace/espectre)
 
-14. ESP32 mesh networks for long-range wildfire/environment monitoring (e.g. OpenForest, FireSense). ["The MQ2 gas sensor runs on 5 volts of DC power and uses about 800 milliwatts of energy. It can detect several types of gases, including LPG (liquefied petroleum gas), smoke, alcohol, propane, hydrogen, methane, and carbon monoxide. This sensor can detect these gases when their concentrations are between 200 and 10,000 parts per million (ppm)."](https://lastminuteengineers.com/mq2-gas-senser-arduino-tutorial/)
+14. [DroneBridge for ESP32](https://github.com/DroneBridge/ESP32) to control drone swarms, "supports ESP-NOW LR enabling ranges of more than 1km with external receiving antennas".
 
-15. [Following.](https://www.youtube.com/shorts/aJRvCISl0jk)
+15. ESP32 mesh networks for long-range wildfire/environment monitoring (e.g. OpenForest, FireSense). ["The MQ2 gas sensor runs on 5 volts of DC power and uses about 800 milliwatts of energy. It can detect several types of gases, including LPG (liquefied petroleum gas), smoke, alcohol, propane, hydrogen, methane, and carbon monoxide. This sensor can detect these gases when their concentrations are between 200 and 10,000 parts per million (ppm)."](https://lastminuteengineers.com/mq2-gas-senser-arduino-tutorial/)
+
+16. [Let's Design an RP2040 Devboard!](https://kaipereira.com/journal/build-a-devboard)
+
+17. ["I reverse-engineered a $20,000 military IP mesh radio using just $106.23 in open-source parts. This isn't a gimmick—it's a fully functional MANET router capable of push-to-talk, GPS sharing, ATAK integration, and more. In this video, I’ll show you how I built it, tested it, and deployed it in the real world—no subscriptions, no middlemen, just raw decentralized power. Whether you're off-grid, mission-ready, or just sick of Big Tech, this changes everything."](https://www.youtube.com/watch?v=ofR7GFNZzJY)
+
+18. [FreakWAN is an effort to create a LoRa-based open WAN network, completely independent from Internet and the cellular phones networks.](https://github.com/antirez/freakwan)
+
+19. Smartwatches: [1.28 inch ESP32-C3 IPS Round Display ESP32-2424S012C-I Capacitive Touchscreen 240x240 TFT LCD Module ESP32-C3 Development Board for Arduino IDE.](https://www.amazon.com/DIYmalls-ESP32-2424S012C-I-Touchscreen-ESP32-C3-MINI-1U-Development/dp/B0D63DRLGG)
+
+20. [Following.](https://www.youtube.com/shorts/aJRvCISl0jk)
