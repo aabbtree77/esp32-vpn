@@ -274,7 +274,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 - 24/7 concerns: Idle mode with a monitor shut off consumes about 0.036A electric current at 220V, which amounts to 7.92W power. 720-hour monthly run will demand 5.7 kWh of energy. The rate of 0.30€ per 1kWh will induce a monthly electricity fee of **1.71€**. Non-Idle mode: Consider the worst case upper bound which is running perpetually youtube in a browser with the laptop monitor on. It may increase the power consumption **5x**. 
 
-- [KVM1 on Hostinger](https://www.hostinger.lt/vps-serveriai) costs 4.99€ and one gets a public static IP and 4TB of bandwidth with it, but we do not need that in the IoT. There are ways to push down power consumption. [Raspberry Pi Zero W 2](https://www.pidramble.com/wiki/benchmarks/power-consumption) may demand only 0.7W power, and notice that [awl](https://github.com/anywherelan/awl/releases) should run on both, ARM64 and ARM32 (hence Raspberry Pi Zero 2 W and older models too). The problem is that these platforms are little tested with go-libp2p. awl may run on ARM32, but delve, the Go debugger, [may not](https://github.com/go-delve/delve/issues/2051).
+- There are ways to push down power consumption. [Raspberry Pi Zero W 2](https://www.pidramble.com/wiki/benchmarks/power-consumption) may demand only 0.7W power, and notice that [awl](https://github.com/anywherelan/awl/releases) should run on both, ARM64 and ARM32 (hence Raspberry Pi Zero 2 W and older models too). The problem is that these platforms are little tested with go-libp2p. awl may run on ARM32, but delve, the Go debugger, [may not](https://github.com/go-delve/delve/issues/2051).
 
 - There exist inexpensive (sub-30€) one-time payment-based IoT devices designed for direct remote control and monitoring with Android apps, see e.g. [Clas Ohlson](https://play.google.com/store/apps/details?id=com.clasohlson.android.plug&hl=en&gl=US&pli=1) for a smart plug, and [YCC365](https://play.google.com/store/apps/details?id=com.ycc365plus.aws&hl=en&gl=US) for a remote 180° IP camera. The latter could even be [hackable to some extent](https://github.com/cspwcspw/CloudCameraGK7102), but these are limited closed source proprietary products where one relies on their respective IT clouds for communication. If this fits your needs, you get the simplest time-saving solution.
 
@@ -291,6 +291,10 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
   [peerchat](https://github.com/manishmeganathan/peerchat) (MIT), [cryptogram](https://github.com/gbaranski/cryptogram) (GPL3): Minimal (sub 1 KLOC of Go) working p2p Linux chat terminals.  
   
   ...
+
+## December 2025 Update
+  
+[CAX11 Ampere on Hetzner](https://www.hetzner.com/cloud/) costs 3.79€ per month and one gets a public static IPv4 and 20TB of bandwidth with it, which makes one rethink the whole worthiness of P2P! CAX11 nodes are ARM-based, but they have 4x faster megatransfers per second than x86 nodes of the same class and [are highly recommended.](https://www.reddit.com/r/hetzner/comments/1pano24/hetzner_cloud_server_benchmark_cx_vs_cax_vs_cpx/)  
   
 ## Some ESP32 References
 
