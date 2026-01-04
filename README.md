@@ -379,11 +379,11 @@ Optional (problems to be aware of):
 
 ### Direct Communication
 
-ChatGPT5 prompt:
+My prompt:
 
 _Some write this: "All this gigantic Web2 VPN service activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message to a board/PC? One must deal with the OSI model, overlay mesh networks, proxies and reverse proxies, tunneling and self-hosting, TUN/TAP, STUN/TURN/ICE, TCP meltdown, CGNAT, SOCKS5, ARP, ICMP, subnet masks (CIDR), gateways, stream multiplexing, vsock/socat, ports aka socket numbers, port forwarding, host names, DNS and mDNS, UPnP, DHCP, virtual interfaces, iptables/firewalls, Linux kernel routes, routers and routing... B.A.T.M.A.N." I wonder if that's true, why can we not use MAC or IPv6 to communicate directly between the boards or PCs?"_ 
 
-ChatGPT said:
+ChatGPT5 said:
 
 Short version first, then we zoom in.
 
@@ -577,11 +577,11 @@ Just say the word.
 
 ### Router OSes and go-libp2p
 
-ChatGPT5 prompt:
+My prompt:
 
 _I wonder if the following is true: "One can run an MQTT broker on a router, e.g. with OpenWrt Linux or RutOS, but these router OSes (6-8MB .bin image size) are too limiting. More importantly, one cannot use go-libp2p with them."_
 
-ChatGPT said:
+ChatGPT5 said:
 
 Short answer: partly true, but overstated.
 Long answer: the statement mixes real constraints, historical baggage, and a bit of myth inflation 🎈.
@@ -799,11 +799,11 @@ Pick your adventure.
 
 ### ESP32, Wireguard, go-libp2p
 
-ChatGPT5 prompt:
+My prompt:
 
 _Is this true: "Tiny ESP32 RAM = very limited software, esp. limited global connectivity options. With some acrobatics one may run "Wireguard" on the ESP32, but the go-libp2p apps are beyond the reach."?_
 
-ChatGPT5 answers:
+ChatGPT5 said:
 
 Short answer: yes, this one is mostly true, and much closer to reality than the router claim.
 Long answer: it is true for structural reasons, not because ESP32 is “weak” in the abstract 🧠⚡.
