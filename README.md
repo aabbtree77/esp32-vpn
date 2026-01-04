@@ -333,7 +333,7 @@ Optional (problems to be aware of):
 [unstable MQTT on ESP8266 (4+ days) #2568]: https://github.com/micropython/micropython/issues/2568
 [umqtt cannot import MQTTClient #250]: https://github.com/micropython/micropython-lib/issues/250
 
-## Appendix: Some Applications of Low RAM Devices
+## Appendix A: Some Applications of Low RAM Devices
 
 1. [Waste bin level detectors based on ultrasonic distance sensors?](https://www.ecubelabs.com/bin-level-sensors-5-reasons-why-every-city-should-track-their-waste-bins-remotely/)
 
@@ -374,3 +374,206 @@ Optional (problems to be aware of):
 19. Smartwatches: [1.28 inch ESP32-C3 IPS Round Display ESP32-2424S012C-I Capacitive Touchscreen 240x240 TFT LCD Module ESP32-C3 Development Board for Arduino IDE.](https://www.amazon.com/DIYmalls-ESP32-2424S012C-I-Touchscreen-ESP32-C3-MINI-1U-Development/dp/B0D63DRLGG)
 
 20. [Following.](https://www.youtube.com/shorts/aJRvCISl0jk)
+
+## Appendix B: AI Answers
+
+My ChatGPT prompt:
+
+Some write this: "All this gigantic Web2 VPN service activity exists mostly because A and B do not have proper addresses. We cannot use MAC, we do not have the IPv6. So how does one send a message to a board/PC? One must deal with the OSI model, overlay mesh networks, proxies and reverse proxies, tunneling and self-hosting, TUN/TAP, STUN/TURN/ICE, TCP meltdown, CGNAT, SOCKS5, ARP, ICMP, subnet masks (CIDR), gateways, stream multiplexing, vsock/socat, ports aka socket numbers, port forwarding, host names, DNS and mDNS, UPnP, DHCP, virtual interfaces, iptables/firewalls, Linux kernel routes, routers and routing... B.A.T.M.A.N." I wonder if that's true, why can we not use MAC or IPv6 to communicate directly between the boards or PCs? 
+
+ChatGPT said:
+
+Short version first, then we zoom in.
+
+Yes, the frustration in that quote is real, but the diagnosis is half poetry, half conspiracy.
+The mess exists not because we cannot address machines, but because we deliberately chose layers, abstractions, and scarcity, and then scaled them until they squeaked 🐭⚙️.
+
+Now let’s unpack the two tempting ghosts: MAC and IPv6.
+Why not just use MAC addresses?
+
+MAC feels like destiny. Every NIC gets one. Unique. Permanent. Why not shout packets by MAC and call it a day?
+
+Because MAC addresses are parochial creatures.
+
+1. MAC addresses do not route
+
+MAC works only inside a single Layer-2 broadcast domain.
+Routers exist precisely to stop MAC traffic.
+
+Once a packet crosses a router:
+
+    MAC headers are stripped
+
+    New MACs are assigned for the next hop
+
+    The original MAC is forgotten like a dream after coffee ☕
+
+There is no global MAC routing table.
+There cannot be one without turning Ethernet into a planetary broadcast storm.
+
+2. MAC is flat and unscalable
+
+Imagine routing tables keyed by 48-bit random identifiers with no hierarchy.
+
+IP has structure:
+
+    prefixes
+
+    aggregation
+
+    CIDR
+
+    “this entire /32 lives over there”
+
+MAC has none of that. It’s entropy with a sticker.
+
+3. MAC is a privacy nightmare
+
+MACs are:
+
+    long-lived
+
+    device-specific
+
+    excellent tracking beacons
+
+This is why modern OSes now randomize MACs aggressively.
+
+So MAC is perfect for:
+
+    local delivery
+
+    switching
+
+    ARP glue
+
+And terrible for:
+
+    global addressing
+
+    mobility
+
+    privacy
+
+    routing at scale
+
+Okay, but IPv6 then. That one is global.
+
+Correct. IPv6 is the elegant answer that arrived early and was adopted late.
+
+So why aren’t we all living in IPv6 utopia?
+
+1. NAT is a feature people grew addicted to
+
+IPv4 scarcity gave us NAT.
+NAT accidentally delivered:
+
+    pseudo-firewalls
+
+    address reuse
+
+    “nothing is reachable unless I poke a hole”
+
+People built threat models, business models, and entire VPN companies on that accident.
+
+IPv6 removes NAT.
+That means:
+
+    everything is addressable
+
+    security must be explicit
+
+    firewalls must be real, not implied
+
+That scared operators.
+
+2. ISPs deployed IPv6 halfway
+
+Many ISPs provide:
+
+    IPv6 outward
+
+    IPv4 via CGNAT
+
+    broken inbound IPv6
+
+    no prefix delegation
+
+    unstable routing
+
+So peer-to-peer over IPv6 becomes a dice roll 🎲.
+
+3. The Internet is ossified
+
+Routers, middleboxes, firmware, enterprise firewalls, hotel Wi-Fi, carrier gear…
+
+IPv6 works end-to-end only when every box behaves.
+One misconfigured middlebox and your clean design collapses into ICE/STUN/TURN soup.
+So why all the tunnels, overlays, and rituals?
+
+Because connectivity today is adversarial.
+
+You are fighting:
+
+    NATs that rewrite reality
+
+    firewalls that drop silence
+
+    CGNAT that erases identity
+
+    asymmetric routing
+
+    mobile networks that reshuffle addresses mid-sentence
+
+Overlay networks exist because the underlay is hostile.
+
+VPNs, mesh networks, WireGuard, Tailscale, ZeroTier, B.A.T.M.A.N., QUIC, ICE…
+They are not indulgences. They are prosthetics 🦾.
+Could we communicate directly, in principle?
+
+Yes.
+
+If:
+
+    everyone had stable IPv6
+
+    sane firewall defaults existed
+
+    ISPs allowed inbound traffic
+
+    users understood exposure
+
+    networks were designed for peers, not castles
+
+Then your PC could speak to another PC like two neighbors over a fence.
+
+The Internet was originally that fence.
+The deeper truth
+
+The quote you cited smells like frustration with this reality:
+
+    We didn’t lose simplicity because of incompetence.
+    We lost it because we optimized for control, safety, and scale.
+
+Direct addressing is simple.
+Direct addressing is also terrifying at planetary scale.
+
+So we built layers.
+Then we tunneled through the layers.
+Then we tunneled through the tunnels.
+Then we wrote blog posts about it.
+
+If you want, next we can:
+
+    walk through a single packet from your laptop to a peer behind CGNAT
+
+    or sketch what a sane “IPv6-first, peer-native” Internet would actually look like
+
+    or dissect B.A.T.M.A.N. as a philosophical rebellion disguised as a routing protocol 🦇📡
+
+Just say the word.
+
+ChatGPT can make mistakes. Check important info. See Cookie Preferences.
+
+
+
