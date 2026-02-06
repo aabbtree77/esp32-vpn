@@ -1006,5 +1006,5 @@ or sketch what a hypothetical libp2p-nano would have to amputate to survive 🧬
 
 Just point the compass.
 
-<small>ChatGPT can make mistakes.</small>
+<sub>*ChatGPT can make mistakes.*</sub>
 
