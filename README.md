@@ -294,7 +294,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 ## December 2025 Update
   
-[CAX11 Ampere on Hetzner](https://www.hetzner.com/cloud/) costs 3.79€ per month and one gets a public static IPv4 and 20TB of bandwidth with it, which makes one rethink the whole worthiness of P2P! CAX11 nodes are ARM-based, but they have 4x faster megatransfers per second than x86 nodes of the same class and [are highly recommended.](https://www.reddit.com/r/hetzner/comments/1pano24/hetzner_cloud_server_benchmark_cx_vs_cax_vs_cpx/)  
+[CAX11 Ampere on Hetzner](https://www.hetzner.com/cloud/) costs ~~3.78€~~ 5.43€ per month and one gets a public static IPv4 and 20TB of bandwidth with it, which makes one rethink the whole worthiness of P2P! CAX11 nodes are ARM-based, but they have 4x faster megatransfers per second than x86 nodes of the same class and [are highly recommended.](https://www.reddit.com/r/hetzner/comments/1pano24/hetzner_cloud_server_benchmark_cx_vs_cax_vs_cpx/)  
   
 ## Some ESP32 References
 
@@ -339,7 +339,7 @@ Optional (problems to be aware of):
 
 2. A bus card reader? We used to have some early low RAM devices here in Vilnius for about 5-10 years. In the year 2023 the bus card readers got replaced with Estonian Ridango devices which run Linux.
     
-3. Mapping out minefields? See [1](https://youtu.be/suxLa6kWsrw?t=2000) and [2](https://cepdnaclk.github.io/e17-3yp-Landmine-Detector/) for two completely different systems.
+3. Mapping minefields? See [1](https://youtu.be/suxLa6kWsrw?t=2000) and [2](https://cepdnaclk.github.io/e17-3yp-Landmine-Detector/) for two completely different systems.
 
 4. [GPS Trackers?](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/) AirTag: [1](https://ldej.nl/post/sending-an-airtag-from-the-netherlands-to-india/), [2](https://www.pcmag.com/how-to/what-is-ultra-wideband-uwb), [3](https://screenrant.com/apple-airtag-track-mail-package-benefits-limitations-explained/). This is essential for any bicyclist/biker, see [My motorcycle TRASHED & STOLEN in Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿 and this is how they did it](https://www.youtube.com/watch?v=ricNARC1H34) and compare the tech to the one in [Trying to Steal Our UN-STEAL-able Motorcycle.](https://www.youtube.com/watch?v=v_0DB3gBM3Y)
 
@@ -349,7 +349,7 @@ Optional (problems to be aware of):
 
 7. Morse/binary code interfaces: [1970](https://www.sciencedirect.com/science/article/abs/pii/S0020737370800037), [2019](https://www.ijrar.org/papers/IJRAR1CBP173.pdf), [2020](https://ieeexplore.ieee.org/document/9376479), [2021](https://www.irjet.net/archives/V8/i7/IRJET-V8I7505.pdf), [2023](https://www.irjet.net/archives/V10/i4/IRJET-V10I4149.pdf)...
 
-8. All sorts of toys/demos: [Rubik's cube solving](https://github.com/vindar/SARCASM/tree/main), [a smart chess board](https://www.youtube.com/watch?v=Z92TdhsAWD4)... [DIY Machines](https://www.youtube.com/@DIYMachines) include [Robotic Bartender.](https://www.youtube.com/watch?v=cvOpvPKHJvc)
+8. Toys/demos: [Rubik's cube solver](https://github.com/vindar/SARCASM/tree/main), [smart chess board](https://www.youtube.com/watch?v=Z92TdhsAWD4)... [DIY Machines](https://www.youtube.com/@DIYMachines) include [Robotic Bartender.](https://www.youtube.com/watch?v=cvOpvPKHJvc)
 
 9. [Remote pet feeder?](https://github.com/PierceBrandies/PetFeeder)
 
@@ -359,7 +359,7 @@ Optional (problems to be aware of):
 
 12. [OpenEVSE WiFi Kit](https://store.openevse.com/products/openevse-wifi-kit?srsltid=AfmBOoq2klk-X3XrnTkcWK84L2WEi-MjvMuIc2uuQ4lmp_1kifABQeM-) connects its ESP32 board with a Universal Electric Vehicle Charging Station Controller.
 
-13. [🛜 ESPectre 👻 - Motion detection system based on Wi-Fi spectre analysis (CSI), with Home Assistant integration.](https://github.com/francescopace/espectre)
+13. [🛜 ESPectre 👻 - Motion detection system based on Wi-Fi spectral analysis (CSI), with Home Assistant integration.](https://github.com/francescopace/espectre)
 
 14. [DroneBridge for ESP32](https://github.com/DroneBridge/ESP32) to control drone swarms, "supports ESP-NOW LR enabling ranges of more than 1km with external receiving antennas".
 
