@@ -349,11 +349,11 @@ Optional (problems to be aware of):
 
 7. Morse/binary code interfaces: [1970](https://www.sciencedirect.com/science/article/abs/pii/S0020737370800037), [2019](https://www.ijrar.org/papers/IJRAR1CBP173.pdf), [2020](https://ieeexplore.ieee.org/document/9376479), [2021](https://www.irjet.net/archives/V8/i7/IRJET-V8I7505.pdf), [2023](https://www.irjet.net/archives/V10/i4/IRJET-V10I4149.pdf)...
 
-8. Toys/demos: [Rubik's cube solver](https://github.com/vindar/SARCASM/tree/main), [smart chess board](https://www.youtube.com/watch?v=Z92TdhsAWD4)... [DIY Machines](https://www.youtube.com/@DIYMachines) include [Robotic Bartender.](https://www.youtube.com/watch?v=cvOpvPKHJvc) [Remote pet feeder?](https://github.com/PierceBrandies/PetFeeder)
+8. Toys/demos: [Rubik's cube solver](https://github.com/vindar/SARCASM/tree/main), [smart chess board](https://www.youtube.com/watch?v=Z92TdhsAWD4)... [DIY Machines](https://www.youtube.com/@DIYMachines) include [Robotic Bartender.](https://www.youtube.com/watch?v=cvOpvPKHJvc) [Remote pet feeder.](https://github.com/PierceBrandies/PetFeeder)
 
 9. ECG wiring + ADS1299 + MAX30102 (ADPD4100) + nRF5340 (ESP32 BLE), e.g. [TeltoHeart by Teltonika.](https://www.teltonika-telemedic.com/products/teltoheart)
 
-10. EEG Cap + ADS1299 + ESP32 BLE to read EEG to PC, see e.g. [BrainAccess by NEUROtechnology.](https://www.brainaccess.ai/?utm_source=neurotechnology&utm_medium=crosslink-internal&utm_campaign=monday-meeting&utm_term=product-box)
+10. EEG Cap + ADS1299 + ESP32 BLE, see e.g. [BrainAccess by NEUROtechnology.](https://www.brainaccess.ai/?utm_source=neurotechnology&utm_medium=crosslink-internal&utm_campaign=monday-meeting&utm_term=product-box)
 
 11. ADC with software-defined circuitry? [Ethernet](https://www.elektormagazine.com/news/rp2350-bit-bangs-100-mbit-ethernet), AM/FM radio: [1](https://www.reddit.com/r/esp32/comments/1f2iptx/we_made_an_esp32_based_tef6686_amfm_receiver/), [2](https://github.com/steve-m/librtlsdr)...
 
@@ -369,7 +369,7 @@ Optional (problems to be aware of):
 
 17. ["I reverse-engineered a $20,000 military IP mesh radio using just $106.23 in open-source parts. This isn't a gimmick—it's a fully functional MANET router capable of push-to-talk, GPS sharing, ATAK integration, and more. In this video, I’ll show you how I built it, tested it, and deployed it in the real world—no subscriptions, no middlemen, just raw decentralized power. Whether you're off-grid, mission-ready, or just sick of Big Tech, this changes everything."](https://www.youtube.com/watch?v=ofR7GFNZzJY)
 
-18. [FreakWAN is an effort to create a LoRa-based open WAN network, completely independent from Internet and the cellular phones networks.](https://github.com/antirez/freakwan)
+18. License-free LoRa radios, networks, messengers independent from the Internet and GSM: [Meshtastic](https://meshtastic.org/), [FreakWAN](https://github.com/antirez/freakwan)...
 
 19. Smartwatches: [1.28 inch ESP32-C3 IPS Round Display ESP32-2424S012C-I Capacitive Touchscreen 240x240 TFT LCD Module ESP32-C3 Development Board for Arduino IDE.](https://www.amazon.com/DIYmalls-ESP32-2424S012C-I-Touchscreen-ESP32-C3-MINI-1U-Development/dp/B0D63DRLGG)
 
