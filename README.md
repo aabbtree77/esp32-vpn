@@ -349,9 +349,9 @@ Optional (problems to be aware of):
 
 7. Morse/binary code interfaces: [1970](https://www.sciencedirect.com/science/article/abs/pii/S0020737370800037), [2019](https://www.ijrar.org/papers/IJRAR1CBP173.pdf), [2020](https://ieeexplore.ieee.org/document/9376479), [2021](https://www.irjet.net/archives/V8/i7/IRJET-V8I7505.pdf), [2023](https://www.irjet.net/archives/V10/i4/IRJET-V10I4149.pdf)...
 
-8. Toys/demos: [Rubik's cube solver](https://github.com/vindar/SARCASM/tree/main), [smart chess board](https://www.youtube.com/watch?v=Z92TdhsAWD4)... [DIY Machines](https://www.youtube.com/@DIYMachines) include [Robotic Bartender.](https://www.youtube.com/watch?v=cvOpvPKHJvc)
+8. Toys/demos: [Rubik's cube solver](https://github.com/vindar/SARCASM/tree/main), [smart chess board](https://www.youtube.com/watch?v=Z92TdhsAWD4)... [DIY Machines](https://www.youtube.com/@DIYMachines) include [Robotic Bartender.](https://www.youtube.com/watch?v=cvOpvPKHJvc) [Remote pet feeder?](https://github.com/PierceBrandies/PetFeeder)
 
-9. [Remote pet feeder?](https://github.com/PierceBrandies/PetFeeder)
+9. EEG Cap + ADS1299 + ESP32 BLE to read EEG to PC, see e.g. [BrainAccess by NEUROtechnology.](https://www.brainaccess.ai/?utm_source=neurotechnology&utm_medium=crosslink-internal&utm_campaign=monday-meeting&utm_term=product-box)
 
 10. ADC with software-defined circuitry? [Ethernet](https://www.elektormagazine.com/news/rp2350-bit-bangs-100-mbit-ethernet), AM/FM radio: [1](https://www.reddit.com/r/esp32/comments/1f2iptx/we_made_an_esp32_based_tef6686_amfm_receiver/), [2](https://github.com/steve-m/librtlsdr)...
 
