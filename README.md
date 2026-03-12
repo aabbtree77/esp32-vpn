@@ -343,7 +343,7 @@ Optional (problems to be aware of):
 
 4. [GPS Trackers?](https://how2electronics.com/esp32-gps-tracker-using-l86-gps-module-oled-display/) AirTag: [1](https://ldej.nl/post/sending-an-airtag-from-the-netherlands-to-india/), [2](https://www.pcmag.com/how-to/what-is-ultra-wideband-uwb), [3](https://screenrant.com/apple-airtag-track-mail-package-benefits-limitations-explained/). This is essential for any bicyclist/biker, see [My motorcycle TRASHED & STOLEN in Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿 and this is how they did it](https://www.youtube.com/watch?v=ricNARC1H34) and compare the tech to the one in [Trying to Steal Our UN-STEAL-able Motorcycle.](https://www.youtube.com/watch?v=v_0DB3gBM3Y)
 
-5. Non-invasive blood glucose and hemoglobin monitoring: [1](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/), [3](https://www.mdpi.com/1424-8220/22/13/4855). Ketones, alcohol: [1](https://www.cnet.com/health/medical/wearable-sensors-that-track-glucose-ketones-and-alcohol-levels-are-the-future/), eCO2... [ECG.](https://www.teltonika-telemedic.com/products/teltoheart)
+5. Non-invasive blood glucose and hemoglobin monitoring: [1](https://ijrpr.com/uploads/V2ISSUE9/IJRPR1274.pdf), [2](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8230267/), [3](https://www.mdpi.com/1424-8220/22/13/4855). Ketones, alcohol: [1](https://www.cnet.com/health/medical/wearable-sensors-that-track-glucose-ketones-and-alcohol-levels-are-the-future/), eCO2...
  
 6. [A smart walking cane for the blind.](https://github.com/manishmeganathan/smartwalkingcane) 
 
@@ -351,13 +351,13 @@ Optional (problems to be aware of):
 
 8. Toys/demos: [Rubik's cube solver](https://github.com/vindar/SARCASM/tree/main), [smart chess board](https://www.youtube.com/watch?v=Z92TdhsAWD4)... [DIY Machines](https://www.youtube.com/@DIYMachines) include [Robotic Bartender.](https://www.youtube.com/watch?v=cvOpvPKHJvc) [Remote pet feeder?](https://github.com/PierceBrandies/PetFeeder)
 
-9. EEG Cap + ADS1299 + ESP32 BLE to read EEG to PC, see e.g. [BrainAccess by NEUROtechnology.](https://www.brainaccess.ai/?utm_source=neurotechnology&utm_medium=crosslink-internal&utm_campaign=monday-meeting&utm_term=product-box)
+9. ECG wiring + ADS1299 + MAX30102 (ADPD4100) + nRF5340 (ESP32 BLE), e.g. [TeltoHeart by Teltonika.](https://www.teltonika-telemedic.com/products/teltoheart)
 
-10. ADC with software-defined circuitry? [Ethernet](https://www.elektormagazine.com/news/rp2350-bit-bangs-100-mbit-ethernet), AM/FM radio: [1](https://www.reddit.com/r/esp32/comments/1f2iptx/we_made_an_esp32_based_tef6686_amfm_receiver/), [2](https://github.com/steve-m/librtlsdr)...
+10. EEG Cap + ADS1299 + ESP32 BLE to read EEG to PC, see e.g. [BrainAccess by NEUROtechnology.](https://www.brainaccess.ai/?utm_source=neurotechnology&utm_medium=crosslink-internal&utm_campaign=monday-meeting&utm_term=product-box)
 
-11. Prosthetic limbs [(Open Hand).](https://en.wikipedia.org/wiki/Open_Bionics)
+11. ADC with software-defined circuitry? [Ethernet](https://www.elektormagazine.com/news/rp2350-bit-bangs-100-mbit-ethernet), AM/FM radio: [1](https://www.reddit.com/r/esp32/comments/1f2iptx/we_made_an_esp32_based_tef6686_amfm_receiver/), [2](https://github.com/steve-m/librtlsdr)...
 
-12. [OpenEVSE WiFi Kit](https://store.openevse.com/products/openevse-wifi-kit?srsltid=AfmBOoq2klk-X3XrnTkcWK84L2WEi-MjvMuIc2uuQ4lmp_1kifABQeM-) connects its ESP32 board with a Universal Electric Vehicle Charging Station Controller.
+12. Prosthetic limbs [(Open Hand).](https://en.wikipedia.org/wiki/Open_Bionics)
 
 13. [🛜 ESPectre 👻 - Motion detection system based on Wi-Fi spectral analysis (CSI), with Home Assistant integration.](https://github.com/francescopace/espectre)
 
