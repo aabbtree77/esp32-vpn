@@ -351,7 +351,7 @@ Optional (problems to be aware of):
 
 8. Toys/demos: [Rubik's cube solver](https://github.com/vindar/SARCASM/tree/main), [smart chess board](https://www.youtube.com/watch?v=Z92TdhsAWD4)... [DIY Machines](https://www.youtube.com/@DIYMachines) include [Robotic Bartender.](https://www.youtube.com/watch?v=cvOpvPKHJvc) [Remote pet feeder.](https://github.com/PierceBrandies/PetFeeder)
 
-9. ECG wiring + ADS1299 + MAX30102 (ADPD4100) + nRF5340 (ESP32 BLE), e.g. [TeltoHeart by Teltonika.](https://www.teltonika-telemedic.com/products/teltoheart)
+9. ECG wiring + ADS1292 + MAX30102 (ADPD4100) + nRF5340 (ESP32 BLE), e.g. [TeltoHeart by Teltonika.](https://www.teltonika-telemedic.com/products/teltoheart)
 
 10. EEG Cap + ADS1299 + ESP32 BLE, see e.g. [BrainAccess by NEUROtechnology.](https://www.brainaccess.ai/?utm_source=neurotechnology&utm_medium=crosslink-internal&utm_campaign=monday-meeting&utm_term=product-box)
 
