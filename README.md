@@ -294,7 +294,7 @@ This hobby/demo hardware has been assembled and soldered by Saulius Rakauskas (I
 
 ## December 2025 Update
   
-[CAX11 Ampere on Hetzner](https://www.hetzner.com/cloud/) costs ~~3.78€~~ 5.43€ per month and one gets a public static IPv4 and 20TB of bandwidth with it, which makes one rethink the whole worthiness of P2P! CAX11 nodes are ARM-based, but they have 4x faster megatransfers per second than x86 nodes of the same class and [are highly recommended.](https://www.reddit.com/r/hetzner/comments/1pano24/hetzner_cloud_server_benchmark_cx_vs_cax_vs_cpx/)  
+[CAX11 Ampere on Hetzner](https://www.hetzner.com/cloud/) costs ~~3.78€~~ ~~5.43€~~ 6.04€ (May 2026) per month and one gets a public static IPv4 and 20TB of bandwidth with it, which makes one rethink the whole worthiness of P2P! CAX11 nodes are ARM-based, but they have 4x faster megatransfers per second than x86 nodes of the same class and [are highly recommended.](https://www.reddit.com/r/hetzner/comments/1pano24/hetzner_cloud_server_benchmark_cx_vs_cax_vs_cpx/)  
   
 ## Some ESP32 References
 
